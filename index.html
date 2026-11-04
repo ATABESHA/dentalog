@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DentaLog">
+<meta name="theme-color" content="#eef2fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<title>DentaLog</title>
+<style>
+:root{
+  --bg1:#eef2fb; --bg2:#e7eefc; --ink:#121826; --muted:#667085; --faint:#98a2b3;
+  --glass:rgba(255,255,255,.58); --glass-2:rgba(255,255,255,.78); --glass-brd:rgba(255,255,255,.75); --hair:rgba(18,24,38,.08);
+  --accent:#4f7cf7; --accent-2:#7aa2ff; --accent-ink:#fff; --teal:#14b8c4;
+  --ok:#12a150; --ok-bg:rgba(18,161,80,.12); --bad:#e5484d; --bad-bg:rgba(229,72,77,.12);
+  --warn:#d97706; --warn-bg:rgba(217,119,6,.13); --pend:#64748b; --pend-bg:rgba(100,116,139,.12); --info:#2f6fd8; --info-bg:rgba(47,111,216,.11);
+  --r:22px; --r-sm:14px;
+  --shadow:0 10px 30px rgba(31,45,90,.10), 0 1px 2px rgba(31,45,90,.06);
+  --blur:saturate(180%) blur(20px);
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg1:#0b1020;--bg2:#101833;--ink:#eef2ff;--muted:#9aa4bf;--faint:#6b7591;
+  --glass:rgba(30,38,66,.55);--glass-2:rgba(38,48,82,.78);--glass-brd:rgba(255,255,255,.10);--hair:rgba(255,255,255,.08);
+  --accent:#7a9cff;--accent-2:#9db6ff;--shadow:0 10px 30px rgba(0,0,0,.35);
+  --ok:#3ddc84;--bad:#ff6b6b;--warn:#f5b04a;--pend:#a3b1c6;--info:#8ab4ff}
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;color:var(--ink);font:16px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:linear-gradient(160deg,var(--bg1),var(--bg2)) fixed;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none}
+body::before{width:420px;height:420px;left:-140px;top:-120px;background:radial-gradient(circle,#9fc0ff,transparent 70%)}
+body::after{width:460px;height:460px;right:-160px;bottom:-160px;background:radial-gradient(circle,#8fe3ea,transparent 70%)}
+@media (prefers-color-scheme: dark){body::before{background:radial-gradient(circle,#3150b5,transparent 70%)}body::after{background:radial-gradient(circle,#0f6d7a,transparent 70%)}}
+button{font:inherit;color:inherit}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--glass-2);border:1px solid var(--hair);border-radius:12px;padding:10px 12px;width:100%;font-size:16px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,124,247,.18)}
+textarea{min-height:90px;resize:vertical}
+.glass{background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);border:1px solid var(--glass-brd);border-radius:var(--r);box-shadow:var(--shadow)}
+.wrap{max-width:760px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 8px) 16px calc(110px + env(safe-area-inset-bottom))}
+.muted{color:var(--muted)} .small{font-size:13px} .tiny{font-size:11.5px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .grow{flex:1;min-width:0}
+.hide{display:none!important}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:10px;padding:6px 0 14px}
+.top h1{font-size:28px;letter-spacing:-.5px;margin:0;font-weight:700}
+.top .sub{font-size:13px;color:var(--muted)}
+.circle{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--glass-brd);background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--shadow);cursor:pointer;flex:none}
+.circle svg{width:20px;height:20px}
+.avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;border:2px solid rgba(255,255,255,.9);box-shadow:var(--shadow);background:linear-gradient(135deg,var(--accent),var(--teal));display:grid;place-items:center;color:#fff;font-weight:700}
+.sync{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--faint);display:inline-block}
+.sync.ok i{background:var(--ok)} .sync.busy i{background:var(--accent);animation:pulse 1s infinite} .sync.err i{background:var(--bad)}
+@keyframes pulse{50%{opacity:.3}}
+
+/* buttons */
+.btn{border:1px solid var(--glass-brd);background:var(--glass-2);border-radius:14px;padding:10px 15px;font-weight:600;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;justify-content:center;-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(79,124,247,.35)}
+.btn.danger{color:var(--bad)} .btn.sm{padding:7px 11px;font-size:13.5px;border-radius:11px} .btn.block{width:100%}
+.btn:active,.circle:active,.tapcard:active{transform:scale(.97)}
+.btn[disabled]{opacity:.45}
+.seg{display:flex;padding:4px;gap:4px;border-radius:16px;background:var(--glass);border:1px solid var(--glass-brd);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur)}
+.seg button{flex:1;border:0;background:transparent;padding:9px 6px;border-radius:12px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--glass-2);color:var(--ink);box-shadow:0 2px 8px rgba(31,45,90,.10)}
+
+/* cards & sections */
+.card{padding:16px;margin-bottom:14px}
+.card h3{margin:0 0 12px;font-size:16px;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+.card h3 .link{margin-left:auto;font-size:13px;color:var(--accent);font-weight:600;cursor:pointer}
+.sect{font-size:20px;font-weight:700;letter-spacing:-.3px;margin:22px 4px 10px;display:flex;align-items:center}
+.sect .link{margin-left:auto;font-size:14px;color:var(--accent);font-weight:600;cursor:pointer}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{padding:14px}
+.tile .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;margin-bottom:10px;font-size:17px}
+.tile .v{font-size:26px;font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.tile .l{font-size:12.5px;color:var(--muted);margin-top:1px}
+
+/* charts */
+.chart{display:flex;align-items:flex-end;gap:6px;height:150px;padding-top:16px}
+.chart .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.chart .stack{width:100%;max-width:26px;display:flex;flex-direction:column-reverse;border-radius:8px;overflow:hidden;background:rgba(127,140,180,.12);height:100%;justify-content:flex-start}
+.chart .stack i{display:block;width:100%}
+.chart .x{font-size:10.5px;color:var(--muted);margin-top:6px;height:26px;line-height:12px;text-align:center}
+.chart .tv{font-size:10px;color:var(--muted);height:13px}
+.chart .c.cur .x{color:var(--ink);font-weight:700}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+.donutwrap{display:flex;align-items:center;gap:18px}
+.donutwrap svg{width:120px;height:120px;flex:none}
+.donutwrap .legend{flex-direction:column;gap:6px;margin:0}
+.hbars .b{display:grid;grid-template-columns:minmax(80px,40%) 1fr auto;gap:10px;align-items:center;margin:8px 0;font-size:13.5px}
+.hbars .trk{height:9px;background:rgba(127,140,180,.15);border-radius:6px;overflow:hidden}
+.hbars .fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.hbars .val{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px;text-align:right;min-width:58px}
+
+/* lists */
+.li{display:flex;align-items:center;gap:12px;padding:11px 2px;border-bottom:1px solid var(--hair);cursor:pointer}
+.li:last-child{border-bottom:0}
+.li .ini{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;flex:none}
+.li .t{font-weight:600}
+.li .s{font-size:12.5px;color:var(--muted)}
+.chev{color:var(--faint);font-size:20px}
+
+/* clinic cards */
+.clinic{position:relative;overflow:hidden;padding:18px;margin-bottom:12px;cursor:pointer}
+.clinic::after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:var(--cc);opacity:.18;filter:blur(10px)}
+.clinic .nm{font-size:19px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:9px}
+.clinic .meta{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap}
+.clinic .meta div{font-size:12.5px;color:var(--muted)} .clinic .meta b{display:block;font-size:18px;color:var(--ink)}
+
+/* calendar */
+.cal .hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cal .hd b{flex:1;text-align:center;font-size:17px}
+.cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .wd{font-size:11px;color:var(--muted);text-align:center;font-weight:600;padding-bottom:2px}
+.cal .d{aspect-ratio:1/1;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;font-weight:500;cursor:pointer;position:relative;font-variant-numeric:tabular-nums}
+.cal .d.out{visibility:hidden}
+.cal .d.work{background:color-mix(in srgb,var(--dc) 18%,transparent);color:var(--ink);font-weight:700}
+.cal .d.today{box-shadow:inset 0 0 0 2px var(--accent)}
+.cal .d.sel{background:var(--dc,var(--accent));color:#fff;font-weight:700;box-shadow:0 6px 14px color-mix(in srgb,var(--dc,var(--accent)) 40%,transparent)}
+.cal .d .n{font-size:9.5px;font-weight:600;opacity:.8;line-height:1}
+.cal .d .pd{position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--warn)}
+.cal .d.sel .pd{background:#fff}
+
+/* day panel / patient cards */
+.daysum{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;font-size:12.5px;font-weight:600;background:var(--glass-2);border:1px solid var(--hair)}
+.chip.ok{background:var(--ok-bg);color:var(--ok);border-color:transparent} .chip.bad{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.chip.p{background:var(--pend-bg);color:var(--pend);border-color:transparent} .chip.i{background:var(--info-bg);color:var(--info);border-color:transparent}
+.chip.w{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.pc{padding:14px;margin-bottom:10px;border-left:4px solid transparent}
+.pc.attended{border-left-color:var(--ok)} .pc.noshow,.pc.cancelled{opacity:.62;border-left-color:var(--bad)} .pc.pending{border-left-color:var(--faint)}
+.pc .h{display:flex;gap:10px;align-items:flex-start}
+.pc .tm{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;width:40px;padding-top:2px}
+.pc .nm{font-weight:700;font-size:15.5px}
+.pc .sb{font-size:12.5px;color:var(--muted);margin-top:1px}
+.pc .obs{font-size:12.5px;color:var(--info);margin-top:4px}
+.st{display:flex;gap:6px}
+.st button{width:38px;height:38px;border-radius:12px;border:1px solid var(--hair);background:var(--glass-2);font-size:17px;cursor:pointer;color:var(--muted)}
+.st button.on.a{background:var(--ok);border-color:var(--ok);color:#fff}
+.st button.on.x{background:var(--bad);border-color:var(--bad);color:#fff}
+.more{margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tchips button{border:1px solid var(--hair);background:var(--glass-2);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--muted)}
+.tchips button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.money{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mf label{display:block;font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:4px}
+.eur{position:relative}
+.eur input::placeholder{color:var(--faint);font-weight:500}
+.eur input{padding-right:30px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.eur::after{content:"€";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;pointer-events:none}
+.mf .auto{font-size:11px;color:var(--info);margin-top:3px}
+.tot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:14px}
+.tot b{font-size:16px;font-variant-numeric:tabular-nums}
+.paym{display:flex;gap:4px;margin-top:6px}
+.paym button{flex:1;border:1px solid var(--hair);background:transparent;border-radius:9px;padding:4px 0;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.paym button.on{background:var(--ink);color:var(--bg1);border-color:var(--ink)}
+.acts{display:flex;gap:8px;margin-top:12px}
+.acts .btn{flex:1}
+.billed{font-size:12px;color:var(--muted);margin-top:8px;background:rgba(127,140,180,.08);border-radius:10px;padding:7px 9px}
+.billed div{display:flex;justify-content:space-between;gap:8px}
+
+/* bottom bar */
+.tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:40;display:flex;gap:6px;padding:6px;border-radius:26px}
+.tabbar button{width:58px;height:46px;border-radius:20px;border:0;background:transparent;display:grid;place-items:center;color:var(--muted);cursor:pointer}
+.tabbar button svg{width:22px;height:22px}
+.tabbar button.on{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 6px 16px rgba(79,124,247,.35)}
+
+/* sheets */
+.overlay{position:fixed;inset:0;background:rgba(10,15,30,.28);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+.sheet{width:100%;max-width:680px;max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:10px 18px calc(18px + env(safe-area-inset-bottom));background:var(--glass-2);-webkit-backdrop-filter:saturate(180%) blur(30px);backdrop-filter:saturate(180%) blur(30px);border:1px solid var(--glass-brd);animation:up .25s cubic-bezier(.2,.8,.2,1)}
+.sheet.wide{max-width:1000px}
+.sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--faint);opacity:.5;margin:2px auto 12px}
+.sheet h2{margin:0 0 6px;font-size:20px;letter-spacing:-.3px}
+@media (min-width:820px){.overlay{align-items:center}.sheet{border-radius:26px}}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+@keyframes fade{from{opacity:0}}
+label.f{display:block;font-size:12px;color:var(--muted);margin:12px 0 5px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;margin-top:8px}
+.chk input{width:auto}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:rgba(18,24,38,.88);color:#fff;padding:11px 18px;border-radius:16px;font-size:14px;z-index:99;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);max-width:90vw;animation:up .25s}
+.empty{text-align:center;color:var(--muted);padding:26px 10px}
+.empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:8px 6px;border-bottom:1px solid var(--hair);text-align:left;vertical-align:middle}
+th{font-size:12px;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.pv input,.pv select{padding:6px 8px;font-size:14px;border-radius:9px}
+.pv td{padding:4px 3px}
+.dayhdr{display:flex;align-items:center;gap:8px;margin:14px 0 4px;font-weight:700}
+.line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--hair);font-size:14px}
+.line:last-child{border-bottom:0}
+.line .amt{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.line.click{cursor:pointer}
+.sec{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;cursor:pointer;user-select:none}
+.sec .cnt{margin-left:auto;font-size:13.5px;font-variant-numeric:tabular-nums}
+.chkline{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:5px 0}
+.diff{font-size:22px;font-weight:700} .diff.ok{color:var(--ok)} .diff.bad{color:var(--bad)}
+.clinicbox{border:1px solid var(--hair);border-left:5px solid var(--accent);border-radius:16px;padding:12px;margin-bottom:10px;background:rgba(255,255,255,.12)}
+.cdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.hv{padding:14px;margin-bottom:10px}
+.hv .d{font-weight:700}
+.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:7px;font-weight:700;margin-left:4px;vertical-align:1px;white-space:nowrap}
+.tag.ok{background:var(--ok-bg);color:var(--ok)} .tag.bad{background:var(--bad-bg);color:var(--bad)} .tag.p{background:var(--pend-bg);color:var(--pend)} .tag.i{background:var(--info-bg);color:var(--info)} .tag.w{background:var(--warn-bg);color:var(--warn)}
+
+/* splash */
+#splash{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;cursor:pointer;
+  background:radial-gradient(120% 80% at 20% 0%,#a9c4ff 0%,transparent 55%),radial-gradient(100% 70% at 100% 100%,#9be7ee 0%,transparent 55%),linear-gradient(160deg,#f4f7ff,#e6eeff);transition:opacity .6s ease, transform .6s ease}
+@media (prefers-color-scheme: dark){#splash{background:radial-gradient(120% 80% at 20% 0%,#2a4aa8 0%,transparent 55%),radial-gradient(100% 70% at 100% 100%,#0e6774 0%,transparent 55%),linear-gradient(160deg,#0b1020,#111a38)}}
+#splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
+#splash .ringwrap{position:relative;animation:pop .9s cubic-bezier(.2,.9,.2,1.15) both}
+#splash .ring{position:relative;width:210px;height:210px;border-radius:50%;padding:6px;background:conic-gradient(from 0deg,#7aa2ff,#8fe3ea,#c7b8ff,#7aa2ff);animation:spin 6s linear infinite}
+#splash .ring .ph{width:100%;height:100%;border-radius:50%;overflow:hidden;border:5px solid rgba(255,255,255,.9);animation:spin 6s linear infinite reverse;background:linear-gradient(135deg,#4f7cf7,#14b8c4);display:grid;place-items:center}
+#splash .ring .ph img{width:100%;height:100%;object-fit:cover;animation:sharpen 1.4s ease both}
+#splash .ring .ph span{font-size:84px;color:#fff;font-weight:300}
+#splash .glow{position:absolute;inset:-24px;border-radius:50%;background:radial-gradient(circle,rgba(122,162,255,.5),transparent 65%);z-index:-1;animation:breathe 2.4s ease-in-out infinite}
+#splash h1{margin:0;font-size:30px;font-weight:600;letter-spacing:-.4px;text-align:center;padding:0 24px}
+#splash h1 span{display:inline-block;opacity:0;transform:translateY(14px);filter:blur(6px);animation:letter .6s cubic-bezier(.2,.8,.2,1) forwards}
+#splash .hint{font-size:13px;color:var(--muted);opacity:0;animation:fadein 1s 2.2s forwards}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+@keyframes sharpen{from{filter:blur(14px) saturate(.4);transform:scale(1.15)}}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.7}}
+@keyframes letter{to{opacity:1;transform:none;filter:none}}
+@keyframes fadein{to{opacity:1}}
+.screen{animation:fade .25s}
+
+</style>
+</head>
+<body>
+<main id="app" class="wrap"></main>
+<nav id="tabbar" class="tabbar glass">
+  <button data-t="home" aria-label="Home"></button>
+  <button data-t="patients" aria-label="Patients"></button>
+  <button data-t="settings" aria-label="Settings"></button>
+</nav>
+<input type="file" id="pdfFile" accept="application/pdf,.pdf" multiple class="hide">
+<input type="file" id="xlsFile" accept=".xlsx,.xls,.csv" class="hide">
+<input type="file" id="jsonFile" accept="application/json,.json" class="hide">
+<input type="file" id="photoFile" accept="image/*" class="hide">
+<script>
+/* =====================================================================
+   DentaLog v4 — her dental work log.
+   Reads Gesden "Listado de Citas" (daily agenda) and the clinic's monthly
+   LIQUIDACIÓN/FACTURA PDFs. Data lives on the device and syncs encrypted
+   to a private GitHub repo.
+   ===================================================================== */
+const PDFJS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+const PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const XLSXJS = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const KEY = 'dentalog.v1';           // synced data
+const LOCAL_KEY = 'dentalog.local';  // this device only (sync settings)
+const COLORS = ['#4f7cf7','#14b8c4','#a855f7','#f97316','#e11d74','#16a34a'];
+const DEFAULT_TREATMENTS = ['RECONSTRUCCIÓN','VISITA','URG','CARILLA','FÉRULA','ESSIX','ENTREGA','INCRUSTACIÓN','CORONA','TALLADO'];
+const DEFAULT_CLINIC = () => ({
+  id:'c1', name:'Torreblanca', color:COLORS[0],
+  agenda:'Torreblanca',        // text in the Gesden agenda header ("C/Torreblanca N.10")
+  invoice:'Sant Joan',         // text in the liquidación/factura (Especialitats Mèdiques Sant Joan)
+  shares:[{from:'', pct:5}, {from:'2025-11-09', pct:40}],   // Nov 2025: 5% until 08/11, 40% from 09/11
+  cardFee:0.6
+});
+const DEFAULT = () => ({
+  ver:4, visits:[], tomb:{}, liq:{}, manual:{}, patients:{},
+  clinics:[DEFAULT_CLINIC()],
+  profile:{title:'Dra.', name:'Sofía', photo:''},
+  treatments: DEFAULT_TREATMENTS.slice(),
+  settings:{doctor:'Mezur', irpf:15},
+  stamp:{}
+});
+
+/* ============ HELPERS ============ */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+const pad = n => String(n).padStart(2,'0');
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today = () => iso(new Date());
+const fromIso = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
+const addDays = (s,n) => { const d = fromIso(s); d.setDate(d.getDate()+n); return iso(d); };
+const fmtDate = s => { if(!s) return ''; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MON = MONTHS.map(m=>m.slice(0,3));
+const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const WDL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fmtLong = s => { const d = fromIso(s); return `${WDL[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`; };
+const fmtShort = s => { const d = fromIso(s); return `${WD[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`; };
+const fmtShortY = s => { const d = fromIso(s); return `${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`; };
+const monthLabel = ym => { const [y,m]=ym.split('-'); return `${MONTHS[+m-1]} ${y}`; };
+const addMonths = (ym,n) => { let [y,m]=ym.split('-').map(Number); m+=n; while(m<1){m+=12;y--} while(m>12){m-=12;y++} return `${y}-${pad(m)}`; };
+const num = v => { const n = Number(v); return isFinite(n) ? n : 0; };
+const r2 = v => Math.round(num(v)*100)/100;
+const eur = v => num(v).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const eur0 = v => Math.round(num(v)).toLocaleString('es-ES') + ' €';
+const decStr = v => (v===''||v==null) ? '' : String(r2(v)).replace('.',',');
+const blank = v => v==='' || v==null;
+function parseMoney(s){
+  if(s==null) return 0; if(typeof s==='number') return s;
+  s = String(s).replace(/[€$\s]/g,'').replace(/EUR/i,'');
+  if(!s || s==='-') return 0;
+  const lc = s.lastIndexOf(','), ld = s.lastIndexOf('.');
+  if(lc>-1 && ld>-1){ s = lc>ld ? s.replace(/\./g,'').replace(',','.') : s.replace(/,/g,''); }
+  else if(lc>-1){ s = s.replace(',','.'); }
+  else if(ld>-1 && /\.\d{3}$/.test(s)){ s = s.replace(/\./g,''); }
+  const n = parseFloat(s); return isFinite(n)?n:0;
+}
+const moneyIn = s => String(s).trim()==='' ? '' : r2(parseMoney(s));
+const norm = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
+function loadScript(src){ return new Promise((res,rej)=>{ if(document.querySelector(`script[src="${src}"]`)) return res(); const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('Could not load a helper library — check the internet connection.')); document.head.appendChild(s); }); }
+const STATUS = {pending:'Pending', attended:'Came', noshow:'No-show', cancelled:'Cancelled'};
+const attended = v => v.status==='attended';
+const sum = (arr,f) => arr.reduce((a,x)=>a+num(f(x)),0);
+const visitTotal = v => num(v.paid) + num(v.ins);
+const hasMoney = v => !blank(v.paid) || !blank(v.ins);
+const billedTotal = v => sum(v.lines||[], l=>l.amt);
+const isPrivate = m => !m || /privad|particular/i.test(m);
+const titleCase = s => String(s||'').toLowerCase().replace(/(^|[\s,\-'(])([a-zà-ÿñ])/g,(m,a,b)=>a+b.toUpperCase());
+const initials = n => { const p = String(n||'').replace(/,/g,' ').split(/\s+/).filter(Boolean); return ((p[p.length-1]||'?')[0] + (p[0]||'')[0]).toUpperCase(); };
+const MONEY_RX = /^-?\s*(\d{1,3}(?:\.\d{3})+|\d+)(?:,\d{1,2})?\s*€?$/;
+const DATE_RX = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+const toIsoD = (d,m,y) => `${y}-${pad(m)}-${pad(d)}`;
+const ICON = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
+  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-1.8-5.6-4.5-6.6"/></svg>',
+  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.8 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.8-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3.2 14H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.8 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 20.8 10H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  pdf:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
+};
+
+/* ============ STORAGE + CHANGE TRACKING ============ */
+var DB = load();   // var: matchTreatment() may run while load() is still building it
+let LOCAL = loadLocal();
+let SNAP = {};
+function load(){ let d=null; try{ const s=localStorage.getItem(KEY); if(s) d=JSON.parse(s); }catch(e){} return normalizeDB(d); }
+function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LOCAL_KEY)) || {}; }catch(e){ return {}; } }
+function saveLocal(){ try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(LOCAL)); }catch(e){} }
+function normalizeDB(d){
+  const base = DEFAULT();
+  if(!d) return base;
+  const out = Object.assign(base, d);
+  out.settings = Object.assign(DEFAULT().settings, d.settings||{});
+  out.profile = Object.assign(DEFAULT().profile, d.profile||{});
+  if(!Array.isArray(out.treatments) || !out.treatments.length) out.treatments = DEFAULT_TREATMENTS.slice();
+  ['tomb','liq','manual','patients','stamp'].forEach(k=>{ if(!out[k] || typeof out[k]!=='object' || Array.isArray(out[k])) out[k]={}; });
+  if(!Array.isArray(out.clinics) || !out.clinics.length) out.clinics=[DEFAULT_CLINIC()];
+  const c0 = out.clinics[0].id;
+  out.visits = (out.visits||[]).map(migrateVisit).map(v=>v.clinic ? v : {...v, clinic:c0});
+  for(const k of Object.keys(out.liq)) if(/^\d{4}-\d{2}$/.test(k)){ out.liq[c0+'|'+k]=out.liq[k]; delete out.liq[k]; }
+  for(const k of Object.keys(out.manual)) if(/^\d{4}-\d{2}$/.test(k)){ out.manual[c0+'|'+k]=out.manual[k]; delete out.manual[k]; }
+  delete out.catalog;
+  out.ver = 4;
+  return out;
+}
+// v1–v3 stored a list of "items" ({t, amt, pay}); v4 keeps: treatments, paid at clinic, insurance
+function migrateVisit(v){
+  if(v.treat) return v;
+  const items = Array.isArray(v.items) ? v.items : ((v.treatment || num(v.price)) ? [{t:v.treatment||'', amt:num(v.price), pay:v.method||''}] : []);
+  const paidIt = items.filter(i=>i.pay!=='mutua'), insIt = items.filter(i=>i.pay==='mutua');
+  const nv = {...v,
+    treat: [...new Set(items.map(i=>matchTreatment(i.t)).filter(Boolean))],
+    paid: paidIt.length ? r2(sum(paidIt,i=>i.amt)) : '',
+    payMethod: paidIt.some(i=>i.pay==='cash') && !paidIt.some(i=>i.pay==='card') ? 'cash' : 'card',
+    ins: insIt.length ? r2(sum(insIt,i=>i.amt)) : '',
+    insAuto:false, lines: v.lines||[], notes: v.notes||''};
+  ['items','treatment','price','method'].forEach(k=>delete nv[k]);
+  return nv;
+}
+function matchTreatment(t){
+  const n = norm(t); if(!n) return '';
+  const list = (typeof DB!=='undefined' && DB && DB.treatments) || DEFAULT_TREATMENTS;
+  const hit = list.find(x=>{ const k = norm(x); return n.startsWith(k.slice(0,5)) || n.includes(k); });
+  if(hit) return hit;
+  if(/obtur|empast/.test(n)) return list.find(x=>/reconstr/i.test(norm(x))) || '';
+  if(/primera visita|1.?visita|consulta|revis/.test(n)) return list.find(x=>/visita/i.test(norm(x))) || '';
+  return '';
+}
+const snapVisit = v => JSON.stringify({...v, upd:0});
+function snapshotAll(){
+  SNAP = {v:{}, c:{}, l:{}, m:{}, s:{}};
+  DB.visits.forEach(v=>SNAP.v[v.id]=snapVisit(v));
+  DB.clinics.forEach(c=>SNAP.c[c.id]=JSON.stringify({...c,upd:0}));
+  Object.entries(DB.liq).forEach(([k,x])=>SNAP.l[k]=JSON.stringify({...x,upd:0}));
+  Object.entries(DB.manual).forEach(([k,x])=>SNAP.m[k]=JSON.stringify({...x,upd:0}));
+  ['profile','treatments','settings','patients'].forEach(k=>SNAP.s[k]=JSON.stringify(DB[k]));
+}
+function stampChanges(){
+  const now = Date.now(); let changed = false;
+  const track = (list, snap, getId, tombPrefix) => {
+    const seen = new Set();
+    for(const [id, x] of list){ seen.add(id); const j = JSON.stringify({...x, upd:0}); if(snap[id]!==j){ x.upd = now; snap[id]=j; changed = true; } }
+    for(const id of Object.keys(snap)) if(!seen.has(id)){ DB.tomb[tombPrefix+id] = now; delete snap[id]; changed = true; }
+  };
+  track(DB.visits.map(v=>[v.id,v]), SNAP.v, null, '');
+  track(DB.clinics.map(c=>[c.id,c]), SNAP.c, null, 'cl:');
+  track(Object.entries(DB.liq), SNAP.l, null, 'liq:');
+  track(Object.entries(DB.manual), SNAP.m, null, 'man:');
+  ['profile','treatments','settings','patients'].forEach(k=>{ const j = JSON.stringify(DB[k]); if(SNAP.s[k]!==j){ DB.stamp[k]=now; SNAP.s[k]=j; changed = true; } });
+  return changed;
+}
+function save(opts={}){
+  const changed = stampChanges();
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }catch(e){ toast('⚠️ Could not save on this device — storage is full'); }
+  if(changed && !opts.noSync) Sync.schedule();
+}
+try{ navigator.storage && navigator.storage.persist && navigator.storage.persist(); }catch(e){}
+snapshotAll();
+
+/* ============ CLINICS ============ */
+const clinicById = id => DB.clinics.find(c=>c.id===id) || DB.clinics[0];
+const multi = () => DB.clinics.length > 1;
+function shareFor(clinicId, date){
+  const c = clinicById(clinicId); const sh = (c.shares||[]).slice().sort((a,b)=>(a.from||'').localeCompare(b.from||''));
+  let pct = sh.length ? sh[0].pct : 40; for(const s of sh) if(!s.from || s.from <= date) pct = s.pct; return num(pct);
+}
+const lkey = (cid, ym) => cid+'|'+ym;
+function detectClinic(text, field){
+  const t = norm(text);
+  return DB.clinics.find(c=>c[field] && t.includes(norm(c[field])))
+      || DB.clinics.find(c=>c[field] && norm(c[field]).split(' ').filter(w=>w.length>3).some(w=>t.split(/[^a-z0-9]+/).some(x=>x.length>3 && lev1(x,w))));
+}
+const clinicDot = c => `<span class="cdot" style="background:${esc(c.color)}"></span>`;
+function clinicSelectHtml(id, sel, opts={}){
+  return `<select id="${id}" ${opts.style?`style="${opts.style}"`:''}>${DB.clinics.map(c=>`<option value="${c.id}" ${sel===c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select>`;
+}
+
+/* ============ NAMES ============ */
+// Gesden names: "GARCIA MORENO , SILVIA", with receptionist flags such as
+// "MACIAS MENDOZA **VERIFICAR PACIENTE** , CARMEN" or "SANCHEZ SANCHEZ(OJO COMPROBAR DNI) , VICTOR"
+function cleanName(raw){
+  const flags = [];
+  let s = String(raw||'');
+  s = s.replace(/\*\*([^*]+)\*\*/g, (m,a)=>{ flags.push(a.trim()); return ' '; });
+  s = s.replace(/\(([^)]*(?:OJO|COMPROB|VERIFIC|DNI)[^)]*)\)/gi, (m,a)=>{ flags.push(a.trim()); return ' '; });
+  s = s.replace(/\(\d+\)/g,' ').replace(/\*+/g,' ');
+  let [last, first] = s.split(',');
+  last = (last||'').replace(/\s+/g,' ').trim(); first = (first||'').replace(/\s+/g,' ').trim();
+  return {name: first ? `${last}, ${first}` : last, flags};
+}
+const STOP = new Set(['de','del','la','las','los','y','i','da','van','von','mª','ma']);
+const nameTokens = s => norm(s).replace(/[^a-z\s]/g,' ').split(' ').filter(t=>t.length>1 && !STOP.has(t));
+function lev1(a,b){
+  if(a===b) return true; if(Math.abs(a.length-b.length)>1) return false;
+  let i=0,j=0,e=0; while(i<a.length && j<b.length){ if(a[i]===b[j]){i++;j++;continue} if(++e>1) return false; if(a.length>b.length) i++; else if(b.length>a.length) j++; else {i++;j++} }
+  return e + (a.length-i) + (b.length-j) <= 1;
+}
+function nameScore(a,b){
+  const A = nameTokens(a), B = nameTokens(b); if(!A.length || !B.length) return 0;
+  let m=0; A.forEach(x=>{ if(B.some(y=>x===y || (x.length>=4 && y.length>=4 && (lev1(x,y) || x.startsWith(y) || y.startsWith(x))))) m++; });
+  return m / Math.min(A.length, B.length);
+}
+const displayName = n => titleCase(n);
+
+/* ============ PDF TEXT EXTRACTION ============ */
+// pdf.js returns text in drawing order; Gesden draws each field as one string,
+// so fields are read by position, not by visual line — that avoids the
+// "merged cells" you get when the PDF is converted to Excel.
+async function pdfPages(file){
+  await loadScript(PDFJS);
+  pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+  const pdf = await pdfjsLib.getDocument({data: await file.arrayBuffer()}).promise;
+  const pages = [];
+  for(let p=1;p<=pdf.numPages;p++){
+    const page = await pdf.getPage(p);
+    const H = page.view[3], W = page.view[2];
+    const tc = await page.getTextContent();
+    const runs = [];
+    for(const it of tc.items){
+      const x = it.transform[4], top = H - it.transform[5], w = it.width||0, size = Math.abs(it.transform[0])||it.height||10;
+      const last = runs[runs.length-1];
+      if(!it.str || !it.str.trim()){
+        if(it.str && last && w < 6 && Math.abs(last.top-top)<0.6 && Math.abs(x-last.x1) < 1.6) last.x1 = x + w;
+        continue;
+      }
+      if(last && Math.abs(last.top-top)<0.6 && x-last.x1 > -0.6 && x-last.x1 < 1.6){ last.s += (x-last.x1>1 || /\s$/.test(last.s) ? ' ' : '') + it.str; last.x1 = x+w; continue; }
+      runs.push({x, x1:x+w, top, s:it.str, size});
+    }
+    runs.forEach(r=>r.s=r.s.replace(/\s+/g,' ').trim());
+    pages.push({W, H, runs});
+  }
+  return pages;
+}
+function detectKind(pages){
+  const all = pages.slice(0,3).flatMap(p=>p.runs.map(r=>r.s)).join(' | ');
+  if(/Listado de Citas/i.test(all)) return 'agenda';
+  if(/LIQUIDACI[OÓ]N|Producido|FACTURA/i.test(all)) return 'liq';
+  return 'unknown';
+}
+
+/* ---------- Agenda ("Listado de Citas") ---------- */
+// Column starts (A4 landscape, 842pt): HORA 55, NHC 102, PACIENTE 141, TIPO 280, MUTUA 368,
+// phone 450, mobile 511, OBSERVACIONES 567, CONFIRMADA 734. OBSERVACIONES is drawn ~4.5pt
+// ABOVE its row and never wraps. One page = one day; long days continue on a second page.
+function agendaCol(x, W){
+  const k = 841.92 / (W||841.92); x *= k;
+  if(x < 92) return 'time'; if(x < 135) return 'nhc'; if(x < 275) return 'patient'; if(x < 362) return 'tipo';
+  if(x < 446) return 'mutua'; if(x < 506) return 'tel1'; if(x < 562) return 'tel2'; if(x < 728) return 'obs'; return 'conf';
+}
+function parseAgenda(pages){
+  const days = new Map(); let prevKey = null;
+  pages.forEach((pg, pi) => {
+    const R = pg.runs;
+    const doctor = (R.find(r=>/\bDr[a]?\.\s?/i.test(r.s) && r.top < 150) || {}).s || '';
+    const dRun = R.find(r=>/^\d{2}\/\d{2}\/\d{4}$/.test(r.s) && r.top < 150);
+    let date = null; if(dRun){ const m = dRun.s.match(DATE_RX); date = toIsoD(m[1],m[2],m[3]); }
+    const key = date ? `${date}|${doctor}` : prevKey;
+    if(!key) return; prevKey = key;
+    if(!days.has(key)) days.set(key, {date:key.split('|')[0], doctor:key.split('|')[1], rows:[], expected:null});
+    const day = days.get(key);
+    const hdr = R.find(r=>r.s==='HORA'); const hdrTop = hdr ? hdr.top : 160;
+    const foot = R.find(r=>/Duraci[oó]n Estimada|Total Citas/i.test(r.s)); const footTop = foot ? foot.top : 1e9;
+    const tc = R.find(r=>/^Total Citas$/i.test(r.s));
+    if(tc){ const n = R.find(r=>Math.abs(r.top-tc.top)<1.5 && /^\d+$/.test(r.s)); if(n) day.expected = +n.s; }
+    const body = R.filter(r=>r.top > hdrTop+3 && r.top < footTop-2);
+    const rows = body.filter(r=>agendaCol(r.x,pg.W)==='time' && /^\d{1,2}[:.]\d{2}$/.test(r.s)).sort((a,b)=>a.top-b.top)
+      .map(r=>({top:r.top, time:r.s.replace('.',':').padStart(5,'0'), f:{}}));
+    for(const r of body){
+      const col = agendaCol(r.x, pg.W);
+      if(col==='time' && /^\d{1,2}[:.]\d{2}$/.test(r.s)) continue;
+      let row;
+      if(col==='obs'){ row = rows.find(x=> x.top - r.top > 1 && x.top - r.top < 12) || rows.find(x=>Math.abs(x.top-r.top)<1.5); }
+      else row = rows.find(x=>Math.abs(x.top-r.top)<1.5);
+      if(!row) continue;
+      const txt = (col==='obs' && r.x1 > pg.W - 8) ? r.s + '…' : r.s;
+      row.f[col] = row.f[col] ? row.f[col] + ' ' + txt : txt;
+    }
+    for(const r of rows){
+      const {name, flags} = cleanName(r.f.patient||'');
+      const nhc = (r.f.nhc||'').replace(/\D/g,'');
+      const phone = [r.f.tel1, r.f.tel2].filter(Boolean).join(' / ');
+      const conf = r.f.conf || '';
+      day.rows.push({time:r.time, nhc, name, flags, mutua:(r.f.mutua||'').trim(), phone,
+        obs:(r.f.obs||'').replace(/<br>/gi,' ').replace(/\s+/g,' ').trim(),
+        confirmed: /confirmada/i.test(conf) && !/no\s*confirmada/i.test(conf),
+        isNote: !nhc && !phone});
+    }
+  });
+  return [...days.values()].sort((a,b)=>a.date.localeCompare(b.date) || a.doctor.localeCompare(b.doctor));
+}
+
+/* ---------- Monthly liquidación + factura ---------- */
+// Excel export printed to PDF; columns are located from each page's own header
+// (Día | Paciente | Descripcion | Mutua | Producido). The payment column sits to the right
+// of Producido, or — when it doesn't fit — on extra pages at the end at the row's height.
+function groupLines(runs, tol=1.6){
+  const lines = [];
+  runs.slice().sort((a,b)=>a.top-b.top || a.x-b.x).forEach(r=>{
+    let l = lines.find(l=>Math.abs(l.top-r.top)<tol);
+    if(!l){ l={top:r.top, runs:[]}; lines.push(l); }
+    l.runs.push(r);
+  });
+  lines.forEach(l=>l.runs.sort((a,b)=>a.x-b.x));
+  return lines.sort((a,b)=>a.top-b.top);
+}
+function liqLayout(runs){
+  const f = rx => runs.find(r=>rx.test(r.s));
+  const pac=f(/^Paciente$/i), desc=f(/^Descripci[oó]n$/i), mut=f(/^Mutua$/i), prod=f(/^Producido$/i);
+  if(!(pac && desc && mut && prod)) return null;
+  return {pac:pac.x, desc:desc.x, mut:mut.x, prod:prod.x, amtB: mut.x + (prod.x-mut.x)*0.75, payB: prod.x + 40};
+}
+const DEFAULT_LAYOUT = {pac:101.5, desc:276.6, mut:637.9, prod:744.2, amtB:717, payB:784};
+function liqCol(x, L){
+  if(x < L.pac-3) return 'date';
+  if(x < L.desc-3) return x < L.pac+30 ? 'last' : 'first';
+  if(x < L.mut-3) return 'desc';
+  if(x < L.amtB) return 'mutua';
+  if(x < L.payB) return 'amt';
+  return 'pay';
+}
+const payKind = t => /tarjeta|card|tpv|cr[eé]dito/i.test(t) ? 'card' : /efectivo|cash|contado/i.test(t) ? 'cash' : 'other';
+function parseLiq(pages){
+  const res = {lines:[], summary:[], factura:{}, share:null, month:null, warnings:[], text:''};
+  const dataPages = [], payPages = []; let L = null;
+  res.text = pages.flatMap(p=>p.runs.map(r=>r.s)).join(' ');
+  pages.forEach((pg, pi) => {
+    const lines = groupLines(pg.runs);
+    const txt = pg.runs.map(r=>r.s).join(' ');
+    if(/FACTURA|TOTAL A PERCIBIR|Importe Total Bruto/i.test(txt) && !/Producido/i.test(txt)){
+      for(const l of lines){
+        const lbl = l.runs.map(r=>r.s).join(' ');
+        const val = [...l.runs].reverse().find(r=>MONEY_RX.test(r.s.replace(/\s/g,'')));
+        if(/FECHA:/i.test(lbl)){ const m=lbl.match(DATE_RX); if(m) res.factura.date = toIsoD(m[1],m[2],m[3]); }
+        else if(/N.\s*DE FACTURA/i.test(lbl)) res.factura.number = l.runs[l.runs.length-1].s;
+        else if(/Importe Total Bruto/i.test(lbl) && val) res.factura.gross = parseMoney(val.s);
+        else if(/Retenci[oó]n IRPF/i.test(lbl)){ const p = lbl.match(/(\d+(?:[.,]\d+)?)\s*%/); if(p) res.factura.irpfPct = parseMoney(p[1]); if(val) res.factura.irpf = parseMoney(val.s); }
+        else if(/TOTAL A PERCIBIR/i.test(lbl) && val) res.factura.net = parseMoney(val.s);
+        else if(/hasta|a partir/i.test(lbl)) res.warnings.push('Clinic note: '+lbl);
+      }
+      return;
+    }
+    L = liqLayout(pg.runs) || L || DEFAULT_LAYOUT;
+    const share = txt.match(/TRATAMIENTOS\s+(\d+)\s*%/i); if(share) res.share = +share[1];
+    const pageLines = [], payCand = [];
+    for(const l of lines){
+      const f = {}; l.runs.forEach(r=>{ const c = liqCol(r.x, L); f[c] = f[c] ? f[c]+' '+r.s : r.s; });
+      const amtOk = f.amt && MONEY_RX.test(f.amt.replace(/\s/g,''));
+      if(amtOk && (f.last || f.first)){ pageLines.push({top:l.top, f}); continue; }
+      const label = [f.desc, f.mutua].filter(Boolean).join(' ').trim();
+      if(label && !f.date && !f.last && /TOTAL|%|DTO|Lab/i.test(label)){
+        const nums = l.runs.filter(r=>r.x >= L.amtB-2 && /\d/.test(r.s)).map(r=>r.s);
+        let v = nums.length ? parseMoney(nums[nums.length-1].replace(/^-\s+/,'-')) : 0;
+        if(/DTO|Lab\.?/i.test(label) && v>0) v = -v;
+        res.summary.push({label, amount:v}); continue;
+      }
+      if(!label && !amtOk && f.date && !f.last && !/\d{2}\/\d{2}/.test(f.date)) payCand.push({pi, top:l.top, text:f.date});
+    }
+    if(pageLines.length) dataPages.push({pi, lines:pageLines});
+    else if(payCand.length && payCand.length===lines.length) payPages.push(...payCand);
+  });
+  let prevDate = null; const flat = [];
+  dataPages.forEach((dp, di) => dp.lines.forEach(l => {
+    const f = l.f; let date = null, refDate = null;
+    const all = (f.date||'').match(/\d{1,2}\/\d{1,2}\/\d{4}/g) || [];
+    if((f.date||'').trim().length===10 && all.length===1){ const m = all[0].match(DATE_RX); date = toIsoD(m[1],m[2],m[3]); }
+    else if(f.date){ const m = f.date.match(DATE_RX); if(m) refDate = toIsoD(m[1],m[2],m[3]); date = prevDate; res.warnings.push(`A date cell was unreadable ("${f.date}") — used ${fmtDate(prevDate||'')} from the row above.`); }
+    else date = prevDate;
+    prevDate = date || prevDate;
+    const desc = (f.desc||'').replace(/\s+/g,' ').trim();
+    flat.push({di, top:l.top, date, refDate, name:[f.last,f.first].filter(Boolean).join(', ').replace(/\s+/g,' ').trim(),
+      desc, mutua:(f.mutua||'').replace(/^-\s*|\s*-$/g,'').trim(), amt:parseMoney((f.amt||'').replace(/^-\s+/,'-')),
+      note:(desc.match(/\[(.*?)\]/)||[])[1]||'', pay: f.pay ? payKind(f.pay) : '', payText: f.pay||''});
+  }));
+  [...new Set(payPages.map(p=>p.pi))].forEach((pi, i) => {
+    payPages.filter(p=>p.pi===pi).forEach(p=>{ const row = flat.find(r=>r.di===i && Math.abs(r.top-p.top)<1.6); if(row){ row.payText=p.text; row.pay=payKind(p.text); } });
+  });
+  res.lines = flat.map(({di,top,...r})=>({...r, id:uid()}));
+  res.hasPayInfo = res.lines.some(l=>l.payText);
+  const cnt = {}; res.lines.forEach(l=>{ if(l.date){ const m=l.date.slice(0,7); cnt[m]=(cnt[m]||0)+1; } });
+  res.month = (res.factura.date && res.factura.date.slice(0,7)) || Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]?.[0] || null;
+  const S = res.summary;
+  const totals = S.map((s,i)=>({...s,i})).filter(s=>/^TOTAL/i.test(s.label));
+  const pctLines = S.map((s,i)=>({...s,i})).filter(s=>/^\d+(?:[.,]\d+)?\s*%$/.test(s.label));
+  res.tiers = pctLines.map(p=>{ const base = [...totals].reverse().find(t=>t.i < p.i); return {label: base?base.label:'TOTAL', base: base?base.amount:null, pct: parseMoney(p.label), amount: p.amount}; });
+  const used = new Set(res.tiers.map(t=>t.label+'|'+t.base));
+  const final = totals.filter(t=>!used.has(t.label+'|'+t.amount));
+  res.totalProduced = res.tiers.length ? sum(res.tiers,t=>t.base) : (totals[0]?.amount ?? null);
+  res.shareAmount = res.tiers.length ? r2(sum(res.tiers,t=>t.amount)) : null;
+  res.liquidation = final.length ? final[final.length-1].amount : (res.factura.gross ?? null);
+  const dto = S.find(s=>/DTO/i.test(s.label)); if(dto){ res.cardFee = dto.amount; const b = dto.label.match(/\(([\d.,]+)/); res.cardBase = b ? parseMoney(b[1]) : null; }
+  const lab = S.find(s=>/^Lab/i.test(s.label)); if(lab){ res.labDeduction = lab.amount; const b = lab.label.match(/Lab\.?\s*\(?\s*([\d.,]+)/i); res.labCost = b ? parseMoney(b[1]) : 0; }
+  return res;
+}
+
+/* ============ ROUTER ============ */
+const UI = { screen:'home', stack:[], clinic:null, ctab:'cal', calYm: today().slice(0,7), day: null, liqYm: addMonths(today().slice(0,7),-1),
+  range:'month', q:'', hist:null, histView:'list', histYm:null, open:{missing:true, diff:true, extra:false, corr:false, ok:false, fix:false} };
+function go(screen, params={}, push=true){
+  if(push) UI.stack.push({screen:UI.screen, clinic:UI.clinic, hist:UI.hist});
+  Object.assign(UI, params, {screen}); render(); window.scrollTo(0,0);
+}
+function back(){ const p = UI.stack.pop(); if(p){ Object.assign(UI, p); render(); window.scrollTo(0,0); } else go('home',{},false); }
+function render(){
+  const s = UI.screen;
+  $('#tabbar').classList.toggle('hide', s==='splash');
+  $$('#tabbar button').forEach(b=>b.classList.toggle('on', b.dataset.t===({home:'home',clinic:'home',patients:'patients',history:'patients',settings:'settings'})[s]));
+  const app = $('#app'); app.className = 'wrap screen';
+  ({home:renderHome, clinic:renderClinic, patients:renderPatients, history:renderHistory, settings:renderSettings})[s]();
+}
+$('#tabbar').onclick = e => { const b = e.target.closest('button'); if(!b) return; UI.stack=[]; go(b.dataset.t, {}, false); };
+function topBar(title, sub, opts={}){
+  return `<div class="top">${opts.back!==false?`<div class="circle" data-back>${ICON.back}</div>`:''}
+    <div class="grow">${sub?`<div class="sub">${sub}</div>`:''}<h1 style="${opts.small?'font-size:24px':''}">${title}</h1></div>${opts.right||''}</div>`;
+}
+document.addEventListener('click', e => { if(e.target.closest('[data-back]')) back(); });
+function syncBadge(){
+  if(!Sync.configured()) return '';
+  const st = Sync.state;
+  return `<div class="sync ${st.cls}" title="${esc(st.msg)}"><i></i>${esc(st.short)}</div>`;
+}
+
+/* ============ SPLASH ============ */
+function showSplash(){
+  const p = DB.profile;
+  const text = `Bienvenida, ${p.title} ${p.name}.`;
+  const sp = document.createElement('div'); sp.id='splash';
+  sp.innerHTML = `<div class="ringwrap"><div class="glow"></div><div class="ring"><div class="ph">${p.photo?`<img src="${p.photo}" alt="">`:`<span>${esc((p.name||'S')[0])}</span>`}</div></div></div>
+    <h1>${[...text].map((ch,i)=>`<span style="animation-delay:${0.55+i*0.045}s">${ch===' '?'&nbsp;':esc(ch)}</span>`).join('')}</h1>
+    <div class="hint">tap to continue</div>`;
+  document.body.appendChild(sp);
+  let done = false;
+  const leave = () => { if(done) return; done = true; sp.classList.add('out'); setTimeout(()=>sp.remove(), 650); };
+  sp.onclick = leave;
+  setTimeout(leave, 3600);
+}
+
+/* ============ HOME ============ */
+function stackedBars(months, series, opts={}){
+  const tot = months.map((_,i)=>sum(series,s=>s.values[i]));
+  const max = Math.max(1, ...tot);
+  const cur = today().slice(0,7);
+  return `<div class="chart">${months.map((m,i)=>`<div class="c ${m===cur?'cur':''}" title="${monthLabel(m)}: ${tot[i]}">
+      <div class="tv">${tot[i]||''}</div>
+      <div class="stack" style="height:calc(100% - 30px)"><div style="height:${(tot[i]/max*100).toFixed(1)}%;display:flex;flex-direction:column-reverse;width:100%">${series.map(s=>s.values[i]?`<i style="background:${s.color};flex:${s.values[i]}"></i>`:'').join('')}</div></div>
+      <div class="x">${MON[+m.slice(5)-1].slice(0,1)}${m.slice(5)==='01'?'<br>'+m.slice(2,4):''}</div></div>`).join('')}</div>
+    ${series.length>1?`<div class="legend">${series.map(s=>`<span><i class="dot" style="background:${s.color}"></i>${esc(s.label)}</span>`).join('')}</div>`:''}`;
+}
+function donut(entries){
+  const total = sum(entries,e=>e.value)||1; let acc = 0; const R=42, C=2*Math.PI*R;
+  return `<div class="donutwrap"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="${R}" fill="none" stroke="rgba(127,140,180,.15)" stroke-width="16"/>
+    ${entries.map(e=>{ const len = e.value/total*C; const seg = `<circle cx="60" cy="60" r="${R}" fill="none" stroke="${e.color}" stroke-width="16" stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-acc+C/4).toFixed(2)}"/>`; acc+=len; return seg; }).join('')}
+    <text x="60" y="58" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">${sum(entries,e=>e.value)}</text><text x="60" y="76" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">patients</text></svg>
+    <div class="legend">${entries.map(e=>`<span><i class="dot" style="background:${e.color}"></i>${esc(e.label)} · ${Math.round(e.value/total*100)}%</span>`).join('')}</div></div>`;
+}
+const greeting = () => { const h = new Date().getHours(); return h<13 ? 'Buenos días' : h<20 ? 'Buenas tardes' : 'Buenas noches'; };
+function renderHome(){
+  const p = DB.profile, t = today(), ym = t.slice(0,7), y = t.slice(0,4);
+  const inRange = v => UI.range==='month' ? v.date.startsWith(ym) : v.date.startsWith(y);
+  const vis = DB.visits.filter(v=>inRange(v) && v.date<=t);
+  const att = vis.filter(attended);
+  const missed = vis.filter(v=>v.status==='noshow'||v.status==='cancelled').length;
+  const daysWorked = new Set(vis.filter(v=>v.status!=='cancelled').map(v=>v.clinic+'|'+v.date)).size;
+  const months = Array.from({length:12},(_,i)=>addMonths(ym,i-11));
+  const series = DB.clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && attended(v)).length)}));
+  const daySeries = DB.clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>new Set(DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && v.status!=='cancelled' && v.date<=t).map(v=>v.date)).size)}));
+  const mu = {}; att.forEach(v=>{ const k = isPrivate(v.mutua)?'Private':titleCase(v.mutua.replace(/\(.*?\)/g,'').trim().split(' ').slice(0,2).join(' ')); mu[k]=(mu[k]||0)+1; });
+  const pal = ['#4f7cf7','#14b8c4','#a855f7','#f97316','#e11d74','#94a3b8'];
+  let ents = Object.entries(mu).sort((a,b)=>b[1]-a[1]); if(ents.length>6){ const rest = ents.slice(5); ents = ents.slice(0,5).concat([['Other', sum(rest,x=>x[1])]]); }
+  const recent = DB.visits.filter(v=>attended(v) && v.date<=t).sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||'')).slice(0,6);
+  $('#app').innerHTML = `
+    <div class="top">
+      ${p.photo?`<img class="avatar" src="${p.photo}" alt="">`:`<div class="avatar">${esc((p.name||'S')[0])}</div>`}
+      <div class="grow"><div class="sub">${greeting()}</div><h1 style="font-size:24px">${esc(p.title)} ${esc(p.name)}</h1></div>
+      ${syncBadge()}
+      <div class="circle" id="hImp" title="Import PDF">${ICON.pdf}</div>
+    </div>
+    <div class="seg" id="rSeg" style="margin-bottom:12px"><button data-r="month" class="${UI.range==='month'?'on':''}">${MONTHS[+ym.slice(5)-1]}</button><button data-r="year" class="${UI.range==='year'?'on':''}">${y}</button></div>
+    <div class="tiles">
+      <div class="glass tile"><div class="ic" style="background:rgba(79,124,247,.14)">📅</div><div class="v">${daysWorked}</div><div class="l">Days worked</div></div>
+      <div class="glass tile"><div class="ic" style="background:rgba(18,161,80,.14)">🦷</div><div class="v">${att.length}</div><div class="l">Patients seen</div></div>
+      <div class="glass tile"><div class="ic" style="background:rgba(229,72,77,.12)">🚫</div><div class="v">${(att.length+missed)?Math.round(missed/(att.length+missed)*100):0}%</div><div class="l">No-shows (${missed})</div></div>
+      <div class="glass tile"><div class="ic" style="background:rgba(20,184,196,.14)">🏥</div><div class="v">${new Set(vis.map(v=>v.clinic)).size || DB.clinics.length}</div><div class="l">Clinic${DB.clinics.length>1?'s':''} · ${daysWorked?(att.length/daysWorked).toFixed(1):0} pts/day</div></div>
+    </div>
+    <div class="glass card"><h3>Patients seen per month</h3>${stackedBars(months, series)}</div>
+    <div class="glass card"><h3>Days worked per month</h3>${stackedBars(months, daySeries)}</div>
+    ${ents.length?`<div class="glass card"><h3>Patients by insurance · ${UI.range==='month'?MONTHS[+ym.slice(5)-1]:y}</h3>${donut(ents.map(([l,v],i)=>({label:l, value:v, color:pal[i%pal.length]})))}</div>`:''}
+    ${recent.length?`<div class="glass card"><h3>Latest patients<span class="link" data-go="patients">See all</span></h3>
+      ${recent.map(v=>`<div class="li" data-hist="${v.id}"><div class="ini" style="background:${clinicById(v.clinic).color}">${esc(initials(v.patient))}</div><div class="grow"><div class="t">${esc(displayName(v.patient))}</div><div class="s">${fmtShortY(v.date)}${multi()?' · '+esc(clinicById(v.clinic).name):''}${(v.treat||[]).length?' · '+esc(v.treat.join(', ')):''}</div></div><span class="chev">›</span></div>`).join('')}</div>`:''}
+    <div class="sect">Clinics<span class="link" id="hAddC">＋ Add</span></div>
+    ${DB.clinics.map(c=>{ const cv = DB.visits.filter(v=>v.clinic===c.id); const mv = cv.filter(v=>v.date.startsWith(ym));
+      const past = cv.filter(v=>v.date<=t).map(v=>v.date).sort(); const fut = cv.filter(v=>v.date>t).map(v=>v.date).sort();
+      return `<div class="glass clinic tapcard" data-clinic="${c.id}" style="--cc:${esc(c.color)}">
+        <div class="nm"><span class="dot" style="background:${esc(c.color)};width:12px;height:12px"></span>${esc(c.name)}<span class="chev" style="margin-left:auto">›</span></div>
+        <div class="meta"><div><b>${new Set(mv.filter(v=>v.date<=t).map(v=>v.date)).size}</b>days this month</div><div><b>${mv.filter(attended).length}</b>patients this month</div><div><b>${past.length?fmtShort(past[past.length-1]).replace(/^\w+ /,''):'—'}</b>last day</div>${fut.length?`<div><b>${fmtShort(fut[0]).replace(/^\w+ /,'')}</b>next day</div>`:''}</div>
+      </div>`; }).join('')}
+  `;
+  $('#rSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.range=b.dataset.r; render(); } };
+  $('#hImp').onclick = () => startImport(null);
+  $('#hAddC').onclick = () => go('settings');
+  $$('[data-clinic]').forEach(el=>el.onclick=()=>go('clinic',{clinic:el.dataset.clinic, ctab:'cal', calYm: lastWorkedYm(el.dataset.clinic), day:null}));
+  $$('[data-hist]').forEach(el=>el.onclick=()=>openHistory(DB.visits.find(v=>v.id===el.dataset.hist)));
+  $$('[data-go]').forEach(el=>el.onclick=()=>go(el.dataset.go));
+}
+function lastWorkedYm(cid){ const t=today(); const ds = DB.visits.filter(v=>v.clinic===cid && v.date<=t).map(v=>v.date).sort(); return ds.length && !DB.visits.some(v=>v.clinic===cid && v.date.startsWith(t.slice(0,7))) ? ds[ds.length-1].slice(0,7) : t.slice(0,7); }
+
+/* ============ CLINIC ============ */
+function renderClinic(){
+  const c = clinicById(UI.clinic);
+  $('#app').innerHTML = topBar(`${esc(c.name)}`, `<span class="dot" style="background:${esc(c.color)}"></span> Clinic`, {right:`<div class="circle" id="cImp" title="Import PDF">${ICON.pdf}</div>`}) +
+    `<div class="seg" id="cSeg" style="margin-bottom:14px">${[['cal','Calendar'],['liq','Liquidación'],['stats','Income']].map(([k,l])=>`<button data-k="${k}" class="${UI.ctab===k?'on':''}">${l}</button>`).join('')}</div><div id="cBody"></div>`;
+  $('#cSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.ctab=b.dataset.k; render(); } };
+  $('#cImp').onclick = () => startImport(c.id);
+  ({cal:renderCal, liq:renderLiq, stats:renderStats})[UI.ctab](c);
+}
+function calendarHtml(ym, marks, sel, color, id){
+  const [y,m] = ym.split('-').map(Number);
+  const first = new Date(y, m-1, 1), days = new Date(y, m, 0).getDate();
+  const lead = (first.getDay()+6)%7, t = today();
+  let cells = '';
+  for(let i=0;i<lead;i++) cells += `<div class="d out"></div>`;
+  for(let d=1; d<=days; d++){
+    const ds = `${ym}-${pad(d)}`, mk = marks[ds];
+    cells += `<div class="d ${mk?'work':''} ${ds===t?'today':''} ${ds===sel?'sel':''}" data-day="${ds}" style="${mk?`--dc:${mk.color||color}`:`--dc:${color}`}">${d}${mk&&mk.n?`<span class="n">${mk.n}</span>`:''}${mk&&mk.pending?'<span class="pd"></span>':''}</div>`;
+  }
+  return `<div class="cal" id="${id}"><div class="hd"><div class="circle" data-cm="-1" style="width:36px;height:36px">${ICON.back}</div><b>${monthLabel(ym)}</b><div class="circle" data-cm="1" style="width:36px;height:36px;transform:scaleX(-1)">${ICON.back}</div></div>
+    <div class="grid">${['M','T','W','T','F','S','S'].map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div></div>`;
+}
+function renderCal(c){
+  const ym = UI.calYm;
+  const vis = DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(ym));
+  const marks = {};
+  vis.forEach(v=>{ const m = marks[v.date] || (marks[v.date]={n:0, pending:false}); if(attended(v)) m.n++; if(v.status==='pending') m.pending = true; });
+  if(!UI.day || !UI.day.startsWith(ym)){ const t = today(); UI.day = t.startsWith(ym) ? t : (Object.keys(marks).sort().pop() || `${ym}-01`); }
+  const list = DB.visits.filter(v=>v.clinic===c.id && v.date===UI.day).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99') || a.patient.localeCompare(b.patient));
+  const att = list.filter(attended), pend = list.filter(v=>v.status==='pending'), miss = list.filter(v=>v.status==='noshow'||v.status==='cancelled');
+  $('#cBody').innerHTML = `
+    <div class="glass card">${calendarHtml(ym, marks, UI.day, c.color, 'cal')}
+      <div class="legend"><span><i class="dot" style="background:${esc(c.color)}"></i>worked (number = patients seen)</span><span><i class="dot" style="background:var(--warn)"></i>to confirm</span></div></div>
+    <div class="sect" style="margin-top:6px">${fmtLong(UI.day)}</div>
+    ${list.length ? `<div class="daysum"><span class="chip">${list.length} in agenda</span><span class="chip ok">✓ ${att.length} came</span>${miss.length?`<span class="chip bad">✗ ${miss.length} no-show</span>`:''}${pend.length?`<span class="chip p">${pend.length} to confirm</span>`:''}</div>
+      <div class="row" style="margin-bottom:12px">${pend.length?`<button class="btn sm" id="dAll">✓ All pending came</button>`:''}<button class="btn sm" id="dAdd">＋ Patient</button><button class="btn sm" id="dImp">${ICON.pdf} Import PDF</button></div>
+      <div id="dList">${list.map(patientCard).join('')}</div>`
+    : `<div class="glass card empty"><b>No patients on this day</b>Import the Gesden agenda for this day (or a whole week) — or add a patient manually.<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" id="dImp">${ICON.pdf} Import PDF</button><button class="btn" id="dAdd">＋ Patient</button></div></div>`}
+  `;
+  $('#cal').onclick = e => {
+    const d = e.target.closest('[data-day]'); if(d){ UI.day = d.dataset.day; renderCal(c); return; }
+    const m = e.target.closest('[data-cm]'); if(m){ UI.calYm = addMonths(UI.calYm, +m.dataset.cm); UI.day = null; renderCal(c); }
+  };
+  $('#dImp').onclick = () => startImport(c.id);
+  $('#dAdd').onclick = () => openDetails(null, {clinic:c.id, date:UI.day});
+  if($('#dAll')) $('#dAll').onclick = () => { pend.forEach(v=>v.status='attended'); save(); renderCal(c); };
+  if($('#dList')) bindPatientCards($('#dList'), () => renderCal(c));
+}
+function patientCard(v){
+  const items = v.treat||[];
+  const ins = v.ins, mut = !isPrivate(v.mutua);
+  const billed = (v.lines||[]).length;
+  return `<div class="glass pc ${v.status}" data-id="${v.id}">
+    <div class="h"><div class="tm">${esc(v.time||'')}</div>
+      <div class="grow" data-open style="cursor:pointer"><div class="nm">${esc(displayName(v.patient))}${(v.flags||[]).length?' <span class="tag bad" title="'+esc(v.flags.join(', '))+'">check</span>':''}${v.origPatient && v.origPatient!==v.patient?' <span class="tag w">name fixed</span>':''}</div>
+        <div class="sb">${esc(v.mutua||'')}${v.nhc?' · NHC '+esc(v.nhc):''}</div>
+        ${v.obs?`<div class="obs">📝 ${esc(v.obs)}</div>`:''}</div>
+      <div class="st"><button data-st="attended" class="a ${attended(v)?'on':''}" aria-label="Came">✓</button><button data-st="noshow" class="x ${v.status==='noshow'||v.status==='cancelled'?'on':''}" aria-label="Didn't come">✗</button></div>
+    </div>
+    ${attended(v)?`<div class="more">
+      <div class="tchips">${DB.treatments.map(t=>`<button data-tr="${esc(t)}" class="${items.includes(t)?'on':''}">${esc(t)}</button>`).join('')}${items.filter(t=>!DB.treatments.includes(t)).map(t=>`<button data-tr="${esc(t)}" class="on">${esc(t)}</button>`).join('')}</div>
+      <div class="money">
+        <div class="mf"><label>Paid at clinic</label><div class="eur"><input data-m="paid" inputmode="decimal" value="${decStr(v.paid)}" placeholder="—"></div>
+          <div class="paym"><button data-pm="card" class="${(v.payMethod||'card')==='card'?'on':''}">💳 Card</button><button data-pm="cash" class="${v.payMethod==='cash'?'on':''}">💶 Cash</button></div></div>
+        <div class="mf"><label>Insurance</label><div class="eur"><input data-m="ins" inputmode="decimal" value="${decStr(ins)}" placeholder="${mut?'from factura':'—'}"></div>
+          ${v.insAuto?'<div class="auto">auto from factura</div>':(mut&&blank(ins)?'<div class="auto" style="color:var(--muted)">fills in when the factura arrives</div>':'')}</div>
+      </div>
+      <div class="tot"><span class="muted">Total</span><b data-total>${eur(visitTotal(v))}</b></div>
+      ${billed?`<div class="billed"><b>Clinic factura</b>${v.lines.map(l=>`<div><span>${esc(titleCase(l.desc))}</span><span>${eur(l.amt)}</span></div>`).join('')}</div>`:''}
+      <div class="acts"><button class="btn sm" data-histb>🗂 History</button><button class="btn sm" data-note>${v.notes?'💬 Comment ✓':'💬 Comment'}</button></div>
+    </div>`:`<div class="acts" style="margin-top:10px"><button class="btn sm" data-histb>🗂 History</button><button class="btn sm" data-note>${v.notes?'💬 Comment ✓':'💬 Comment'}</button></div>`}
+  </div>`;
+}
+function bindPatientCards(root, rerender){
+  root.onclick = e => {
+    const card = e.target.closest('[data-id]'); if(!card) return;
+    const v = DB.visits.find(x=>x.id===card.dataset.id); if(!v) return;
+    const st = e.target.closest('[data-st]');
+    if(st){ v.status = v.status===st.dataset.st ? 'pending' : st.dataset.st; save(); rerender(); return; }
+    const tr = e.target.closest('[data-tr]');
+    if(tr){ const t = tr.dataset.tr; v.treat = v.treat||[]; v.treat = v.treat.includes(t) ? v.treat.filter(x=>x!==t) : v.treat.concat(t); tr.classList.toggle('on'); save(); return; }
+    const pm = e.target.closest('[data-pm]');
+    if(pm){ v.payMethod = pm.dataset.pm; card.querySelectorAll('[data-pm]').forEach(b=>b.classList.toggle('on', b===pm)); save(); return; }
+    if(e.target.closest('[data-histb]')) return openHistory(v);
+    if(e.target.closest('[data-note]')) return openComment(v, rerender);
+    if(e.target.closest('[data-open]')) return openDetails(v, {onDone: rerender});
+  };
+  root.onchange = e => {
+    const inp = e.target.closest('[data-m]'); if(!inp) return;
+    const card = e.target.closest('[data-id]'); const v = DB.visits.find(x=>x.id===card.dataset.id);
+    v[inp.dataset.m] = moneyIn(inp.value); if(inp.dataset.m==='ins') v.insAuto = false;
+    inp.value = decStr(v[inp.dataset.m]);
+    const tot = card.querySelector('[data-total]'); if(tot) tot.textContent = eur(visitTotal(v));
+    const a = card.querySelector('.auto'); if(a && inp.dataset.m==='ins') a.remove();
+    save();
+  };
+}
+function openComment(v, after){
+  const ov = sheet(`<h2>Comment</h2><div class="small muted" style="margin-bottom:8px">${esc(displayName(v.patient))} · ${fmtShortY(v.date)}</div>
+    ${v.obs?`<div class="small" style="color:var(--info);margin-bottom:8px">📝 Reception: ${esc(v.obs)}</div>`:''}
+    <textarea id="cmt" placeholder="What happened, what's next, materials, anything to remember…" style="min-height:160px">${esc(v.notes||'')}</textarea>
+    <div class="row" style="margin-top:12px"><div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="cmtSave">Save</button></div>`);
+  ov.querySelector('#cmtSave').onclick = () => { v.notes = ov.querySelector('#cmt').value.trim(); save(); ov.remove(); after && after(); toast('Comment saved'); };
+  setTimeout(()=>ov.querySelector('#cmt').focus(), 80);
+}
+function sheet(html, cls=''){
+  const ov = document.createElement('div'); ov.className='overlay';
+  ov.innerHTML = `<div class="sheet ${cls}"><div class="grab"></div>${html}</div>`;
+  ov.addEventListener('click', e => { if(e.target===ov || e.target.closest('[data-x]')) ov.remove(); });
+  document.body.appendChild(ov); return ov;
+}
+const knownPatients = () => [...new Set(DB.visits.map(v=>v.patient).filter(Boolean))].sort();
+function openDetails(v, opts={}){
+  const isNew = !v;
+  v = v ? v : {id:uid(), clinic:opts.clinic||DB.clinics[0].id, date:opts.date||today(), time:'', patient:'', nhc:'', mutua:'TARIFA PRIVADA', status:'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', obs:'', source:'manual'};
+  const ov = sheet(`<h2>${isNew?'Add patient':esc(displayName(v.patient))}</h2>
+    ${(v.flags||[]).length?`<div class="small" style="color:var(--bad)">⚠ Gesden flag: ${esc(v.flags.join(' · '))}</div>`:''}
+    <label class="f">Patient name</label><input id="ePat" list="dlPat" value="${esc(v.patient)}" autocomplete="off">
+    ${v.origPatient && v.origPatient!==v.patient?`<div class="tiny" style="color:var(--warn);margin-top:4px">In Gesden: ${esc(v.origPatient)}</div>`:''}
+    <div class="grid2">
+      <div><label class="f">Mutua / tariff</label><input id="eMut" list="dlMut" value="${esc(v.mutua||'')}"></div>
+      <div><label class="f">NHC</label><input id="eNhc" inputmode="numeric" value="${esc(v.nhc||'')}"></div>
+      <div><label class="f">Date</label><input type="date" id="eDate" value="${v.date}"></div>
+      <div><label class="f">Time</label><input type="time" id="eTime" value="${esc(v.time||'')}"></div>
+    </div>
+    ${multi()?`<label class="f">Clinic</label>${clinicSelectHtml('eClinic', v.clinic)}`:''}
+    <label class="f">Status</label><select id="eSt">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${v.status===k?'selected':''}>${l}</option>`).join('')}</select>
+    ${v.phone?`<div class="small muted" style="margin-top:10px">☎ ${esc(v.phone)}</div>`:''}
+    <div class="row" style="margin-top:16px">${isNew?'':'<button class="btn danger" id="eDel">Delete</button>'}<div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="eSave">Save</button></div>
+    <datalist id="dlPat">${knownPatients().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>
+    <datalist id="dlMut">${[...new Set(DB.visits.map(x=>x.mutua).filter(Boolean))].sort().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`);
+  if(!isNew) ov.querySelector('#eDel').onclick = () => { if(confirm('Delete this visit?')){ DB.visits = DB.visits.filter(x=>x.id!==v.id); save(); ov.remove(); opts.onDone ? opts.onDone() : render(); } };
+  ov.querySelector('#eSave').onclick = () => {
+    const name = ov.querySelector('#ePat').value.trim(); if(!name){ alert('Please enter the patient name'); return; }
+    const nhc = ov.querySelector('#eNhc').value.trim();
+    if(nhc && v.origPatient && name!==v.origPatient) DB.patients[nhc] = {name, gesden:v.origPatient};
+    Object.assign(v, {patient:name, nhc, mutua:ov.querySelector('#eMut').value.trim(), date:ov.querySelector('#eDate').value||v.date, time:ov.querySelector('#eTime').value, status:ov.querySelector('#eSt').value, clinic: ov.querySelector('#eClinic')?ov.querySelector('#eClinic').value:v.clinic});
+    if(isNew) DB.visits.push(v);
+    save(); ov.remove(); if(UI.screen==='clinic'){ UI.day = v.date; UI.calYm = v.date.slice(0,7); } opts.onDone ? opts.onDone() : render(); toast('Saved');
+  };
+  if(isNew) setTimeout(()=>ov.querySelector('#ePat').focus(), 80);
+}
+
+/* ============ PATIENT HISTORY ============ */
+function patientKey(v){ return v.nhc ? 'n:'+v.nhc : 'p:'+norm(v.patient); }
+function visitsOf(key, name){
+  const nhc = key.startsWith('n:') ? key.slice(2) : null;
+  return DB.visits.filter(v => (nhc && v.nhc===nhc) || (!nhc || !v.nhc) && nameScore(v.patient, name) >= 0.85 && nameTokens(v.patient).length && Math.abs(nameTokens(v.patient).length-nameTokens(name).length)<=1)
+    .sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||''));
+}
+function openHistory(v){ if(!v) return; go('history', {hist:{key:patientKey(v), name:v.patient}, histView:'list', histYm:null, histSel:null}); }
+function renderHistory(){
+  const H = UI.hist; const vs = visitsOf(H.key, H.name); const last = vs[0] || {};
+  const att = vs.filter(attended);
+  if(!UI.histYm) UI.histYm = (last.date||today()).slice(0,7);
+  const STC = {attended:'var(--ok)', noshow:'var(--bad)', cancelled:'var(--bad)', pending:'var(--faint)'};
+  $('#app').innerHTML = topBar(esc(displayName(last.patient||H.name)), `${last.nhc?'NHC '+esc(last.nhc)+' · ':''}${esc(last.mutua||'')}`, {small:true}) + `
+    <div class="tiles"><div class="glass tile"><div class="v">${att.length}</div><div class="l">Visits</div></div><div class="glass tile"><div class="v">${vs.length-att.length-vs.filter(v=>v.status==='pending').length}</div><div class="l">Missed</div></div>
+      <div class="glass tile"><div class="v" style="font-size:20px">${eur0(sum(att,v=>v.paid))}</div><div class="l">Paid at clinic</div></div><div class="glass tile"><div class="v" style="font-size:20px">${eur0(sum(att,v=>v.ins))}</div><div class="l">Insurance</div></div></div>
+    <div class="seg" id="hSeg" style="margin-bottom:14px"><button data-v="list" class="${UI.histView==='list'?'on':''}">List</button><button data-v="cal" class="${UI.histView==='cal'?'on':''}">Calendar</button></div>
+    <div id="hBody"></div>`;
+  $('#hSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.histView=b.dataset.v; render(); } };
+  const visitBlock = v => { const c = clinicById(v.clinic); return `<div class="glass hv" id="hv-${v.id}" data-id="${v.id}">
+      <div class="row"><span class="d">${fmtShortY(v.date)}</span><span class="muted small">${esc(v.time||'')}</span><span class="grow"></span><span class="tag" style="background:color-mix(in srgb,${STC[v.status]} 15%,transparent);color:${STC[v.status]}">${STATUS[v.status]}</span></div>
+      <div class="small muted" style="margin-top:2px">${clinicDot(c)}${esc(c.name)} · ${esc(v.mutua||'')}</div>
+      ${v.obs?`<div class="small" style="color:var(--info);margin-top:6px">📝 ${esc(v.obs)}</div>`:''}
+      ${(v.treat||[]).length?`<div class="tchips" style="margin:10px 0 0">${v.treat.map(t=>`<button class="on" style="cursor:default">${esc(t)}</button>`).join('')}</div>`:''}
+      ${attended(v)?`<div class="billed" style="margin-top:10px"><div><span>Paid at clinic ${v.paid!==''&&v.paid!=null?(v.payMethod==='cash'?'💶':'💳'):''}</span><b>${blank(v.paid)?'—':eur(v.paid)}</b></div><div><span>Insurance${v.insAuto?' (from factura)':''}</span><b>${blank(v.ins)?'—':eur(v.ins)}</b></div>
+        ${(v.lines||[]).length?`<div style="margin-top:6px;opacity:.85"><i>Factura: ${v.lines.map(l=>esc(titleCase(l.desc))+' '+eur(l.amt)).join(' · ')}</i></div>`:''}</div>`:''}
+      ${v.notes?`<div class="small" style="margin-top:8px;white-space:pre-wrap">💬 ${esc(v.notes)}</div>`:''}
+      <div class="acts"><button class="btn sm" data-note>${v.notes?'Edit comment':'💬 Add comment'}</button><button class="btn sm" data-goday>Open day</button></div>
+    </div>`; };
+  if(UI.histView==='list'){
+    $('#hBody').innerHTML = vs.length ? vs.map(visitBlock).join('') : '<div class="empty">No visits.</div>';
+  } else {
+    const marks = {}; vs.forEach(v=>{ marks[v.date] = {color: STC[v.status].startsWith('var') ? getComputedStyle(document.documentElement).getPropertyValue(STC[v.status].slice(4,-1)).trim() || '#888' : STC[v.status]}; });
+    const sel = UI.histSel && marks[UI.histSel] ? UI.histSel : null;
+    const months = [...new Set(vs.map(v=>v.date.slice(0,7)))];
+    $('#hBody').innerHTML = `<div class="glass card">${calendarHtml(UI.histYm, marks, sel, '#4f7cf7', 'hcal')}
+      <div class="legend"><span><i class="dot" style="background:var(--ok)"></i>came</span><span><i class="dot" style="background:var(--bad)"></i>missed</span><span><i class="dot" style="background:var(--faint)"></i>pending</span></div>
+      ${months.length>1?`<div class="tiny muted" style="margin-top:8px">Visits in: ${months.map(m=>`<a href="#" data-jm="${m}" style="color:var(--accent)">${MON[+m.slice(5)-1]} ${m.slice(2,4)}</a>`).join(' · ')}</div>`:''}</div>
+      ${vs.filter(v=>v.date.startsWith(UI.histYm) && (!sel || v.date===sel)).map(visitBlock).join('') || '<div class="empty small">No visits this month.</div>'}`;
+    $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(m){ UI.histYm = addMonths(UI.histYm,+m.dataset.cm); UI.histSel=null; render(); } };
+    $$('[data-jm]').forEach(a=>a.onclick=e=>{ e.preventDefault(); UI.histYm=a.dataset.jm; UI.histSel=null; render(); });
+  }
+  $('#hBody').addEventListener('click', e => {
+    const card = e.target.closest('[data-id]'); if(!card) return; const v = DB.visits.find(x=>x.id===card.dataset.id);
+    if(e.target.closest('[data-note]')) openComment(v, render);
+    if(e.target.closest('[data-goday]')) go('clinic', {clinic:v.clinic, ctab:'cal', calYm:v.date.slice(0,7), day:v.date});
+  });
+}
+
+/* ============ PATIENTS LIST ============ */
+function renderPatients(){
+  $('#app').innerHTML = topBar('Patients', '', {back:false}) + `<input id="sQ" type="search" placeholder="Search name or NHC…" value="${esc(UI.q)}" style="margin-bottom:12px"><div id="sRes"></div>`;
+  const draw = () => {
+    const q = norm(UI.q);
+    const groups = new Map();
+    DB.visits.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(v=>{
+      const k = patientKey(v); let g = groups.get(k);
+      if(!g){ g = {v, n:0, last:v.date}; groups.set(k,g); }
+      if(attended(v)) g.n++;
+    });
+    let list = [...groups.values()];
+    if(q.length>=2) list = list.filter(g=>norm(g.v.patient).includes(q) || norm(g.v.origPatient).includes(q) || (g.v.nhc||'').includes(q));
+    const shown = list.slice(0, 150);
+    $('#sRes').innerHTML = `<div class="small muted" style="margin:0 4px 8px">${list.length} patients</div><div class="glass card" style="padding:4px 14px">${shown.map(g=>`<div class="li" data-hist="${g.v.id}"><div class="ini" style="background:${clinicById(g.v.clinic).color}">${esc(initials(g.v.patient))}</div><div class="grow"><div class="t">${esc(displayName(g.v.patient))}</div><div class="s">${g.n} visit${g.n===1?'':'s'} · last ${fmtShortY(g.last)}${g.v.nhc?' · NHC '+esc(g.v.nhc):''}</div></div><span class="chev">›</span></div>`).join('') || '<div class="empty">No patients yet.</div>'}</div>`;
+    $$('#sRes [data-hist]').forEach(el=>el.onclick=()=>openHistory(DB.visits.find(v=>v.id===el.dataset.hist)));
+  };
+  $('#sQ').oninput = e => { UI.q = e.target.value; draw(); };
+  draw();
+}
+
+/* ============ IMPORT ============ */
+let importClinic = null;
+function startImport(cid){ importClinic = cid; $('#pdfFile').click(); }
+$('#pdfFile').onchange = async e => {
+  const files = [...e.target.files]; e.target.value='';
+  for(const f of files){
+    try{
+      toast('Reading '+f.name+'…');
+      const pages = await pdfPages(f);
+      const kind = detectKind(pages);
+      if(kind==='agenda') await openAgendaPreview(parseAgenda(pages), f.name);
+      else if(kind==='liq') await openLiqPreview(parseLiq(pages), f.name);
+      else alert(`"${f.name}" doesn't look like a Gesden agenda or a clinic liquidación.`);
+    }catch(err){ alert('PDF import failed: '+err.message); console.error(err); }
+  }
+};
+function existingFor(date, row, clinic){
+  const same = DB.visits.filter(v=>v.date===date && v.clinic===clinic);
+  return same.find(v=>((row.nhc && v.nhc===row.nhc) || (!row.nhc && nameScore(v.origPatient||v.patient,row.name)>=0.8)) && (!v.time || !row.time || v.time===row.time))
+      || same.find(v=>row.nhc && v.nhc===row.nhc)
+      || same.find(v=>!v.nhc && v.source==='excel' && nameScore(v.patient,row.name)>=0.8);
+}
+function openAgendaPreview(days, fname){ return new Promise(done => {
+  const key = norm(DB.settings.doctor);
+  const doctors = [...new Set(days.map(d=>d.doctor))];
+  const mine = d => key && norm(d).includes(key);
+  const sel = {}; doctors.forEach(d=>sel[d] = mine(d) || (!key && doctors.length===1));
+  const detected = detectClinic(days.map(d=>d.doctor).join(' '), 'agenda');
+  let clinic = (detected || (importClinic && clinicById(importClinic)) || DB.clinics[0]).id;
+  let statusMode = days.every(d=>d.date < today()) ? 'attended' : 'pending';
+  const ov = sheet('', 'wide');
+  const box = ov.querySelector('.sheet');
+  const finish = () => { ov.remove(); done(); };
+  const draw = () => {
+    days.forEach(d=>d.rows.forEach(r=>{ if(r.use===undefined) r.use = !r.isNote; r.exists = !!existingFor(d.date, r, clinic); const fix = r.nhc && DB.patients[r.nhc]; if(r.final===undefined){ r.final = fix ? fix.name : r.name; r.fixed = !!fix; } }));
+    const shown = days.filter(d=>sel[d.doctor]);
+    const nNew = shown.reduce((a,d)=>a+d.rows.filter(r=>r.use && !r.exists).length,0);
+    const nUpd = shown.reduce((a,d)=>a+d.rows.filter(r=>r.use && r.exists).length,0);
+    box.innerHTML = `<div class="grab"></div><h2>Agenda · ${days.length} day${days.length===1?'':'s'}</h2>
+      <div class="muted small">${esc(fname)}</div>
+      <div class="row" style="margin-top:10px"><span class="small muted">Clinic</span>${clinicSelectHtml('aClinic', clinic, {style:'width:auto'})}<span class="small" style="color:${detected?'var(--muted)':'var(--warn)'}">${detected?'detected from the agenda':'⚠ not recognised — check'}</span></div>
+      ${doctors.length>1 || !doctors.some(mine) ? `<div class="glass card" style="margin-top:10px;padding:12px"><b class="small">Which doctor's agenda?</b>
+        ${doctors.map(d=>`<label class="chk"><input type="checkbox" data-doc="${esc(d)}" ${sel[d]?'checked':''}> ${esc(d)} <span class="muted">(${days.filter(x=>x.doctor===d).length} days)</span></label>`).join('')}</div>`:''}
+      <div class="row" style="margin-top:8px"><span class="small muted">Import as</span><select id="aStat" style="width:auto"><option value="pending" ${statusMode==='pending'?'selected':''}>To confirm</option><option value="attended" ${statusMode==='attended'?'selected':''}>Came (past days)</option></select></div>
+      ${shown.map(d=>{ const chk = d.expected==null ? '' : (d.rows.length===d.expected ? `<span class="tag ok">${d.rows.length}/${d.expected} ✓</span>` : `<span class="tag bad">read ${d.rows.length} of ${d.expected}</span>`);
+        return `<div class="dayhdr">${fmtLong(d.date)} ${chk}</div><div class="tablewrap"><table class="pv"><tbody>
+        ${d.rows.map((r,ri)=>`<tr data-d="${days.indexOf(d)}" data-r="${ri}"><td><input type="checkbox" data-k="use" ${r.use?'checked':''} style="width:auto"></td><td class="small">${esc(r.time)}</td>
+          <td><input data-k="final" value="${esc(r.final)}" style="min-width:170px">${r.fixed?`<div class="tiny" style="color:var(--warn)">auto-fixed from: ${esc(r.name)}</div>`:''}${r.flags.length?`<div class="tiny" style="color:var(--bad)">⚠ ${esc(r.flags.join(' · '))}</div>`:''}${r.isNote?`<div class="tiny muted">agenda note, not a patient</div>`:''}</td>
+          <td class="small">${esc(r.mutua)}${r.nhc?'<br><span class="muted">NHC '+esc(r.nhc)+'</span>':''}</td><td class="small muted" style="max-width:260px">${esc(r.obs)}</td>
+          <td>${r.exists?'<span class="tag i">update</span>':'<span class="tag ok">new</span>'}</td></tr>`).join('')}</tbody></table></div>`; }).join('') || '<div class="empty">No days selected.</div>'}
+      <div class="row" style="margin-top:14px;position:sticky;bottom:0;padding-top:8px;background:var(--glass-2)"><div class="grow muted small">${nNew} new · ${nUpd} already here (her data is kept)</div><button class="btn" id="aCancel">Cancel</button><button class="btn pri" id="aGo" ${nNew+nUpd?'':'disabled'}>Import</button></div>`;
+    box.querySelector('#aClinic').onchange = e => { clinic = e.target.value; draw(); };
+    box.querySelectorAll('[data-doc]').forEach(c=>c.onchange=()=>{ sel[c.dataset.doc]=c.checked; draw(); });
+    box.querySelector('#aStat').onchange = e => statusMode = e.target.value;
+    box.querySelectorAll('tr[data-d]').forEach(tr=>{ const r = days[+tr.dataset.d].rows[+tr.dataset.r];
+      tr.querySelector('[data-k=use]').onchange = e => { r.use = e.target.checked; draw(); };
+      tr.querySelector('[data-k=final]').onchange = e => { r.final = e.target.value.trim(); }; });
+    box.querySelector('#aCancel').onclick = finish;
+    box.querySelector('#aGo').onclick = () => {
+      let n=0, u=0, first=null;
+      days.filter(d=>sel[d.doctor]).forEach(d=>d.rows.filter(r=>r.use && r.final).forEach(r=>{
+        first = first || d.date;
+        const ex = existingFor(d.date, r, clinic);
+        if(r.nhc && r.final!==r.name) DB.patients[r.nhc] = {name:r.final, gesden:r.name};
+        if(ex){ const keepName = ex.patient && ex.origPatient && ex.patient!==ex.origPatient;
+          Object.assign(ex, {time:r.time||ex.time, mutua:r.mutua||ex.mutua, phone:r.phone||ex.phone, obs:r.obs||ex.obs, flags:r.flags, confirmed:r.confirmed, nhc:r.nhc||ex.nhc, doctor:d.doctor, origPatient:r.name});
+          if(!keepName) ex.patient = r.final; u++; }
+        else { DB.visits.push({id:uid(), clinic, date:d.date, time:r.time, nhc:r.nhc, patient:r.final, origPatient:r.name, mutua:r.mutua, phone:r.phone, obs:r.obs, flags:r.flags, confirmed:r.confirmed, doctor:d.doctor, status:statusMode, treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', source:'pdf'}); n++; }
+      }));
+      save(); finish();
+      if(first){ if(UI.screen!=='clinic' || UI.clinic!==clinic) go('clinic', {clinic, ctab:'cal'}, UI.screen!=='clinic'); UI.clinic = clinic; UI.ctab='cal'; UI.calYm = first.slice(0,7); UI.day = days.length===1 || !UI.day ? first : UI.day; render(); }
+      toast(`Imported: ${n} new, ${u} updated`);
+    };
+  };
+  draw();
+}); }
+
+function openLiqPreview(L, fname){ return new Promise(done => {
+  if(!L.lines.length && L.factura.gross==null){ alert('No treatment lines found in this liquidación.'); return done(); }
+  const detected = detectClinic(L.text, 'invoice');
+  let clinic = (detected || (importClinic && clinicById(importClinic)) || DB.clinics[0]).id;
+  const sumLines = r2(sum(L.lines,l=>l.amt)), ym = L.month;
+  const ov = sheet('', 'wide'); const box = ov.querySelector('.sheet');
+  const finish = () => { ov.remove(); done(); };
+  const draw = () => {
+    const exists = ym && DB.liq[lkey(clinic, ym)];
+    box.innerHTML = `<div class="grab"></div><h2>Liquidación · ${ym?monthLabel(ym):'?'}</h2>
+      <div class="muted small">${esc(fname)} · ${L.lines.length} lines${L.hasPayInfo?' · '+L.lines.filter(l=>l.pay==='card').length+' by card':''}${L.factura.number?' · invoice '+esc(L.factura.number):''}</div>
+      <div class="row" style="margin-top:8px"><span class="small muted">Clinic</span>${clinicSelectHtml('lClinic', clinic, {style:'width:auto'})}<span class="small" style="color:${detected?'var(--muted)':'var(--warn)'}">${detected?'detected from the invoice':'⚠ check the clinic'}</span></div>
+      ${L.warnings.map(w=>`<div class="small" style="color:var(--warn);margin-top:4px">⚠ ${esc(w)}</div>`).join('')}
+      <div class="tiles" style="margin-top:12px"><div class="glass tile"><div class="l">Produced</div><div class="v" style="font-size:20px">${eur0(L.totalProduced ?? sumLines)}</div></div><div class="glass tile"><div class="l">Liquidation</div><div class="v" style="font-size:20px">${L.liquidation!=null?eur0(L.liquidation):'—'}</div></div>
+        ${L.factura.net!=null?`<div class="glass tile"><div class="l">To receive</div><div class="v" style="font-size:20px">${eur0(L.factura.net)}</div></div>`:''}</div>
+      <div class="tablewrap" style="max-height:42vh;overflow:auto"><table><thead><tr><th>Day</th><th>Patient</th><th>Description</th><th class="n">€</th></tr></thead><tbody>
+        ${L.lines.map(l=>`<tr><td class="small">${l.date?fmtDate(l.date).slice(0,5):'?'}</td><td>${esc(l.name)}<div class="tiny muted">${esc(l.mutua)}</div></td><td class="small">${esc(l.desc)}${l.pay==='card'?' 💳':''}</td><td class="n" style="${l.amt<0?'color:var(--bad)':''}">${eur(l.amt)}</td></tr>`).join('')}</tbody></table></div>
+      ${exists?`<div class="small" style="color:var(--warn);margin-top:8px">A liquidación for ${monthLabel(ym)} is already stored — it will be replaced.</div>`:''}
+      <div class="small muted" style="margin-top:10px">Saving attaches each line to her visit and fills in the <b>insurance</b> amount (clinic total − paid at clinic) for mutua patients.</div>
+      <div class="row" style="margin-top:12px"><div class="grow"></div><button class="btn" id="lCancel">Cancel</button><button class="btn pri" id="lGo" ${ym?'':'disabled'}>Save & compare</button></div>`;
+    box.querySelector('#lClinic').onchange = e => { clinic = e.target.value; draw(); };
+    box.querySelector('#lCancel').onclick = finish;
+    box.querySelector('#lGo').onclick = () => {
+      const {text, ...rest} = L;
+      DB.liq[lkey(clinic, ym)] = {...rest, file:fname, importedAt:new Date().toISOString()};
+      const r = applyLiq(clinic, ym);
+      save(); finish();
+      go('clinic', {clinic, ctab:'liq', liqYm:ym}, UI.screen!=='clinic');
+      toast(`Saved · ${r.matched} visits matched, ${r.insFilled} insurance amounts filled`);
+    };
+  };
+  draw();
+}); }
+// attach liquidación lines to visits; fill insurance for mutua patients
+function matchLineVisit(l, visits){
+  let best=null, bs=0;
+  for(const v of visits) if(v.date===l.date){ const s = nameScore(v.patient, l.name) + (attended(v)?0.01:0); if(s>bs){bs=s;best=v;} }
+  return bs>=0.6 ? best : null;
+}
+function applyLiq(cid, ym){
+  const L = DB.liq[lkey(cid, ym)]; const visits = DB.visits.filter(v=>v.clinic===cid && v.date.startsWith(ym));
+  visits.forEach(v=>{ v.lines = []; });
+  let matched = 0, insFilled = 0;
+  for(const l of L.lines){
+    if(l.amt<0 || l.note) continue;
+    const v = matchLineVisit(l, visits); l.vid = v ? v.id : null;
+    if(v){ v.lines.push({desc:l.desc, amt:l.amt, pay:l.pay, mutua:l.mutua}); }
+  }
+  for(const v of visits){
+    if(!v.lines.length) continue; matched++;
+    if(v.status==='pending') v.status='attended';
+    if(!(v.treat||[]).length) v.treat = [...new Set(v.lines.map(l=>matchTreatment(l.desc)).filter(Boolean))];
+    const tot = r2(billedTotal(v));
+    if(!isPrivate(v.mutua) && (blank(v.ins) || v.insAuto)){ const ins = r2(tot - num(v.paid)); if(ins>0){ v.ins = ins; v.insAuto = true; insFilled++; } else if(v.insAuto){ v.ins=''; v.insAuto=false; } }
+    if(isPrivate(v.mutua) && blank(v.paid) && blank(v.ins) && v.source!=='pdf'){ /* leave it to her */ }
+  }
+  return {matched, insFilled};
+}
+
+/* ============ RECONCILIATION ============ */
+const monthVisits = (ym, cid) => DB.visits.filter(v=>v.date.startsWith(ym) && (!cid || v.clinic===cid));
+function reconcile(ym, cid){
+  const liq = DB.liq[lkey(cid, ym)];
+  const visits = monthVisits(ym, cid), att = visits.filter(attended);
+  const R = {ok:[], diff:[], missing:[], extra:[], corr:[], unfilled:[], pending: visits.filter(v=>v.status==='pending')};
+  if(!liq){ R.unfilled = att.filter(v=>!hasMoney(v) && !(v.treat||[]).length); return R; }
+  for(const l of liq.lines){
+    if(l.amt<0 || l.note){ R.corr.push({l}); continue; }
+    const v = matchLineVisit(l, visits);
+    if(!v || !attended(v)) R.extra.push({l, v});
+  }
+  for(const v of att){
+    const clin = (v.lines||[]).length ? r2(billedTotal(v)) : null;
+    const her = hasMoney(v) ? r2(visitTotal(v)) : null;
+    if(clin!=null){
+      if(her==null && clin===0) R.ok.push({v, her:0, clinic:0});
+      else if(her==null) R.diff.push({v, her:0, clinic:clin, unfilled:true});
+      else if(Math.abs(her-clin)<0.01) R.ok.push({v, her, clinic:clin});
+      else R.diff.push({v, her, clinic:clin});
+    } else if(her) R.missing.push({v, her});
+  }
+  return R;
+}
+function herCalc(ym, cid){
+  const c = clinicById(cid), fee = num(c.cardFee)/100, top = Math.max(...(c.shares||[{pct:40}]).map(x=>num(x.pct)));
+  const att = monthVisits(ym, cid).filter(attended);
+  let prod=0, card=0, shareAmt=0, feeAmt=0;
+  att.forEach(v=>{ const sh = shareFor(cid, v.date)/100; const t = visitTotal(v); prod+=t; shareAmt+=t*sh;
+    if((v.payMethod||'card')==='card' && sh*100>=top){ card+=num(v.paid); feeAmt+=num(v.paid)*sh*fee; } });
+  const liq = DB.liq[lkey(cid, ym)], man = DB.manual[lkey(cid, ym)] || {};
+  const lab = !blank(man.lab) ? num(man.lab) : (liq?.labCost ?? 0);
+  const labAmt = lab * shareFor(cid, ym+'-28')/100;
+  const res = {prod, card, lab, shareAmt, feeAmt, labAmt};
+  res.liquidation = shareAmt - feeAmt - labAmt;
+  res.irpf = res.liquidation * DB.settings.irpf/100; res.net = res.liquidation - res.irpf;
+  return res;
+}
+function clinicChecks(liq, cid){
+  const c = clinicById(cid), mainPct = liq.share || shareFor(cid, (liq.month||'')+'-28');
+  const C = []; const lines = r2(sum(liq.lines,l=>l.amt));
+  const tick = (label, a, b) => C.push({label, ok: a!=null && b!=null && Math.abs(a-b) < 0.02, a, b});
+  if(liq.lines.length && liq.totalProduced!=null) tick('Lines add up to the totals', lines, r2(liq.totalProduced));
+  (liq.tiers||[]).forEach(t=>{ if(t.base!=null) tick(`${t.pct}% of ${t.label.replace(/:$/,'')}`, r2(t.base*t.pct/100), t.amount); });
+  if(liq.cardFee!=null){
+    const cardLines = liq.hasPayInfo ? r2(sum(liq.lines.filter(l=>l.pay==='card' && (!l.date || shareFor(cid,l.date)>=mainPct)),l=>l.amt)) : null;
+    const base = cardLines ?? liq.cardBase;
+    if(base!=null) tick(`Card fee ${String(c.cardFee).replace('.',',')}% × ${mainPct}% of ${eur(base)}`, r2(-base*mainPct/100*c.cardFee/100), liq.cardFee);
+    const feeOk = C.length && C[C.length-1].ok;
+    if(cardLines!=null && liq.cardBase){ tick('Card total written in the label', cardLines, liq.cardBase); if(feeOk && !C[C.length-1].ok) C[C.length-1].note = true; }
+  }
+  if(liq.labDeduction!=null) tick(`Lab = ${mainPct}% of ${eur(liq.labCost||0)}`, r2(-(liq.labCost||0)*mainPct/100), r2(liq.labDeduction));
+  if(liq.liquidation!=null && liq.shareAmount!=null) tick('Liquidation = share − fee − lab', r2(liq.shareAmount + (liq.cardFee||0) + (liq.labDeduction||0)), liq.liquidation);
+  if(liq.factura.gross!=null && liq.liquidation!=null) tick('Invoice gross = liquidation', liq.factura.gross, liq.liquidation);
+  if(liq.factura.irpf!=null && liq.factura.gross!=null) tick(`IRPF ${liq.factura.irpfPct??DB.settings.irpf}%`, r2(liq.factura.gross*(liq.factura.irpfPct??DB.settings.irpf)/100), liq.factura.irpf);
+  if(liq.factura.net!=null && liq.factura.gross!=null) tick('To receive = gross − IRPF', r2(liq.factura.gross-(liq.factura.irpf||0)), liq.factura.net);
+  return C;
+}
+function renderLiq(c){
+  const ym = UI.liqYm, cid = c.id;
+  const list = monthVisits(ym, cid), att = list.filter(attended);
+  const liq = DB.liq[lkey(cid, ym)], man = DB.manual[lkey(cid, ym)] || {};
+  const H = herCalc(ym, cid), R = reconcile(ym, cid);
+  const clinicLiq = liq?.liquidation ?? (!blank(man.invoice) ? num(man.invoice) : null);
+  const diff = clinicLiq!=null ? clinicLiq - H.liquidation : null;
+  const pct = shareFor(cid, ym+'-28');
+  const sec = (k, icon, title, arr, total, body, color) => arr.length ? `<div class="glass card"><div class="sec" data-sec="${k}"><span>${icon}</span><span>${title}</span><span class="cnt" style="color:${color||'inherit'}">${arr.length}${total==null?'':' · '+eur(total)}</span><span class="muted">${UI.open[k]?'▾':'▸'}</span></div>${UI.open[k]?`<div style="margin-top:8px">${body}</div>`:''}</div>` : '';
+  const vline = (v, right, sub) => `<div class="line click" data-v="${v.id}"><span>${fmtShort(v.date)} · <b>${esc(displayName(v.patient))}</b><br><span class="small muted">${sub}</span></span><span class="amt">${right}</span></div>`;
+  $('#cBody').innerHTML = `
+    <div class="row" style="margin-bottom:12px"><div class="circle" id="mPrev" style="width:38px;height:38px">${ICON.back}</div><b class="grow" style="text-align:center;font-size:17px">${monthLabel(ym)}</b><div class="circle" id="mNext" style="width:38px;height:38px;transform:scaleX(-1)">${ICON.back}</div></div>
+    <div class="tiles">
+      <div class="glass tile"><div class="l">Her log</div><div class="v" style="font-size:21px">${eur0(H.prod)}</div><div class="l">${att.length} patients</div></div>
+      <div class="glass tile"><div class="l">Clinic produced</div><div class="v" style="font-size:21px">${liq?eur0(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</div><div class="l">${liq?liq.lines.length+' lines':'no factura yet'}</div></div>
+      <div class="glass tile"><div class="l">Expected liquidation</div><div class="v" style="font-size:21px;color:var(--accent)">${eur0(H.liquidation)}</div><div class="l">${pct}% − fees − lab</div></div>
+      <div class="glass tile"><div class="l">Clinic says</div><div class="v" style="font-size:21px">${clinicLiq!=null?eur0(clinicLiq):'—'}</div><div class="l">${diff==null?'—':(Math.abs(diff)<0.5?'<span style="color:var(--ok)">✓ matches</span>':'<b style="color:var(--bad)">'+(diff>0?'+':'')+eur(diff)+'</b>')}</div></div>
+    </div>
+    ${!liq ? `<div class="glass card"><h3>Clinic factura</h3><div class="small muted" style="margin-bottom:12px">Import the monthly PDF (factura + liquidación). Each line is attached to her visit, insurance amounts fill in, and differences show up below.</div>
+      <button class="btn pri block" id="mImp">${ICON.pdf} Import liquidación PDF</button>
+      <label class="f">…or type the clinic's liquidation amount</label><div class="eur" style="max-width:200px"><input id="mInv" inputmode="decimal" value="${decStr(man.invoice)}" placeholder="0,00"></div></div>` : ''}
+    ${liq ? `
+      ${sec('missing','🔴','She logged it, clinic did not bill', R.missing, sum(R.missing,x=>x.her), R.missing.map(x=>vline(x.v, eur(x.her), esc((x.v.treat||[]).join(', ')||'—'))).join('')+'<div class="small muted" style="margin-top:6px">Worth asking the clinic — work that may not be paid.</div>','var(--bad)')}
+      ${sec('diff','🟠','Amounts differ', R.diff, sum(R.diff,x=>x.clinic-x.her), R.diff.map((x,i)=>`<div class="line click" data-v="${x.v.id}"><span>${fmtShort(x.v.date)} · <b>${esc(displayName(x.v.patient))}</b><br><span class="small muted">${esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + '))}<br>her: ${x.unfilled?'not filled':eur(x.her)} · clinic: ${eur(x.clinic)}</span></span><span class="amt"><button class="btn sm" data-accept="${i}">Use clinic</button></span></div>`).join('') + (R.diff.length>1?`<button class="btn sm" id="mAcceptAll" style="margin-top:8px">Use clinic amounts for all ${R.diff.length}</button>`:''),'var(--warn)')}
+      ${sec('extra','🔵','Billed, but not in her log', R.extra, sum(R.extra,x=>x.l.amt), R.extra.map((x,i)=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(titleCase(x.l.desc))} · ${esc(x.l.mutua)}${x.v && !attended(x.v)?` · <b style="color:var(--bad)">marked ${STATUS[x.v.status].toLowerCase()}</b>`:''}</span></span><span class="amt">${eur(x.l.amt)}<br><button class="btn sm" data-addl="${i}" style="margin-top:4px">＋ Add</button></span></div>`).join('') + `<button class="btn sm" id="mAddAll" style="margin-top:8px">＋ Add all ${R.extra.length}</button>`,'var(--info)')}
+      ${sec('corr','↩️','Clinic corrections', R.corr, sum(R.corr,x=>x.l.amt), R.corr.map(x=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(x.l.desc)}${x.l.refDate?' · refers to '+fmtDate(x.l.refDate):''}</span></span><span class="amt">${eur(x.l.amt)}</span></div>`).join(''))}
+      ${sec('ok','✅','Matching', R.ok, sum(R.ok,x=>x.clinic), R.ok.map(x=>vline(x.v, eur(x.clinic), esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + ')))).join(''),'var(--ok)')}
+    ` : ''}
+    ${sec('fix','✏️','To confirm in her log', R.pending, null, R.pending.map(v=>vline(v,'<span class="tag p">came?</span>', esc(v.mutua||''))).join(''))}
+    <div class="glass card"><h3>Liquidation</h3>
+      <table><thead><tr><th></th><th class="n">Her log</th><th class="n">Clinic</th></tr></thead><tbody>
+        <tr><td>Produced</td><td class="n">${eur(H.prod)}</td><td class="n">${liq?eur(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</td></tr>
+        <tr><td>Her share ${(liq?.tiers||[]).length>1?'('+liq.tiers.map(t=>t.pct+'%').join(' + ')+')':pct+'%'}</td><td class="n">${eur(H.shareAmt)}</td><td class="n">${liq?.shareAmount!=null?eur(liq.shareAmount):'—'}</td></tr>
+        <tr><td>Card fee <span class="tiny muted">(${eur0(H.card)} card)</span></td><td class="n">−${eur(H.feeAmt)}</td><td class="n">${liq?.cardFee!=null?eur(liq.cardFee):'—'}</td></tr>
+        <tr><td>Lab <span class="eur" style="display:inline-block;width:96px;vertical-align:middle"><input id="mLab" inputmode="decimal" value="${decStr(!blank(man.lab)?man.lab:(liq?.labCost??''))}" placeholder="0" style="padding:5px 26px 5px 6px;font-size:14px"></span></td><td class="n">−${eur(H.labAmt)}</td><td class="n">${liq?.labDeduction!=null?eur(liq.labDeduction):'—'}</td></tr>
+        <tr><th>Liquidation</th><th class="n">${eur(H.liquidation)}</th><th class="n">${clinicLiq!=null?eur(clinicLiq):'—'}</th></tr>
+        <tr><td>IRPF ${DB.settings.irpf}%</td><td class="n">−${eur(H.irpf)}</td><td class="n">${liq?.factura?.irpf!=null?'−'+eur(liq.factura.irpf):'—'}</td></tr>
+        <tr><th>To receive</th><th class="n">${eur(H.net)}</th><th class="n">${liq?.factura?.net!=null?eur(liq.factura.net):'—'}</th></tr>
+      </tbody></table>
+      ${diff!=null?`<div style="margin-top:12px" class="diff ${Math.abs(diff)<0.5?'ok':'bad'}">${Math.abs(diff)<0.5?'✓ Matches':'Difference '+(diff>0?'+':'')+eur(diff)}</div>`:''}
+      ${diff!=null && liq && liq.lines.length && Math.abs(diff)>=0.5 ? (()=>{ const sh=(liq.share||pct)/100; const parts=[
+          ['🔴 logged, not billed', -sum(R.missing,x=>x.her)*sh], ['🟠 different amounts', sum(R.diff,x=>x.clinic-x.her)*sh],
+          ['🔵 billed, not in her log', sum(R.extra,x=>x.l.amt)*sh], ['↩️ clinic corrections', sum(R.corr,x=>x.l.amt)*sh]].filter(p=>Math.abs(p[1])>=0.01);
+          const rest = diff - sum(parts,p=>p[1]); if(Math.abs(rest)>=0.5) parts.push(['card fees / lab / rounding', rest]);
+          return `<div class="small muted" style="margin-top:8px">Where it comes from (her ${liq.share||pct}%):</div>` + parts.map(p=>`<div class="chkline"><span>${p[0]}</span><span>${p[1]>0?'+':''}${eur(p[1])}</span></div>`).join(''); })() : ''}
+    </div>
+    ${liq ? `<div class="glass card"><h3>Clinic's arithmetic</h3>
+      ${clinicChecks(liq, cid).map(k=>`<div class="chkline"><span>${k.ok?'✅':k.note?'ℹ️':'❌'} ${esc(k.label)}${k.note?' <span class="muted tiny">(typo in the label — fee is right)</span>':''}</span><span class="muted">${k.ok?eur(k.b):eur(k.a)+' vs '+eur(k.b)}</span></div>`).join('')}
+      ${(liq.warnings||[]).filter(w=>/^Clinic note/.test(w)).map(w=>`<div class="small" style="color:var(--info);margin-top:6px">${esc(w)}</div>`).join('')}
+      <div class="row" style="margin-top:12px"><span class="tiny muted grow">${esc(liq.file||'')}</span><button class="btn sm" id="mReimp">Replace</button><button class="btn sm danger" id="mDelLiq">Remove</button></div></div>`:''}
+    <label class="f">Notes for ${monthLabel(ym)}</label><textarea id="mNotes" placeholder="e.g. asked reception about 2 missing reconstrucciones">${esc(man.notes||'')}</textarea>`;
+  const rr = () => renderLiq(c);
+  $('#mPrev').onclick=()=>{UI.liqYm=addMonths(ym,-1);rr()}; $('#mNext').onclick=()=>{UI.liqYm=addMonths(ym,1);rr()};
+  const setMan = (k,v) => { const kk = lkey(cid, ym); DB.manual[kk] = Object.assign({}, DB.manual[kk]||{}, {[k]:v}); save(); };
+  if($('#mImp')) $('#mImp').onclick = () => startImport(cid);
+  if($('#mInv')) $('#mInv').onchange = e => { setMan('invoice', moneyIn(e.target.value)); rr(); };
+  $('#mLab').onchange = e => { setMan('lab', moneyIn(e.target.value)); rr(); };
+  $('#mNotes').onchange = e => setMan('notes', e.target.value);
+  if($('#mReimp')) $('#mReimp').onclick = () => startImport(cid);
+  if($('#mDelLiq')) $('#mDelLiq').onclick = () => { if(confirm('Remove the stored liquidación for this month?')){ delete DB.liq[lkey(cid, ym)]; monthVisits(ym,cid).forEach(v=>{ v.lines=[]; if(v.insAuto){ v.ins=''; v.insAuto=false; } }); save(); rr(); } };
+  $$('#cBody [data-sec]').forEach(el=>el.onclick=()=>{ UI.open[el.dataset.sec]=!UI.open[el.dataset.sec]; rr(); });
+  $$('#cBody [data-v]').forEach(el=>el.onclick=e=>{ if(e.target.closest('button')) return; const v = DB.visits.find(x=>x.id===el.dataset.v); go('clinic',{clinic:cid, ctab:'cal', calYm:v.date.slice(0,7), day:v.date}); });
+  const accept = x => { const v = x.v, clin = x.clinic; if(isPrivate(v.mutua)){ v.paid = clin; v.ins=''; v.insAuto=false; } else { v.ins = r2(clin - num(v.paid)); v.insAuto = true; if(v.ins<0){ v.paid = clin; v.ins=''; v.insAuto=false; } } };
+  $$('#cBody [data-accept]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); accept(R.diff[+b.dataset.accept]); save(); rr(); });
+  if($('#mAcceptAll')) $('#mAcceptAll').onclick = () => { if(!confirm(`Use the clinic's amounts for ${R.diff.length} patients?`)) return; R.diff.forEach(accept); save(); rr(); };
+  const addLine = x => {
+    const l = x.l; let v = x.v;
+    if(!v){ v = {id:uid(), clinic:cid, date:l.date, time:'', nhc:'', patient:l.name, mutua:l.mutua, status:'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', obs:'', source:'liq'}; DB.visits.push(v); }
+    v.status='attended'; v.lines = (v.lines||[]).concat({desc:l.desc, amt:l.amt, pay:l.pay, mutua:l.mutua});
+    const t = matchTreatment(l.desc); if(t && !(v.treat||[]).includes(t)) v.treat = (v.treat||[]).concat(t);
+    if(isPrivate(v.mutua) || isPrivate(l.mutua)){ v.paid = r2(num(v.paid) + l.amt); v.payMethod = l.pay==='cash'?'cash':'card'; } else { v.ins = r2(num(v.ins) + l.amt); v.insAuto = true; }
+  };
+  $$('#cBody [data-addl]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); addLine(R.extra[+b.dataset.addl]); save(); rr(); });
+  if($('#mAddAll')) $('#mAddAll').onclick = () => { if(!confirm(`Add all ${R.extra.length} clinic lines to her log? (Good for past months.)`)) return; R.extra.forEach(addLine); save(); rr(); };
+}
+function renderStats(c){
+  const t = today(), ym = t.slice(0,7), cid = c.id;
+  const months = Array.from({length:12},(_,i)=>addMonths(ym,i-11));
+  const prod = months.map(m=>sum(monthVisits(m,cid).filter(attended), visitTotal));
+  const rec = months.map(m=>DB.liq[lkey(cid,m)]?.factura?.net ?? null);
+  const max = Math.max(1,...prod);
+  const yr = DB.visits.filter(v=>v.clinic===cid && attended(v) && v.date.startsWith(t.slice(0,4)));
+  const tr = {}; yr.forEach(v=>(v.treat||[]).forEach(x=>tr[x]=(tr[x]||0)+1));
+  const trE = Object.entries(tr).sort((a,b)=>b[1]-a[1]).slice(0,10); const trMax = Math.max(1,...trE.map(x=>x[1]));
+  const mu = {}; yr.forEach(v=>{ const k = isPrivate(v.mutua)?'Private':titleCase(v.mutua); mu[k]=mu[k]||[0,0]; mu[k][0]+=visitTotal(v); mu[k][1]++; });
+  const muE = Object.entries(mu).sort((a,b)=>b[1][0]-a[1][0]).slice(0,8); const muMax = Math.max(1,...muE.map(x=>x[1][0]));
+  const ys = months.filter(m=>m.startsWith(t.slice(0,4)));
+  $('#cBody').innerHTML = `
+    <div class="tiles">
+      <div class="glass tile"><div class="l">Produced ${t.slice(0,4)}</div><div class="v" style="font-size:21px">${eur0(sum(yr,visitTotal))}</div></div>
+      <div class="glass tile"><div class="l">Expected for her</div><div class="v" style="font-size:21px;color:var(--accent)">${eur0(sum(ys,m=>herCalc(m,cid).liquidation))}</div></div>
+      <div class="glass tile"><div class="l">Received (facturas)</div><div class="v" style="font-size:21px">${eur0(sum(ys,m=>DB.liq[lkey(cid,m)]?.factura?.net ?? 0))}</div></div>
+      <div class="glass tile"><div class="l">Per patient</div><div class="v" style="font-size:21px">${eur0(yr.length?sum(yr,visitTotal)/yr.length:0)}</div></div>
+    </div>
+    <div class="glass card"><h3>Produced per month</h3>
+      <div class="chart">${months.map((m,i)=>`<div class="c ${m===ym?'cur':''}" title="${monthLabel(m)}: ${eur(prod[i])}${rec[i]!=null?' · received '+eur(rec[i]):''}"><div class="tv">${prod[i]?(prod[i]>=1000?(Math.round(prod[i]/100)/10)+'k':Math.round(prod[i])):''}</div><div class="stack" style="height:calc(100% - 30px)"><div style="height:${(prod[i]/max*100).toFixed(1)}%;width:100%;background:linear-gradient(180deg,${c.color},color-mix(in srgb,${c.color} 55%,white))"></div></div><div class="x">${MON[+m.slice(5)-1].slice(0,1)}</div></div>`).join('')}</div>
+      ${rec.some(x=>x!=null)?`<div class="small muted" style="margin-top:10px">Received after IRPF: ${months.map((m,i)=>rec[i]!=null?MON[+m.slice(5)-1]+' '+eur0(rec[i]):'').filter(Boolean).join(' · ')}</div>`:''}</div>
+    ${trE.length?`<div class="glass card"><h3>Treatments ${t.slice(0,4)}</h3><div class="hbars">${trE.map(([k,n])=>`<div class="b"><span>${esc(k)}</span><div class="trk"><div class="fill" style="width:${n/trMax*100}%"></div></div><span class="val">${n}×</span></div>`).join('')}</div></div>`:''}
+    ${muE.length?`<div class="glass card"><h3>By insurance ${t.slice(0,4)}</h3><div class="hbars">${muE.map(([k,[s,n]])=>`<div class="b"><span>${esc(k)}</span><div class="trk"><div class="fill" style="width:${s/muMax*100}%"></div></div><span class="val">${eur0(s)}<br>${n} visits</span></div>`).join('')}</div></div>`:''}`;
+}
+
+/* ============ SETTINGS ============ */
+function renderSettings(){
+  const s = DB.settings, p = DB.profile, sc = LOCAL.sync || {};
+  const pf = Object.entries(DB.patients);
+  $('#app').innerHTML = topBar('Settings', '', {back:false}) + `
+    <div class="glass card"><h3>Welcome screen</h3>
+      <div class="row">${p.photo?`<img class="avatar" src="${p.photo}" style="width:72px;height:72px">`:`<div class="avatar" style="width:72px;height:72px;font-size:28px">${esc((p.name||'S')[0])}</div>`}
+        <div class="grow"><button class="btn sm" id="pPhoto">📷 ${p.photo?'Change photo':'Add her photo'}</button>${p.photo?' <button class="btn sm danger" id="pDel">Remove</button>':''}<div class="tiny muted" style="margin-top:6px">Stored in her encrypted data, not on the public website.</div></div></div>
+      <div class="grid2"><div><label class="f">Title</label><input id="pTitle" value="${esc(p.title)}"></div><div><label class="f">Name</label><input id="pName" value="${esc(p.name)}"></div></div>
+      <button class="btn sm" id="pPrev" style="margin-top:12px">▶ Preview welcome</button>
+    </div>
+
+    <div class="glass card"><h3>Sync <span class="link">${syncBadge()}</span></h3>
+      ${Sync.configured() ? `<div class="small">Connected to <b>${esc(sc.owner)}/${esc(sc.repo)}</b>. Every change is encrypted on this device and saved there automatically; other devices pick it up when opened.</div>
+        <div class="small muted" style="margin-top:6px">${esc(Sync.state.msg)}${LOCAL.lastSync?' · last sync '+new Date(LOCAL.lastSync).toLocaleString('es-ES'):''}</div>
+        <div class="row" style="margin-top:12px"><button class="btn sm pri" id="syNow">⟳ Sync now</button><button class="btn sm danger" id="syOff">Disconnect this device</button></div>`
+      : `<div class="small muted" style="margin-bottom:6px">Keeps iPhone and PC in step. Data is encrypted with her passphrase before it leaves the device — GitHub only stores scrambled text.</div>
+        <div class="grid2"><div><label class="f">GitHub user</label><input id="syOwner" value="${esc(sc.owner||'ATABESHA')}"></div><div><label class="f">Private repo</label><input id="syRepo" value="${esc(sc.repo||'dentalog-data')}"></div></div>
+        <label class="f">Access token <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--accent);font-weight:500">create one</a></label><input id="syToken" type="password" autocomplete="off" placeholder="github_pat_…" value="${esc(sc.token||'')}">
+        <div class="tiny muted" style="margin-top:4px">Fine-grained token → Only select repositories: dentalog-data → Repository permissions → Contents: Read and write.</div>
+        <label class="f">Encryption passphrase</label><input id="syPass" type="password" autocomplete="new-password" placeholder="same on every device — don't lose it">
+        <button class="btn pri block" id="syGo" style="margin-top:12px">Connect & sync</button>`}
+    </div>
+
+    <div class="glass card"><h3>Treatments</h3>
+      <div class="tchips" id="tList">${DB.treatments.map((t,i)=>`<button class="on" data-ti="${i}">${esc(t)} ✕</button>`).join('')}</div>
+      <div class="row"><input id="tNew" placeholder="Add, e.g. ENDODONCIA (or several separated by ;)" class="grow" style="flex:1"><button class="btn sm" id="tAdd">Add</button></div>
+    </div>
+
+    <div class="glass card"><h3>Clinics</h3>
+      ${DB.clinics.map(c=>{ const n = DB.visits.filter(v=>v.clinic===c.id).length; const sh=(c.shares||[]).slice().sort((a,b)=>(a.from||'').localeCompare(b.from||''));
+        return `<div class="clinicbox" data-c="${c.id}" style="border-left-color:${esc(c.color)}">
+        <div class="row"><input data-f="name" value="${esc(c.name)}" style="font-weight:700;flex:1;min-width:140px"><input data-f="color" type="color" value="${esc(c.color)}" style="width:48px;padding:2px;height:42px">${DB.clinics.length>1&&!n?`<button class="btn sm danger" data-cdel>✕</button>`:''}</div>
+        <div class="grid2">
+          <div><label class="f">Text in Gesden agenda</label><input data-f="agenda" value="${esc(c.agenda||'')}" placeholder="e.g. Torreblanca"></div>
+          <div><label class="f">Text in factura</label><input data-f="invoice" value="${esc(c.invoice||'')}" placeholder="e.g. Sant Joan"></div>
+          <div><label class="f">Card fee %</label><input data-f="cardFee" inputmode="decimal" value="${String(c.cardFee??0.6).replace('.',',')}"></div>
+          <div><label class="f">Stored</label><div class="small muted" style="padding-top:8px">${n} visits · ${Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).length} facturas</div></div>
+        </div>
+        <label class="f">Her share %</label>
+        ${sh.map((x,i)=>`<div class="row" style="margin-bottom:6px" data-sh="${i}"><input data-sf="pct" inputmode="decimal" value="${x.pct}" style="width:76px"><span class="small muted">% ${x.from?'from':'from the start'}</span>${x.from?`<input type="date" data-sf="from" value="${x.from}" style="width:auto">`:''}${sh.length>1?'<button class="btn sm" data-shdel>✕</button>':''}</div>`).join('')}
+        <button class="btn sm" data-shadd>＋ Share changes on a date</button></div>`; }).join('')}
+      <button class="btn" id="cAdd">＋ Add clinic</button>
+    </div>
+
+    <div class="glass card"><h3>Her details</h3><div class="grid2">
+      <div><label class="f" style="margin-top:0">Doctor name in Gesden</label><input id="sDoc" value="${esc(s.doctor)}"></div>
+      <div><label class="f" style="margin-top:0">IRPF %</label><input id="sIrpf" inputmode="decimal" value="${s.irpf}"></div></div>
+      <div class="tiny muted" style="margin-top:8px">Agenda pages of other doctors in the same PDF are skipped.</div></div>
+
+    ${pf.length?`<div class="glass card"><h3>Remembered name fixes</h3>${pf.map(([n,x])=>`<div class="line"><span><span class="tiny muted">NHC ${esc(n)} · ${esc(x.gesden||'')}</span><br>→ ${esc(x.name)}</span><button class="btn sm" data-pf="${esc(n)}">✕</button></div>`).join('')}</div>`:''}
+
+    <div class="glass card"><h3>Data</h3>
+      <div class="small muted" style="margin-bottom:10px">${DB.visits.length} visits · ${Object.keys(DB.liq).length} facturas on this device.</div>
+      <div class="row"><button class="btn sm" id="xImp">⤓ Import her Excel</button><button class="btn sm" id="xExp">⤒ Export Excel</button><button class="btn sm" id="bExp">Backup file</button><button class="btn sm" id="bImp">Restore</button></div>
+      <button class="btn sm danger" id="bClr" style="margin-top:10px">Delete all data on this device</button>
+    </div>
+    <div class="tiny muted" style="text-align:center">DentaLog 4 · ${location.protocol==='https:'?'installed web app':'local file'}</div>`;
+  // profile
+  $('#pPhoto').onclick = () => $('#photoFile').click();
+  if($('#pDel')) $('#pDel').onclick = () => { DB.profile.photo=''; save(); render(); };
+  $('#pTitle').onchange = e => { DB.profile.title = e.target.value.trim(); save(); };
+  $('#pName').onchange = e => { DB.profile.name = e.target.value.trim(); save(); };
+  $('#pPrev').onclick = showSplash;
+  // sync
+  if($('#syGo')) $('#syGo').onclick = async () => {
+    const cfg = {owner:$('#syOwner').value.trim(), repo:$('#syRepo').value.trim(), token:$('#syToken').value.trim(), pass:$('#syPass').value};
+    if(!cfg.owner || !cfg.repo || !cfg.token || cfg.pass.length<6){ alert('Fill in all fields — the passphrase needs at least 6 characters.'); return; }
+    $('#syGo').disabled = true; $('#syGo').textContent = 'Connecting…';
+    try{ await Sync.connect(cfg); toast('Connected — data synced'); }catch(err){ alert(err.message); }
+    render();
+  };
+  if($('#syNow')) $('#syNow').onclick = async () => { await Sync.run(true); render(); };
+  if($('#syOff')) $('#syOff').onclick = () => { if(confirm('Stop syncing on this device? Data stays here and in GitHub.')){ delete LOCAL.sync; saveLocal(); Sync.setState('','',''); render(); } };
+  // treatments
+  $('#tList').onclick = e => { const b=e.target.closest('[data-ti]'); if(!b) return; const t = DB.treatments[+b.dataset.ti]; if(confirm(`Remove "${t}" from the list? (Past visits keep it.)`)){ DB.treatments.splice(+b.dataset.ti,1); save(); render(); } };
+  $('#tAdd').onclick = () => { const vals = $('#tNew').value.split(/[;,]/).map(x=>x.trim().toUpperCase()).filter(Boolean); vals.forEach(v=>{ if(!DB.treatments.includes(v)) DB.treatments.push(v); }); save(); render(); };
+  // clinics
+  $$('.clinicbox').forEach(box=>{
+    const c = clinicById(box.dataset.c);
+    box.querySelectorAll('[data-f]').forEach(inp=>inp.onchange=()=>{ const f=inp.dataset.f; c[f] = f==='cardFee' ? num(parseMoney(inp.value)) : inp.value.trim(); save(); if(f==='color') render(); });
+    const sorted = () => (c.shares||[]).slice().sort((a,b)=>(a.from||'').localeCompare(b.from||''));
+    box.querySelectorAll('[data-sh]').forEach(row=>{ const x = sorted()[+row.dataset.sh];
+      row.querySelectorAll('[data-sf]').forEach(inp=>inp.onchange=()=>{ x[inp.dataset.sf] = inp.dataset.sf==='pct' ? num(parseMoney(inp.value)) : inp.value; save(); render(); });
+      const d = row.querySelector('[data-shdel]'); if(d) d.onclick=()=>{ c.shares = c.shares.filter(y=>y!==x); if(!c.shares.some(y=>!y.from)) c.shares.sort((a,b)=>(a.from||'').localeCompare(b.from||''))[0].from=''; save(); render(); }; });
+    box.querySelector('[data-shadd]').onclick = () => { const last = sorted().pop(); c.shares.push({from: today(), pct: last?last.pct:40}); save(); render(); };
+    const del = box.querySelector('[data-cdel]'); if(del) del.onclick = () => { if(confirm(`Delete clinic "${c.name}"?`)){ DB.clinics = DB.clinics.filter(x=>x!==c); save(); render(); } };
+  });
+  $('#cAdd').onclick = () => { const name = prompt('Clinic name (e.g. Cornellà, Sant Boi)'); if(!name) return; DB.clinics.push({id:'c'+uid(), name:name.trim(), color:COLORS[DB.clinics.length % COLORS.length], agenda:name.trim(), invoice:'', shares:[{from:'', pct:40}], cardFee:0.6}); save(); render(); };
+  $('#sDoc').onchange = e => { DB.settings.doctor = e.target.value.trim(); save(); };
+  $('#sIrpf').onchange = e => { DB.settings.irpf = num(parseMoney(e.target.value)); save(); };
+  $$('[data-pf]').forEach(b=>b.onclick=()=>{ delete DB.patients[b.dataset.pf]; save(); render(); });
+  $('#xImp').onclick = () => $('#xlsFile').click();
+  $('#xExp').onclick = exportExcel; $('#bExp').onclick = backup; $('#bImp').onclick = () => $('#jsonFile').click();
+  $('#bClr').onclick = () => { if(confirm('Delete ALL data on this device? (Synced data in GitHub is NOT touched unless this device syncs afterwards.)') && confirm('Really delete everything?')){ const sync = LOCAL.sync; DB = DEFAULT(); snapshotAll(); delete LOCAL.sync; saveLocal(); save({noSync:true}); render(); } };
+}
+$('#photoFile').onchange = async e => {
+  const f = e.target.files[0]; e.target.value=''; if(!f) return;
+  const img = new Image(); img.src = URL.createObjectURL(f); await img.decode();
+  const S = 640, side = Math.min(img.width, img.height), cv = document.createElement('canvas'); cv.width = cv.height = S;
+  cv.getContext('2d').drawImage(img, (img.width-side)/2, Math.max(0,(img.height-side)/2.6), side, side, 0, 0, S, S);
+  DB.profile.photo = cv.toDataURL('image/jpeg', 0.84); save(); render(); toast('Photo saved');
+};
+
+/* ============ SYNC (encrypted, GitHub) ============ */
+const Sync = (() => {
+  const FILE = 'dentalog.enc.json';
+  const state = {cls:'', msg:'', short:''};
+  let timer = null, running = false, again = false, keyCache = {};
+  const configured = () => !!(LOCAL.sync && LOCAL.sync.token && LOCAL.sync.pass);
+  function setState(cls, short, msg){ Object.assign(state, {cls, short, msg}); const b = document.querySelector('.sync'); if(b){ b.className = 'sync '+cls; b.innerHTML = '<i></i>'+esc(short); b.title = msg; } }
+  const b64 = u8 => { let s=''; for(let i=0;i<u8.length;i+=0x8000) s += String.fromCharCode.apply(null, u8.subarray(i,i+0x8000)); return btoa(s); };
+  const unb64 = s => Uint8Array.from(atob(s.replace(/\s/g,'')), c=>c.charCodeAt(0));
+  async function key(pass, salt){
+    const id = salt + '|' + pass; if(keyCache[id]) return keyCache[id];
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return keyCache[id] = await crypto.subtle.deriveKey({name:'PBKDF2', salt:unb64(salt), iterations:210000, hash:'SHA-256'}, base, {name:'AES-GCM', length:256}, false, ['encrypt','decrypt']);
+  }
+  async function pipe(u8, stream){ return new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(stream)).arrayBuffer()); }
+  async function encrypt(obj, pass){
+    let data = new TextEncoder().encode(JSON.stringify(obj)); let gz = false;
+    if(typeof CompressionStream!=='undefined'){ data = await pipe(data, new CompressionStream('gzip')); gz = true; }
+    const salt = b64(crypto.getRandomValues(new Uint8Array(16))), iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM', iv}, await key(pass, salt), data));
+    return JSON.stringify({app:'DentaLog', v:1, kdf:'PBKDF2-SHA256-210000', alg:'AES-256-GCM', gz, salt, iv:b64(iv), ct:b64(ct), at:new Date().toISOString()});
+  }
+  async function decrypt(text, pass){
+    const f = JSON.parse(text);
+    let data;
+    try{ data = new Uint8Array(await crypto.subtle.decrypt({name:'AES-GCM', iv:unb64(f.iv)}, await key(pass, f.salt), unb64(f.ct))); }
+    catch(e){ throw new Error('Wrong passphrase — it must be the same on every device.'); }
+    if(f.gz){ if(typeof DecompressionStream==='undefined') throw new Error('This browser is too old to read the synced data.'); data = await pipe(data, new DecompressionStream('gzip')); }
+    return JSON.parse(new TextDecoder().decode(data));
+  }
+  async function api(path, opts={}){
+    const c = LOCAL.sync;
+    const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}${path}`, {cache:'no-store', ...opts,
+      headers:{Authorization:'Bearer '+c.token, 'X-GitHub-Api-Version':'2022-11-28', Accept:'application/vnd.github+json', ...(opts.headers||{})}});
+    return r;
+  }
+  async function getRemote(){
+    const r = await api(`/contents/${FILE}?t=${Date.now()}`);
+    if(r.status===404){ const rr = await api(''); if(rr.status===404) throw new Error('Repository not found — check the name, and that the token has access to it.'); if(rr.status===401) throw new Error('The token was rejected (expired or wrong).'); return null; }
+    if(r.status===401) throw new Error('The token was rejected (expired or wrong).');
+    if(r.status===403) throw new Error('The token has no access — give it "Contents: Read and write" on this repo.');
+    if(!r.ok) throw new Error('GitHub error '+r.status);
+    const j = await r.json();
+    let text;
+    if(j.content && j.encoding==='base64') text = new TextDecoder().decode(unb64(j.content));
+    else { const raw = await api(`/contents/${FILE}?t=${Date.now()}`, {headers:{Accept:'application/vnd.github.raw'}}); text = await raw.text(); }
+    return {sha:j.sha, text};
+  }
+  async function putRemote(text, sha){
+    const body = {message:`DentaLog sync ${new Date().toISOString().slice(0,16).replace('T',' ')}`, content: b64(new TextEncoder().encode(text))};
+    if(sha) body.sha = sha;
+    const r = await api(`/contents/${FILE}`, {method:'PUT', body:JSON.stringify(body), headers:{'Content-Type':'application/json'}});
+    if(r.status===409 || r.status===422) return 'conflict';
+    if(r.status===403 || r.status===404) throw new Error('No write access — the token needs "Contents: Read and write".');
+    if(!r.ok) throw new Error('GitHub error '+r.status);
+    return 'ok';
+  }
+  // merge two databases record by record (newest wins, deletions are remembered)
+  function merge(a, b){
+    const out = structuredClone(a);
+    const tomb = {...(a.tomb||{})}; Object.entries(b.tomb||{}).forEach(([k,t])=>{ if(!tomb[k] || t>tomb[k]) tomb[k]=t; });
+    out.tomb = tomb;
+    const byId = new Map(out.visits.map(v=>[v.id,v]));
+    (b.visits||[]).forEach(v=>{ const x = byId.get(v.id); if(!x || (v.upd||0) > (x.upd||0)) byId.set(v.id, v); });
+    out.visits = [...byId.values()].filter(v=>!(tomb[v.id] && tomb[v.id] >= (v.upd||0)));
+    const cl = new Map(out.clinics.map(c=>[c.id,c])); (b.clinics||[]).forEach(c=>{ const x = cl.get(c.id); if(!x || (c.upd||0) > (x.upd||0)) cl.set(c.id, c); });
+    out.clinics = [...cl.values()].filter(c=>!(tomb['cl:'+c.id] && tomb['cl:'+c.id] >= (c.upd||0)));
+    if(!out.clinics.length) out.clinics = a.clinics;
+    for(const [field, pre] of [['liq','liq:'],['manual','man:']]){
+      const m = {...(out[field]||{})}; Object.entries(b[field]||{}).forEach(([k,x])=>{ if(!m[k] || (x.upd||0) > (m[k].upd||0)) m[k]=x; });
+      Object.keys(m).forEach(k=>{ if(tomb[pre+k] && tomb[pre+k] >= (m[k].upd||0)) delete m[k]; }); out[field] = m;
+    }
+    out.stamp = {...(a.stamp||{})};
+    ['profile','treatments','settings','patients'].forEach(k=>{ if((b.stamp?.[k]||0) > (a.stamp?.[k]||0)){ out[k] = b[k]; out.stamp[k] = b.stamp[k]; } });
+    return normalizeDB(out);
+  }
+  async function run(manual=false){
+    if(!configured()) return;
+    if(running){ again = true; return; }
+    if(!navigator.onLine){ setState('err','offline','Offline — will sync when back online'); return; }
+    running = true; setState('busy','syncing','Syncing…');
+    try{
+      for(let attempt=0; attempt<3; attempt++){
+        save({noSync:true});
+        const remote = await getRemote();
+        let merged = DB, remoteDB = null;
+        if(remote){ remoteDB = normalizeDB(await decrypt(remote.text, LOCAL.sync.pass)); merged = merge(DB, remoteDB); }
+        const mergedJson = JSON.stringify(merged);
+        if(mergedJson !== JSON.stringify(DB)){ DB = merged; snapshotAll(); try{ localStorage.setItem(KEY, mergedJson); }catch(e){} if(UI.screen!=='settings' && !document.querySelector('.overlay')) render(); }
+        if(!remoteDB || JSON.stringify(normalizeDB(remoteDB)) !== mergedJson){
+          const res = await putRemote(await encrypt(DB, LOCAL.sync.pass), remote && remote.sha);
+          if(res==='conflict') continue;
+        }
+        LOCAL.lastSync = Date.now(); saveLocal();
+        setState('ok','synced','Up to date'); break;
+      }
+    }catch(err){ setState('err','sync error', err.message); if(manual) alert('Sync: '+err.message); }
+    running = false;
+    if(again){ again = false; schedule(); }
+  }
+  function schedule(){ if(!configured()) return; clearTimeout(timer); setState('busy','saving','Changes waiting to sync'); timer = setTimeout(run, 2500); }
+  async function connect(cfg){
+    LOCAL.sync = cfg; saveLocal();
+    try{ await run(true); if(state.cls==='err') throw new Error(state.msg); }
+    catch(err){ delete LOCAL.sync; saveLocal(); setState('','',''); throw err; }
+  }
+  window.addEventListener('online', ()=>run());
+  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible' && configured() && Date.now()-(LOCAL.lastSync||0) > 20000) run(); });
+  return {configured, run, schedule, connect, state, setState, merge, encrypt, decrypt};
+})();
+
+/* ============ BACKUP / EXCEL ============ */
+async function shareOrDownload(blob, name){
+  const file = new File([blob], name, {type: blob.type});
+  if(navigator.canShare && /iPhone|iPad|Android/i.test(navigator.userAgent) && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file], title:name}); return; }catch(e){ if(e.name==='AbortError') return; }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},1000);
+}
+function backup(){ shareOrDownload(new Blob([JSON.stringify(DB)],{type:'application/json'}), `DentaLog-backup-${today()}.json`); }
+$('#jsonFile').onchange = async e => {
+  const f = e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const d = JSON.parse(await f.text()); if(!Array.isArray(d.visits)) throw new Error('Not a DentaLog backup');
+    const nd = normalizeDB(d);
+    if(DB.visits.length && !confirm(`Merge the backup (${nd.visits.length} visits) into this device? Newer changes win.`)) return;
+    DB = Sync.merge(DB, nd); save(); render(); toast('Backup restored');
+  }catch(err){ alert('Could not restore: '+err.message); }
+};
+async function exportExcel(){
+  try{
+    await loadScript(XLSXJS);
+    const rows = DB.visits.slice().sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).map(v=>({
+      Date: fromIso(v.date), Clinic: clinicById(v.clinic).name, Time: v.time||'', NHC: v.nhc||'', Patient: v.patient, Mutua: v.mutua||'', Status: STATUS[v.status],
+      Treatments: (v.treat||[]).join('; '), 'Paid at clinic': blank(v.paid)?'':num(v.paid), 'Paid by': blank(v.paid)?'':(v.payMethod==='cash'?'Cash':'Card'), Insurance: blank(v.ins)?'':num(v.ins), Total: visitTotal(v),
+      'Clinic factura': (v.lines||[]).length ? r2(billedTotal(v)) : '', 'Factura lines': (v.lines||[]).map(l=>l.desc+' '+decStr(l.amt)).join(' | '), Comment: v.notes||'', 'Reception note': v.obs||''}));
+    const ws = XLSX.utils.json_to_sheet(rows, {cellDates:true, dateNF:'dd/mm/yyyy'});
+    const sumRows = [];
+    DB.clinics.forEach(c=>{ const months = [...new Set([...Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).map(k=>k.split('|')[1]), ...DB.visits.filter(v=>v.clinic===c.id).map(v=>v.date.slice(0,7))])].sort();
+      months.forEach(m=>{ const H=herCalc(m,c.id), L=DB.liq[lkey(c.id,m)]; sumRows.push({Clinic:c.name, Month:m, Patients: monthVisits(m,c.id).filter(attended).length, 'Her produced':r2(H.prod), 'Her liquidation':r2(H.liquidation), 'Clinic produced': L? r2(L.totalProduced ?? sum(L.lines,l=>l.amt)) : null, 'Clinic liquidation': L?.liquidation ?? null, Difference: L?.liquidation!=null ? r2(L.liquidation-H.liquidation) : null, 'To receive': L?.factura?.net ?? null}); }); });
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Visits'); XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(sumRows), 'Months');
+    shareOrDownload(new Blob([XLSX.write(wb, {bookType:'xlsx', type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), `DentaLog-${today()}.xlsx`);
+  }catch(err){ alert(err.message); }
+}
+/* Her Excel ("Sofias Diario de Trabajo"): one sheet per clinic, one row per appointment:
+   DIA | Hora | NHC | PACIENTE | MUTUA | OBSERVACIONES | PAGADO | MUTUA (€) | TOTAL | Neto */
+$('#xlsFile').onchange = async e => {
+  const f = e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    await loadScript(XLSXJS);
+    const wb = XLSX.read(await f.arrayBuffer(), {cellDates:true});
+    const sheets = [];
+    for(const sn of wb.SheetNames){
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], {header:1, raw:true, defval:''});
+      for(let h=0; h<Math.min(15, rows.length); h++){ const map = mapHeaders(rows[h]); if(map.date!=null && map.patient!=null && (map.price!=null || map.paid!=null || map.treatment!=null)){ sheets.push({sn, rows, h, map}); break; } }
+    }
+    if(!sheets.length) throw new Error('No sheet with Date and Patient columns (e.g. "DIA", "PACIENTE").');
+    openExcelPreview(sheets, f.name);
+  }catch(err){ alert('Excel import failed: '+err.message); console.error(err); }
+};
+function excelVisits(sheet, clinic){
+  const {rows,h,map} = sheet; const byKey = new Map();
+  for(let i=h+1;i<rows.length;i++){
+    const r = rows[i]; const d = toIsoDate(r[map.date]); const raw = String(r[map.patient]||'').trim();
+    if(!d || !raw) continue;
+    const {name, flags} = cleanName(raw);
+    const k = d+'|'+norm(name); let v = byKey.get(k);
+    const obs = map.obs!=null ? String(r[map.obs]||'').replace(/\s*No\s*Confirmada\s*$/i,'').trim() : '';
+    if(!v){
+      const noShow = /no vin|no ha venido|no viene|anulad|cancelad|falta\b/i.test(obs);
+      v = {id:uid(), clinic, date:d, time:fmtTime(map.time!=null?r[map.time]:''), nhc:map.nhc!=null?String(r[map.nhc]||'').replace(/\D/g,''):'', patient:name, origPatient:name, flags,
+        mutua:map.mutua!=null?String(r[map.mutua]||'').trim():'', obs, status:noShow?'noshow':'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', source:'excel'};
+      byKey.set(k,v);
+    }
+    const paid = map.paid!=null ? parseMoney(r[map.paid]) : 0, mut = map.mutuaAmt!=null ? parseMoney(r[map.mutuaAmt]) : 0, total = map.price!=null ? parseMoney(r[map.price]) : 0;
+    const t = map.treatment!=null ? matchTreatment(r[map.treatment]) : ''; if(t && !v.treat.includes(t)) v.treat.push(t);
+    if(paid) v.paid = r2(num(v.paid)+paid);
+    if(mut) v.ins = r2(num(v.ins)+mut);
+    if(!paid && !mut && total && map.paid==null) v.paid = r2(num(v.paid)+total);
+  }
+  return [...byKey.values()];
+}
+function openExcelPreview(sheets, fname){
+  const st = sheets.map(s=>{ const c = detectClinic(s.sn, 'name') || detectClinic(s.sn, 'agenda'); return {...s, use:true, clinic:(c || DB.clinics[0]).id, detected:!!c}; });
+  const ov = sheet(''); const box = ov.querySelector('.sheet');
+  const dupOf = (v, clinic) => DB.visits.some(x=>x.clinic===clinic && x.date===v.date && nameScore(x.patient,v.patient)>=0.8);
+  const draw = () => {
+    box.innerHTML = `<div class="grab"></div><h2>Import ${esc(fname)}</h2>
+      <div class="small muted">Each sheet becomes one clinic's visits. PAGADO → paid at clinic, the MUTUA amount → insurance.</div>
+      ${st.map((s,i)=>{ const vs = excelVisits(s, s.clinic); const months=[...new Set(vs.map(v=>v.date.slice(0,7)))].sort(); const dup = vs.filter(v=>dupOf(v,s.clinic)).length;
+        return `<div class="glass card" style="margin-top:10px"><label class="chk" style="margin:0"><input type="checkbox" data-use="${i}" ${s.use?'checked':''}> <b>Sheet "${esc(s.sn)}"</b></label>
+        <div class="small muted" style="margin:6px 0">${vs.length} visits · ${months.length?monthLabel(months[0])+' – '+monthLabel(months[months.length-1]):''} · ${eur(sum(vs,visitTotal))}${dup?` · <b style="color:var(--warn)">${dup} already here (skipped)</b>`:''}</div>
+        <div class="row"><span class="small muted">Clinic</span>${clinicSelectHtml('xc'+i, s.clinic, {style:'width:auto'})}</div></div>`; }).join('')}
+      <div class="row" style="margin-top:14px"><div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="xGo">Import</button></div>`;
+    st.forEach((s,i)=>{ box.querySelector('#xc'+i).onchange = e => { s.clinic = e.target.value; draw(); }; box.querySelector(`[data-use="${i}"]`).onchange = e => { s.use = e.target.checked; }; });
+    box.querySelector('#xGo').onclick = () => { let n=0; st.filter(s=>s.use).forEach(s=>excelVisits(s, s.clinic).forEach(v=>{ if(dupOf(v, s.clinic)) return; DB.visits.push(v); n++; }));
+      Object.keys(DB.liq).forEach(k=>{ const [cid, ym] = k.split('|'); applyLiq(cid, ym); });
+      save(); ov.remove(); render(); toast(`Imported ${n} visits`); };
+  };
+  draw();
+}
+function mapHeaders(hdr){
+  const K = { date:/^(fecha|date|dia|día|day)\b/, time:/^(hora|time)$/, nhc:/^(nhc|historia)/, patient:/(paciente|patient|nombre|name)/, treatment:/(tratamiento|treatment|trat|procedimiento|descrip|servicio)/,
+    obs:/^(observ|obs\b)/, paid:/(pagad|paid|cobrad|abonad)/, mutua:/(mutua|seguro|aseguradora|insur)/, price:/^(total|precio|price|importe|honorario|producido|coste|cost)/ };
+  const m={};
+  (hdr||[]).forEach((c,i)=>{ const n=norm(c); if(!n) return;
+    if(/^mutua$/.test(n) && m.mutua!=null && m.mutuaAmt==null){ m.mutuaAmt=i; return; }
+    for(const [k,rx] of Object.entries(K)){ if(m[k]==null && rx.test(n)){ m[k]=i; break; } } });
+  return m;
+}
+function fmtTime(v){
+  if(v instanceof Date && !isNaN(v)) return pad(v.getHours())+':'+pad(v.getMinutes());
+  if(typeof v==='number' && v>0 && v<1){ const mins = Math.round(v*1440); return pad(Math.floor(mins/60))+':'+pad(mins%60); }
+  const m = String(v||'').match(/(\d{1,2})[:.](\d{2})/); return m ? pad(m[1])+':'+m[2] : '';
+}
+function toIsoDate(v){
+  if(v instanceof Date && !isNaN(v)) return iso(new Date(v.getTime()+12*3600e3));
+  if(typeof v==='number' && v>20000 && v<80000){ const d=new Date(Math.round((v-25569)*86400e3)); return iso(new Date(d.getTime()+d.getTimezoneOffset()*60e3)); }
+  const s=String(v||''); let m=s.match(/(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/); if(m){ let y=+m[3]; if(y<100) y+=2000; return `${y}-${pad(m[2])}-${pad(m[1])}`; }
+  m=s.match(/(\d{4})-(\d{2})-(\d{2})/); if(m) return `${m[1]}-${m[2]}-${m[3]}`;
+  return null;
+}
+
+/* ============ START ============ */
+$$('#tabbar button').forEach(b=>b.innerHTML = ICON[{home:'home',patients:'users',settings:'gear'}[b.dataset.t]]);
+render();
+showSplash();
+if(Sync.configured()) setTimeout(()=>Sync.run(), 400);
+if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+</script>
+</body>
+</html>
