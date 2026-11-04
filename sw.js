@@ -1,6 +1,6 @@
 // DentaLog service worker: app shell works offline, always tries the network first
 // for the app itself (so updates arrive), and caches the PDF/Excel libraries.
-const CACHE = 'dentalog-v5';
+const CACHE = 'dentalog-v5-1';
 self.addEventListener('install', e => { self.skipWaiting(); e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html', './manifest.webmanifest', './icon-180.png']))); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', e => {

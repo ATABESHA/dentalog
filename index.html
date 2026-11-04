@@ -274,6 +274,28 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 .irow{padding:10px 12px;border-bottom:1px solid var(--hair)} .irow:last-child{border-bottom:0} .irow.off{opacity:.45}
 
+/* ---- v5.1 ---- */
+html.modal body{position:fixed;left:0;right:0;overflow:hidden}
+.overlay{overscroll-behavior:contain}
+.sheet{overscroll-behavior:contain;will-change:transform}
+.grab{padding:8px 0;margin-top:-6px!important;cursor:grab}
+select.spill{-webkit-appearance:none;appearance:none;text-align:center;text-align-last:center;padding:6px 12px;font-size:12.5px;width:auto;border:0;font-weight:700}
+.prow.nopay{background:rgba(229,72,77,.09)} .prow.mismatch{background:rgba(217,119,6,.13)} .prow.okpay{background:rgba(18,161,80,.09)}
+.grid3{display:grid;grid-template-columns:1.1fr 1.35fr 1fr;gap:0 8px}
+.grid3 .stsel{padding:7px 6px;text-align:center;text-align-last:center}
+.compact{padding:7px 8px;height:40px;font-size:15px}
+.stsel{-webkit-appearance:none;appearance:none;height:40px;padding:7px 10px;font-weight:700;font-size:15px;border:0}
+.stsel.p{background:var(--pend-bg);color:var(--pend)} .stsel.ok{background:var(--ok-bg);color:var(--ok)} .stsel.bad{background:var(--bad-bg);color:var(--bad)} .stsel.w{background:var(--warn-bg);color:var(--warn)}
+.obswrap{position:relative} .obswrap textarea{padding-right:40px}
+.clr{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(127,140,180,.2);color:var(--muted);font-size:13px;cursor:pointer}
+.addtr{margin-top:8px;height:40px;padding:7px 10px;font-size:15px;color:var(--accent);font-weight:600}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mgrid button{position:relative;border:1px solid var(--hair);background:var(--glass-2);border-radius:14px;padding:16px 0;font-weight:700;font-size:15px;cursor:pointer}
+.mgrid button.on{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border-color:transparent}
+.mgrid button.now{box-shadow:inset 0 0 0 2px var(--accent)}
+.mgrid button i{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.mgrid button.on i{background:#fff}
+
 </style>
 </head>
 <body>
@@ -842,7 +864,7 @@ function renderHome(){
   bindClinicPill();
   const step = n => { UI.pYm = isM ? addMonths(ym, n) : `${+y+n}-${ym.slice(5)}`; render(); };
   $('#pPrev').onclick = () => step(-1); $('#pNext').onclick = () => step(1);
-  $('#pLabel').onclick = () => { UI.pYm = today().slice(0,7); render(); };
+  $('#pLabel').onclick = () => monthPicker(ym, k=>{ UI.pYm = k; render(); }, k=>DB.visits.some(v=>inSel(v) && attended(v) && v.date.startsWith(k)));
   $('#pSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.pMode=b.dataset.m; render(); } };
   $$('.chart [data-ym]').forEach(el=>el.onclick=()=>go('cal', {ctab:'cal', calYm:el.dataset.ym, day:null}));
   $$('[data-cal]').forEach(el=>el.onclick=()=>go('cal', {ctab:'cal', calYm:el.dataset.cal||ym, day:null}));
@@ -877,7 +899,7 @@ function calendarHtml(ym, marks, sel, color, id){
     const ds = `${ym}-${pad(d)}`, mk = marks[ds];
     cells += `<div class="d ${mk?'work':''} ${ds===t?'today':''} ${ds===sel?'sel':''}" data-day="${ds}" style="--dc:${mk&&mk.color||color}">${d}${mk&&mk.n?`<span class="n">${mk.n}</span>`:''}${mk&&mk.pending?'<span class="pd"></span>':''}</div>`;
   }
-  return `<div class="cal" id="${id}"><div class="hd"><div class="circle sm" data-cm="-1">${ICON.back}</div><b data-cm="0">${monthLabel(ym)}</b><div class="circle sm flip" data-cm="1">${ICON.back}</div></div>
+  return `<div class="cal" id="${id}"><div class="hd"><div class="circle sm" data-cm="-1">${ICON.back}</div><b data-cm="0">${monthLabel(ym)} <span class="muted" style="font-size:12px">▾</span></b><div class="circle sm flip" data-cm="1">${ICON.back}</div></div>
     <div class="grid">${['M','T','W','T','F','S','S'].map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div></div>`;
 }
 function renderCal(){
@@ -896,11 +918,14 @@ function renderCal(){
     <div class="dayhead"><div class="grow"><div class="sect" style="margin:6px 4px 2px">${fmtLong(UI.day)}</div>
       ${list.length?`<div class="daysum"><span class="chip">${list.length} in agenda</span><span class="chip ok">${att.length} came</span>${miss.length?`<span class="chip bad">${miss.length} no-show</span>`:''}${pend.length?`<span class="chip p">${pend.length} to confirm</span>`:''}</div>`:''}</div></div>
     ${list.length ? `<div class="row" style="margin-bottom:12px">${pend.length?`<button class="btn sm" id="dAll">✓ All pending came</button>`:''}<button class="btn sm" id="dAdd">＋ Patient</button><button class="btn sm" id="dImp">${ICON.pdf} Import PDF</button></div>
-      <div class="glass list" id="dList">${list.map(v=>patientRow(v, showClinic)).join('')}</div>`
+      <div class="glass list" id="dList">${list.map(v=>patientRow(v, showClinic)).join('')}</div>
+      <div class="legend" style="margin:8px 4px 0"><span><i class="dot" style="background:#e5484d"></i>not paid</span><span><i class="dot" style="background:#d97706"></i>doesn't match invoice</span><span><i class="dot" style="background:#12a150"></i>correct</span></div>`
     : `<div class="glass card empty"><b>No patients on this day</b>Import the Gesden agenda for this day (or a whole month), or add a patient.<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" id="dImp">${ICON.pdf} Import PDF</button><button class="btn" id="dAdd">＋ Patient</button></div></div>`}`;
   $('#cal').onclick = e => {
     const d = e.target.closest('[data-day]'); if(d){ UI.day = d.dataset.day; renderCal(); return; }
-    const m = e.target.closest('[data-cm]'); if(m){ UI.calYm = +m.dataset.cm ? addMonths(UI.calYm, +m.dataset.cm) : today().slice(0,7); UI.day = null; renderCal(); }
+    const m = e.target.closest('[data-cm]'); if(!m) return;
+    if(+m.dataset.cm){ UI.calYm = addMonths(UI.calYm, +m.dataset.cm); UI.day = null; renderCal(); }
+    else monthPicker(UI.calYm, ym=>{ UI.calYm = ym; UI.day = null; renderCal(); }, ym=>DB.visits.some(v=>inSel(v) && v.date.startsWith(ym)));
   };
   $('#dImp').onclick = () => startImport(oneSel() ? oneSel().id : null);
   $('#dAdd').onclick = () => openPatient(null, {date:UI.day});
@@ -911,9 +936,16 @@ function renderCal(){
 /* ============ PATIENT ROWS ============ */
 const STATUS_CLS = {pending:'p', attended:'ok', noshow:'bad', cancelled:'w'};
 const hasHistory = v => !!v.nhc && DB.visits.some(x=>x.id!==v.id && x.nhc===v.nhc && nameScore(x.patient, v.patient)>=0.8);
+// red: nothing paid · yellow: cash + insurance ≠ invoice · green: correct
+function payState(v){
+  if(!attended(v)) return '';
+  if(!hasMoney(v)) return 'nopay';
+  if(v.check || ((v.lines||[]).length && Math.abs(r2(visitTotal(v)) - r2(billedTotal(v))) > 0.01)) return 'mismatch';
+  return 'okpay';
+}
 function patientRow(v, showClinic){
   const warn = v.check || (v.flags||[]).length;
-  return `<div class="prow ${v.status}" data-id="${v.id}">
+  return `<div class="prow ${v.status} ${payState(v)}" data-id="${v.id}">
     <div class="tm">${esc(v.time||'—')}</div>
     <div class="grow" data-edit>
       <div class="nm">${showClinic?`<i class="dot" style="background:${esc(clinicById(v.clinic).color)}"></i> `:''}${esc(displayName(v.patient))}${warn?' <span class="warn" title="'+esc(v.check||v.flags.join(', '))+'">⚠</span>':''}</div>
@@ -921,7 +953,7 @@ function patientRow(v, showClinic){
       ${v.notes?`<div class="cm">💬 ${esc(v.notes)}</div>`:''}
     </div>
     <div class="rt">
-      <button class="spill ${STATUS_CLS[v.status]}" data-status>${STATUS[v.status]}</button>
+      <select class="spill ${STATUS_CLS[v.status]}" data-status aria-label="Status">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${v.status===k?'selected':''}>${l}</option>`).join('')}</select>
       ${hasHistory(v)?`<button class="hbtn" data-hist title="History">🗂 History</button>`:''}
     </div>
   </div>`;
@@ -930,10 +962,11 @@ function bindRows(root, rerender){
   root.onclick = e => {
     const row = e.target.closest('[data-id]'); if(!row) return;
     const v = DB.visits.find(x=>x.id===row.dataset.id); if(!v) return;
-    if(e.target.closest('[data-status]')) return statusMenu(v, rerender);
+    if(e.target.closest('[data-status]')) return;
     if(e.target.closest('[data-hist]')) return openHistory(v);
     openPatient(v, {onDone: rerender});
   };
+  root.onchange = e => { const s = e.target.closest('[data-status]'); if(!s) return; const v = DB.visits.find(x=>x.id===s.closest('[data-id]').dataset.id); v.status = s.value; save(); rerender(); };
 }
 function statusMenu(v, after){
   const ov = sheet(`<h2>${esc(displayName(v.patient))}</h2><div class="small muted" style="margin-bottom:12px">${fmtShortY(v.date)} · ${esc(v.time||'')}</div>
@@ -943,8 +976,33 @@ function statusMenu(v, after){
 function sheet(html, cls=''){
   const ov = document.createElement('div'); ov.className='overlay';
   ov.innerHTML = `<div class="sheet ${cls}"><div class="grab"></div>${html}</div>`;
+  const sh = ov.firstElementChild;
+  ov.remove = function(){ Element.prototype.remove.call(this); if(!document.querySelector('.overlay')){ document.documentElement.classList.remove('modal'); window.scrollTo(0, +document.body.dataset.scrolly||0); document.body.style.top=''; } };
   ov.addEventListener('click', e => { if(e.target===ov || e.target.closest('[data-x]')) ov.remove(); });
+  ov.addEventListener('touchmove', e => { if(!sh.contains(e.target) && e.cancelable) e.preventDefault(); }, {passive:false});
+  // drag the sheet down (from the handle, or from anywhere when it's scrolled to the top) to close it
+  let y0 = null, dy = 0;
+  sh.addEventListener('touchstart', e => { if(e.target.closest('input,textarea,select') || (sh.scrollTop > 0 && !e.target.closest('.grab'))){ y0 = null; return; } y0 = e.touches[0].clientY; dy = 0; sh.style.transition = 'none'; }, {passive:true});
+  sh.addEventListener('touchmove', e => { if(y0==null) return; dy = e.touches[0].clientY - y0;
+    if(dy > 0){ sh.style.transform = `translateY(${dy}px)`; ov.style.background = `rgba(10,15,30,${Math.max(0,.28-dy/900)})`; if(e.cancelable) e.preventDefault(); }
+    else { y0 = null; sh.style.transform = ''; } }, {passive:false});
+  sh.addEventListener('touchend', () => { if(y0==null) return; sh.style.transition = 'transform .22s ease';
+    if(dy > 110){ sh.style.transform = 'translateY(105%)'; setTimeout(()=>ov.remove(), 200); } else { sh.style.transform = ''; ov.style.background = ''; } y0 = null; });
+  if(!document.documentElement.classList.contains('modal')){ document.body.dataset.scrolly = window.scrollY; document.body.style.top = `-${window.scrollY}px`; document.documentElement.classList.add('modal'); }
   document.body.appendChild(ov); return ov;
+}
+// month/year picker used by every month title
+function monthPicker(ym, onPick, has){
+  let y = +ym.slice(0,4);
+  const ov = sheet('');
+  const box = ov.querySelector('.sheet');
+  const draw = () => {
+    box.innerHTML = `<div class="grab"></div><div class="row" style="margin-bottom:12px"><div class="circle sm" data-y="-1">${ICON.back}</div><b class="grow" style="text-align:center;font-size:20px">${y}</b><div class="circle sm flip" data-y="1">${ICON.back}</div></div>
+      <div class="mgrid">${MONTHS.map((m,i)=>{ const k = `${y}-${pad(i+1)}`; return `<button data-m="${k}" class="${k===ym?'on':''} ${k===today().slice(0,7)?'now':''}">${m.slice(0,3)}${has && has(k)?'<i></i>':''}</button>`; }).join('')}</div>
+      <div class="row" style="margin-top:14px"><button class="btn sm" data-m="${today().slice(0,7)}">This month</button><div class="grow"></div>${has?'<span class="tiny muted"><i class="dot" style="background:var(--accent)"></i> has data</span>':''}</div>`;
+  };
+  box.addEventListener('click', e => { const yb = e.target.closest('[data-y]'); if(yb){ y += +yb.dataset.y; draw(); return; } const mb = e.target.closest('[data-m]'); if(mb){ ov.remove(); onPick(mb.dataset.m); } });
+  draw();
 }
 
 /* ============ PATIENT INFO (same form for imported and manual) ============ */
@@ -968,23 +1026,24 @@ function openPatient(v, opts={}){
         ${!isNew && hasHistory(w)?`<button class="hbtn" id="pHist">🗂 History</button>`:''}</div>
       ${w.check?`<div class="alert">⚠ ${esc(w.check)}</div>`:''}
       ${(w.flags||[]).length?`<div class="alert">⚠ Gesden: ${esc(w.flags.join(' · '))}</div>`:''}
-      <label class="f">Status</label>
-      <div class="seg" id="pSt">${Object.entries(STATUS).map(([k,l])=>`<button data-v="${k}" class="${w.status===k?'on':''}">${l}</button>`).join('')}</div>
+      <div class="grid3">
+        <div><label class="f">Status</label><select id="pSt" class="stsel ${STATUS_CLS[w.status]}">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${w.status===k?'selected':''}>${l}</option>`).join('')}</select></div>
+        <div><label class="f">Date</label><input id="pDate" class="compact" type="date" value="${w.date}"></div>
+        <div><label class="f">Hour</label><input id="pTime" class="compact" type="time" value="${esc(w.time||'')}"></div>
+      </div>
       <label class="f">Name</label><input id="pName" list="dlPat" value="${esc(w.patient)}" autocomplete="off">
       ${w.origPatient && w.origPatient!==w.patient?`<div class="tiny" style="color:var(--warn);margin-top:4px">In Gesden: ${esc(w.origPatient)}</div>`:''}
       <div class="grid2">
         <div><label class="f">NHC</label><input id="pNhc" inputmode="numeric" value="${esc(w.nhc||'')}"></div>
         <div><label class="f">Insurance</label><input id="pMut" list="dlMut" value="${esc(w.mutua||'')}"></div>
-        <div><label class="f">Date</label><input id="pDate" type="date" value="${w.date}"></div>
-        <div><label class="f">Hour</label><input id="pTime" type="time" value="${esc(w.time||'')}"></div>
       </div>
       ${multi()?`<label class="f">Clinic</label>${clinicSelectHtml('pClinic', w.clinic)}`:''}
       <label class="f">Observación ${w.source==='pdf'&&w.obsOrig&&w.obsOrig!==w.obs?'<span class="tiny muted">(Gesden: '+esc(w.obsOrig)+')</span>':''}</label>
-      <textarea id="pObs" style="min-height:64px" placeholder="What was done, e.g. RECONSTRUCCIÓN 36">${esc(w.obs||'')}</textarea>
-      <div class="tchips" id="pChips" style="margin-top:8px">${DB.treatments.map(t=>`<button data-tr="${esc(t)}" class="${norm(w.obs).includes(norm(t))?'on':''}">${esc(t)}</button>`).join('')}</div>
+      <div class="obswrap"><textarea id="pObs" style="min-height:64px" placeholder="What was done, e.g. RECONSTRUCCIÓN 36">${esc(w.obs||'')}</textarea><button class="clr" id="pClr" title="Clear" ${w.obs?'':'hidden'}>✕</button></div>
+      <select id="pAddTr" class="addtr"><option value="">＋ Add treatment…</option>${DB.treatments.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('')}</select>
       <div class="money">
         <div class="mf"><label>Cash · paid at clinic</label><div class="eur"><input id="pPaid" inputmode="decimal" value="${decStr(w.paid)}" placeholder="—"></div>${w.paidAuto?'<div class="auto">from invoice</div>':''}</div>
-        <div class="mf"><label>Insurance</label><div class="eur"><input id="pIns" inputmode="decimal" value="${decStr(w.ins)}" placeholder="from invoice"></div>${w.insAuto?'<div class="auto">from invoice</div>':(blank(w.ins)?'<div class="auto" style="color:var(--muted)">fills in when the invoice arrives</div>':'')}</div>
+        <div class="mf"><label>Insurance</label><div class="eur"><input id="pIns" inputmode="decimal" value="${decStr(w.ins)}" placeholder="from invoice"></div>${w.insAuto?'<div class="auto">from invoice</div>':(blank(w.ins) && !(w.lines||[]).length?'<div class="auto" style="color:var(--muted)">fills in when the invoice arrives</div>':'')}</div>
       </div>
       <div class="tot"><span class="muted">Total</span><b>${eur(tot)}</b></div>
       ${billed!=null?`<div class="billed"><b>Clinic invoice ${eur(billed)}</b>${w.lines.map(l=>`<div><span>${esc(titleCase(l.desc))}${l.pay==='card'?' 💳':''}</span><span>${eur(l.amt)}</span></div>`).join('')}</div>`:''}
@@ -995,11 +1054,11 @@ function openPatient(v, opts={}){
     const grab = () => { w.patient = box.querySelector('#pName').value.trim(); w.nhc = box.querySelector('#pNhc').value.trim(); w.mutua = box.querySelector('#pMut').value.trim();
       w.date = box.querySelector('#pDate').value || w.date; w.time = box.querySelector('#pTime').value; w.obs = box.querySelector('#pObs').value.trim(); w.notes = box.querySelector('#pNote').value.trim();
       if(box.querySelector('#pClinic')) w.clinic = box.querySelector('#pClinic').value; };
-    box.querySelector('#pSt').onclick = e => { const b=e.target.closest('button'); if(!b) return; w.status=b.dataset.v; box.querySelectorAll('#pSt button').forEach(x=>x.classList.toggle('on',x===b)); };
-    box.querySelector('#pChips').onclick = e => { const b=e.target.closest('[data-tr]'); if(!b) return; const obs = box.querySelector('#pObs'); const t = b.dataset.tr;
-      if(b.classList.contains('on')){ obs.value = obs.value.replace(new RegExp('\\s*[,;·]?\\s*'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),'').replace(/^\s*[,;·]\s*/,'').trim(); }
-      else obs.value = obs.value.trim() ? obs.value.trim()+', '+t : t;
-      b.classList.toggle('on'); };
+    const st = box.querySelector('#pSt'); st.onchange = () => { w.status = st.value; st.className = 'stsel '+STATUS_CLS[w.status]; };
+    const obs = box.querySelector('#pObs'), clr = box.querySelector('#pClr');
+    obs.oninput = () => { clr.hidden = !obs.value; };
+    clr.onclick = () => { obs.value = ''; clr.hidden = true; obs.focus(); };
+    box.querySelector('#pAddTr').onchange = e => { const t = e.target.value; if(!t) return; obs.value = obs.value.trim() ? obs.value.trim()+', '+t : t; clr.hidden = false; e.target.value = ''; };
     const money = (id, k) => box.querySelector(id).onchange = e => { grab(); w[k] = moneyIn(e.target.value); if(k==='ins') w.insAuto=false; if(k==='paid') w.paidAuto=false;
       if(k==='paid' && (w.lines||[]).length && (blank(w.ins) || w.insAuto)) computeIns(w); draw(); };
     money('#pPaid','paid'); money('#pIns','ins');
@@ -1056,7 +1115,7 @@ function renderHistory(){
       <div class="legend"><span><i class="dot" style="background:${STC.attended}"></i>came</span><span><i class="dot" style="background:${STC.noshow}"></i>no-show</span><span><i class="dot" style="background:${STC.cancelled}"></i>cancelled</span><span><i class="dot" style="background:${STC.pending}"></i>pending</span></div>
       ${months.length>1?`<div class="tiny muted" style="margin-top:8px">Visits in: ${months.map(m=>`<a href="#" data-jm="${m}" style="color:var(--accent)">${MON[+m.slice(5)-1]} ${m.slice(2,4)}</a>`).join(' · ')}</div>`:''}</div>
       ${vs.filter(v=>v.date.startsWith(UI.histYm) && (!sel || v.date===sel)).map(block).join('') || '<div class="empty small">No visits this month.</div>'}`;
-    $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(m){ UI.histYm = +m.dataset.cm ? addMonths(UI.histYm,+m.dataset.cm) : last.date.slice(0,7); UI.histSel=null; render(); } };
+    $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(!m) return; if(+m.dataset.cm){ UI.histYm = addMonths(UI.histYm,+m.dataset.cm); UI.histSel=null; render(); } else monthPicker(UI.histYm, ym=>{ UI.histYm=ym; UI.histSel=null; render(); }, ym=>vs.some(v=>v.date.startsWith(ym))); };
     $$('[data-jm]').forEach(a=>a.onclick=e=>{ e.preventDefault(); UI.histYm=a.dataset.jm; UI.histSel=null; render(); });
   }
   $('#hBody').addEventListener('click', e => {
@@ -1306,7 +1365,7 @@ function renderLiq(c){
   const sec = (k, icon, title, arr, total, body, color) => arr.length ? `<div class="glass card"><div class="sec" data-sec="${k}"><span>${icon}</span><span>${title}</span><span class="cnt" style="color:${color||'inherit'}">${arr.length}${total==null?'':' · '+eur(total)}</span><span class="muted">${UI.open[k]?'▾':'▸'}</span></div>${UI.open[k]?`<div style="margin-top:8px">${body}</div>`:''}</div>` : '';
   const vline = (v, right, sub) => `<div class="line click" data-v="${v.id}"><span>${fmtShort(v.date)} · <b>${esc(displayName(v.patient))}</b><br><span class="small muted">${sub}</span></span><span class="amt">${right}</span></div>`;
   $('#cBody').innerHTML = `
-    <div class="row" style="margin-bottom:12px"><div class="circle" id="mPrev" style="width:38px;height:38px">${ICON.back}</div><b class="grow" style="text-align:center;font-size:17px">${monthLabel(ym)}</b><div class="circle" id="mNext" style="width:38px;height:38px;transform:scaleX(-1)">${ICON.back}</div></div>
+    <div class="row" style="margin-bottom:12px"><div class="circle" id="mPrev" style="width:38px;height:38px">${ICON.back}</div><b class="grow" id="mLbl" style="text-align:center;font-size:17px;cursor:pointer">${monthLabel(ym)} <span class="muted" style="font-size:12px">▾</span></b><div class="circle" id="mNext" style="width:38px;height:38px;transform:scaleX(-1)">${ICON.back}</div></div>
     <div class="tiles">
       <div class="glass tile"><div class="l">Her log</div><div class="v" style="font-size:21px">${eur0(H.prod)}</div><div class="l">${att.length} patients</div></div>
       <div class="glass tile"><div class="l">Clinic produced</div><div class="v" style="font-size:21px">${liq?eur0(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</div><div class="l">${liq?liq.lines.length+' lines':'no factura yet'}</div></div>
@@ -1347,6 +1406,7 @@ function renderLiq(c){
       <div class="row" style="margin-top:12px"><span class="tiny muted grow">${esc(liq.file||'')}</span><button class="btn sm" id="mReimp">Replace</button><button class="btn sm danger" id="mDelLiq">Remove</button></div></div>`:''}
     <label class="f">Notes for ${monthLabel(ym)}</label><textarea id="mNotes" placeholder="e.g. asked reception about 2 missing reconstrucciones">${esc(man.notes||'')}</textarea>`;
   const rr = () => renderLiq(c);
+  $('#mLbl').onclick = () => monthPicker(ym, k=>{ UI.liqYm = k; rr(); }, k=>!!DB.liq[lkey(cid,k)]);
   $('#mPrev').onclick=()=>{UI.liqYm=addMonths(ym,-1);rr()}; $('#mNext').onclick=()=>{UI.liqYm=addMonths(ym,1);rr()};
   const setMan = (k,v) => { const kk = lkey(cid, ym); DB.manual[kk] = Object.assign({}, DB.manual[kk]||{}, {[k]:v}); save(); };
   if($('#mImp')) $('#mImp').onclick = () => startImport(cid);
