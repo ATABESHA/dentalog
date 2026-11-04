@@ -236,12 +236,51 @@ td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 @keyframes fadein{to{opacity:1}}
 .screen{animation:fade .25s}
 
+/* ---- v5 ---- */
+.cpill{display:inline-flex;align-items:center;gap:6px;max-width:52vw;padding:8px 12px;border-radius:999px;border:1px solid var(--glass-brd);background:var(--glass);-webkit-backdrop-filter:var(--blur);backdrop-filter:var(--blur);box-shadow:var(--shadow);font-weight:700;font-size:14px;cursor:pointer;flex:none}
+.cpill span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cpill .dot{margin-right:-3px;border:1.5px solid var(--bg1)}
+.ck{width:28px;height:28px;border-radius:50%;border:2px solid var(--hair);display:grid;place-items:center;color:transparent;font-weight:800;flex:none}
+.ck.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.period{display:flex;align-items:center;gap:8px;padding:8px;border-radius:18px;margin-bottom:12px}
+.period b{text-align:center;font-size:17px;cursor:pointer}
+.circle.sm{width:36px;height:36px;box-shadow:none}
+.circle.flip{transform:scaleX(-1)}
+.seg.mini{padding:3px;border-radius:12px;flex:none}
+.seg.mini button{padding:6px 10px;font-size:12.5px;border-radius:9px}
+.tile.tap,.chart .c.tap{cursor:pointer}
+.chart .c.tap:active{opacity:.6}
+.chart .c.cur .stack{box-shadow:0 0 0 2px var(--accent)}
+.cal .hd b{cursor:pointer}
+.list{padding:2px 0;border-radius:var(--r);overflow:hidden}
+.prow{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--hair);cursor:pointer}
+.prow:last-child{border-bottom:0}
+.prow .tm{width:44px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px;flex:none}
+.prow .nm{font-weight:700;font-size:15px}
+.prow .ob{font-size:13px;color:var(--ink);opacity:.8;margin-top:2px}
+.prow .cm{font-size:12.5px;color:var(--info);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.prow.noshow .nm,.prow.cancelled .nm{text-decoration:line-through;opacity:.6}
+.prow .rt{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.warn{color:var(--warn)}
+.spill{border:0;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.spill.p{background:var(--pend-bg);color:var(--pend)} .spill.ok{background:var(--ok-bg);color:var(--ok)} .spill.bad{background:var(--bad-bg);color:var(--bad)} .spill.w{background:var(--warn-bg);color:var(--warn)}
+.spill.big{width:100%;padding:14px;font-size:16px;border-radius:16px;margin-bottom:8px}
+.spill.cur{outline:2px solid currentColor}
+.hbtn{border:1px solid var(--hair);background:var(--glass-2);border-radius:10px;padding:4px 9px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.alert{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:8px 11px;font-size:13px;font-weight:600;margin-top:8px}
+.paygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;background:rgba(127,140,180,.08);border-radius:12px;padding:8px 10px}
+.paygrid span{display:block;font-size:11px;color:var(--muted)} .paygrid b{font-variant-numeric:tabular-nums}
+#lcSeg .dot{width:8px;height:8px}
+
+.irow{padding:10px 12px;border-bottom:1px solid var(--hair)} .irow:last-child{border-bottom:0} .irow.off{opacity:.45}
+
 </style>
 </head>
 <body>
 <main id="app" class="wrap"></main>
 <nav id="tabbar" class="tabbar glass">
   <button data-t="home" aria-label="Home"></button>
+  <button data-t="cal" aria-label="Calendar"></button>
   <button data-t="patients" aria-label="Patients"></button>
   <button data-t="settings" aria-label="Settings"></button>
 </nav>
@@ -335,6 +374,7 @@ const ICON = {
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
   users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-1.8-5.6-4.5-6.6"/></svg>',
   gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.8 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.8-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3.2 14H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.8 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 20.8 10H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor"/><circle cx="12" cy="14.5" r="1" fill="currentColor"/></svg>',
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
   pdf:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
 };
@@ -356,7 +396,9 @@ function normalizeDB(d){
   ['tomb','liq','manual','patients','stamp'].forEach(k=>{ if(!out[k] || typeof out[k]!=='object' || Array.isArray(out[k])) out[k]={}; });
   if(!Array.isArray(out.clinics) || !out.clinics.length) out.clinics=[DEFAULT_CLINIC()];
   const c0 = out.clinics[0].id;
-  out.visits = (out.visits||[]).map(migrateVisit).map(v=>v.clinic ? v : {...v, clinic:c0});
+  out.visits = (out.visits||[]).map(migrateVisit).map(v=>v.clinic ? v : {...v, clinic:c0}).map(v=>{
+    if((v.treat||[]).length){ const missing = v.treat.filter(t=>!norm(v.obs).includes(norm(t))); if(missing.length) v = {...v, obs: [missing.join(', '), v.obs].filter(Boolean).join(' · ')}; v = {...v, treat:[]}; }
+    return v; });
   for(const k of Object.keys(out.liq)) if(/^\d{4}-\d{2}$/.test(k)){ out.liq[c0+'|'+k]=out.liq[k]; delete out.liq[k]; }
   for(const k of Object.keys(out.manual)) if(/^\d{4}-\d{2}$/.test(k)){ out.manual[c0+'|'+k]=out.manual[k]; delete out.manual[k]; }
   delete out.catalog;
@@ -655,23 +697,23 @@ function parseLiq(pages){
 }
 
 /* ============ ROUTER ============ */
-const UI = { screen:'home', stack:[], clinic:null, ctab:'cal', calYm: today().slice(0,7), day: null, liqYm: addMonths(today().slice(0,7),-1),
-  range:'month', q:'', hist:null, histView:'list', histYm:null, open:{missing:true, diff:true, extra:false, corr:false, ok:false, fix:false} };
+const UI = { screen:'home', stack:[], ctab:'cal', calYm: today().slice(0,7), day:null, liqYm: addMonths(today().slice(0,7),-1), liqClinic:null,
+  pMode:'month', pYm: today().slice(0,7), q:'', hist:null, histView:'list', histYm:null, histSel:null,
+  open:{missing:true, diff:true, extra:false, corr:false, ok:false, fix:false} };
 function go(screen, params={}, push=true){
-  if(push) UI.stack.push({screen:UI.screen, clinic:UI.clinic, hist:UI.hist});
+  if(push) UI.stack.push({screen:UI.screen, hist:UI.hist});
   Object.assign(UI, params, {screen}); render(); window.scrollTo(0,0);
 }
 function back(){ const p = UI.stack.pop(); if(p){ Object.assign(UI, p); render(); window.scrollTo(0,0); } else go('home',{},false); }
+const TABS = {home:'home', cal:'cal', patients:'patients', history:'patients', settings:'settings'};
 function render(){
-  const s = UI.screen;
-  $('#tabbar').classList.toggle('hide', s==='splash');
-  $$('#tabbar button').forEach(b=>b.classList.toggle('on', b.dataset.t===({home:'home',clinic:'home',patients:'patients',history:'patients',settings:'settings'})[s]));
-  const app = $('#app'); app.className = 'wrap screen';
-  ({home:renderHome, clinic:renderClinic, patients:renderPatients, history:renderHistory, settings:renderSettings})[s]();
+  $$('#tabbar button').forEach(b=>b.classList.toggle('on', b.dataset.t===TABS[UI.screen]));
+  $('#app').className = 'wrap screen';
+  ({home:renderHome, cal:renderCalScreen, patients:renderPatients, history:renderHistory, settings:renderSettings})[UI.screen]();
 }
 $('#tabbar').onclick = e => { const b = e.target.closest('button'); if(!b) return; UI.stack=[]; go(b.dataset.t, {}, false); };
 function topBar(title, sub, opts={}){
-  return `<div class="top">${opts.back!==false?`<div class="circle" data-back>${ICON.back}</div>`:''}
+  return `<div class="top">${opts.back?`<div class="circle" data-back>${ICON.back}</div>`:''}
     <div class="grow">${sub?`<div class="sub">${sub}</div>`:''}<h1 style="${opts.small?'font-size:24px':''}">${title}</h1></div>${opts.right||''}</div>`;
 }
 document.addEventListener('click', e => { if(e.target.closest('[data-back]')) back(); });
@@ -679,6 +721,38 @@ function syncBadge(){
   if(!Sync.configured()) return '';
   const st = Sync.state;
   return `<div class="sync ${st.cls}" title="${esc(st.msg)}"><i></i>${esc(st.short)}</div>`;
+}
+
+/* ============ CLINIC SELECTION (this device) ============ */
+function selIds(){ const ids = (LOCAL.sel||[]).filter(id=>DB.clinics.some(c=>c.id===id)); return ids.length ? ids : DB.clinics.map(c=>c.id); }
+const inSel = v => selIds().includes(v.clinic);
+const oneSel = () => selIds().length===1 ? clinicById(selIds()[0]) : null;
+function setSel(ids){ LOCAL.sel = ids; saveLocal(); }
+function clinicPill(){
+  const ids = selIds(), all = ids.length===DB.clinics.length;
+  const label = ids.length===1 ? clinicById(ids[0]).name : all ? 'All clinics' : `${ids.length} clinics`;
+  return `<button class="cpill" id="cPill">${ids.slice(0,3).map(id=>`<i class="dot" style="background:${esc(clinicById(id).color)}"></i>`).join('')}<span>${esc(label)}</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>`;
+}
+function bindClinicPill(){
+  const b = $('#cPill'); if(!b) return;
+  b.onclick = () => {
+    const ov = sheet(`<h2>Clinics</h2><div class="small muted" style="margin-bottom:10px">Tap a name to see only that clinic, or tick several.</div>
+      <div class="glass card" style="padding:4px 14px">
+        ${DB.clinics.length>1?`<div class="li" data-all><div class="ini" style="background:linear-gradient(135deg,var(--accent),var(--teal))">✦</div><div class="grow"><div class="t">All clinics</div></div>${selIds().length===DB.clinics.length?'<span class="ck on">✓</span>':''}</div>`:''}
+        ${DB.clinics.map(c=>`<div class="li" data-only="${c.id}"><div class="ini" style="background:${esc(c.color)}">${esc(c.name[0])}</div><div class="grow"><div class="t">${esc(c.name)}</div><div class="s">${DB.visits.filter(v=>v.clinic===c.id).length} visits</div></div>
+          <span class="ck ${selIds().includes(c.id)?'on':''}" data-tick="${c.id}">✓</span></div>`).join('')}
+      </div>
+      <div class="row"><button class="btn sm" data-x data-addc>＋ Add clinic</button><div class="grow"></div><button class="btn pri" data-x>Done</button></div>`);
+    const done = () => { render(); };
+    ov.querySelector('[data-addc]').onclick = () => { ov.remove(); go('settings'); };
+    const all = ov.querySelector('[data-all]'); if(all) all.onclick = () => { setSel(DB.clinics.map(c=>c.id)); ov.remove(); done(); };
+    ov.querySelectorAll('[data-only]').forEach(r=>r.onclick = e => {
+      const t = e.target.closest('[data-tick]');
+      if(t){ e.stopPropagation(); let ids = selIds().slice(); const id = t.dataset.tick; ids = ids.includes(id) ? ids.filter(x=>x!==id) : ids.concat(id); if(!ids.length) return; setSel(ids); t.classList.toggle('on'); const a = ov.querySelector('[data-all] .ck'); return; }
+      setSel([r.dataset.only]); ov.remove(); done();
+    });
+    ov.addEventListener('click', e => { if(e.target===ov || e.target.closest('[data-x]')) done(); });
+  };
 }
 
 /* ============ SPLASH ============ */
@@ -700,10 +774,9 @@ function showSplash(){
 function stackedBars(months, series, opts={}){
   const tot = months.map((_,i)=>sum(series,s=>s.values[i]));
   const max = Math.max(1, ...tot);
-  const cur = today().slice(0,7);
-  return `<div class="chart">${months.map((m,i)=>`<div class="c ${m===cur?'cur':''}" title="${monthLabel(m)}: ${tot[i]}">
+  return `<div class="chart">${months.map((m,i)=>`<div class="c ${m===opts.hi?'cur':''} ${opts.click?'tap':''}" data-ym="${m}" title="${monthLabel(m)}: ${tot[i]}">
       <div class="tv">${tot[i]||''}</div>
-      <div class="stack" style="height:calc(100% - 30px)"><div style="height:${(tot[i]/max*100).toFixed(1)}%;display:flex;flex-direction:column-reverse;width:100%">${series.map(s=>s.values[i]?`<i style="background:${s.color};flex:${s.values[i]}"></i>`:'').join('')}</div></div>
+      <div class="stack" style="height:calc(100% - 42px)"><div style="height:${(tot[i]/max*100).toFixed(1)}%;display:flex;flex-direction:column-reverse;width:100%">${series.map(s=>s.values[i]?`<i style="background:${s.color};flex:${s.values[i]}"></i>`:'').join('')}</div></div>
       <div class="x">${MON[+m.slice(5)-1].slice(0,1)}${m.slice(5)==='01'?'<br>'+m.slice(2,4):''}</div></div>`).join('')}</div>
     ${series.length>1?`<div class="legend">${series.map(s=>`<span><i class="dot" style="background:${s.color}"></i>${esc(s.label)}</span>`).join('')}</div>`:''}`;
 }
@@ -716,63 +789,83 @@ function donut(entries){
 }
 const greeting = () => { const h = new Date().getHours(); return h<13 ? 'Buenos días' : h<20 ? 'Buenas tardes' : 'Buenas noches'; };
 function renderHome(){
-  const p = DB.profile, t = today(), ym = t.slice(0,7), y = t.slice(0,4);
-  const inRange = v => UI.range==='month' ? v.date.startsWith(ym) : v.date.startsWith(y);
-  const vis = DB.visits.filter(v=>inRange(v) && v.date<=t);
+  const p = DB.profile, t = today(), ym = UI.pYm, y = ym.slice(0,4), isM = UI.pMode==='month';
+  const pLabel = isM ? monthLabel(ym) : y;
+  const inP = v => isM ? v.date.startsWith(ym) : v.date.startsWith(y);
+  const vis = DB.visits.filter(v=>inSel(v) && inP(v) && v.date<=t);
   const att = vis.filter(attended);
   const missed = vis.filter(v=>v.status==='noshow'||v.status==='cancelled').length;
-  const daysWorked = new Set(vis.filter(v=>v.status!=='cancelled').map(v=>v.clinic+'|'+v.date)).size;
-  const months = Array.from({length:12},(_,i)=>addMonths(ym,i-11));
-  const series = DB.clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && attended(v)).length)}));
-  const daySeries = DB.clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>new Set(DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && v.status!=='cancelled' && v.date<=t).map(v=>v.date)).size)}));
-  const mu = {}; att.forEach(v=>{ const k = isPrivate(v.mutua)?'Private':titleCase(v.mutua.replace(/\(.*?\)/g,'').trim().split(' ').slice(0,2).join(' ')); mu[k]=(mu[k]||0)+1; });
+  const days = new Set(att.map(v=>v.clinic+'|'+v.date)).size;
+  const clinics = DB.clinics.filter(c=>selIds().includes(c.id));
+  const end = isM ? ym : (y===t.slice(0,4) ? t.slice(0,7) : y+'-12');
+  const months = Array.from({length:12},(_,i)=>addMonths(end,i-11));
+  const series = clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && attended(v)).length)}));
+  const daySeries = clinics.map(c=>({label:c.name, color:c.color, values: months.map(m=>new Set(DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(m) && attended(v)).map(v=>v.date)).size)}));
+  const mu = {}; att.forEach(v=>{ const k = isPrivate(v.mutua)?'Private':titleCase(String(v.mutua).replace(/\(.*?\)/g,'').trim().split(' ').slice(0,2).join(' ')); mu[k]=(mu[k]||0)+1; });
   const pal = ['#4f7cf7','#14b8c4','#a855f7','#f97316','#e11d74','#94a3b8'];
   let ents = Object.entries(mu).sort((a,b)=>b[1]-a[1]); if(ents.length>6){ const rest = ents.slice(5); ents = ents.slice(0,5).concat([['Other', sum(rest,x=>x[1])]]); }
-  const recent = DB.visits.filter(v=>attended(v) && v.date<=t).sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||'')).slice(0,6);
+  const tr = {}; att.forEach(v=>treatmentsOf(v).forEach(x=>tr[x]=(tr[x]||0)+1));
+  const trE = Object.entries(tr).sort((a,b)=>b[1]-a[1]).slice(0,8); const trMax = Math.max(1,...trE.map(x=>x[1]));
+  const recent = DB.visits.filter(v=>inSel(v) && attended(v) && inP(v) && v.date<=t).sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||'')).slice(0,6);
   $('#app').innerHTML = `
     <div class="top">
       ${p.photo?`<img class="avatar" src="${p.photo}" alt="">`:`<div class="avatar">${esc((p.name||'S')[0])}</div>`}
-      <div class="grow"><div class="sub">${greeting()}</div><h1 style="font-size:24px">${esc(p.title)} ${esc(p.name)}</h1></div>
-      ${syncBadge()}
-      <div class="circle" id="hImp" title="Import PDF">${ICON.pdf}</div>
+      <div class="grow"><div class="sub">${greeting()} ${syncBadge()}</div><h1 style="font-size:22px">${esc(p.title)} ${esc(p.name)}</h1></div>
+      ${clinicPill()}
     </div>
-    <div class="seg" id="rSeg" style="margin-bottom:12px"><button data-r="month" class="${UI.range==='month'?'on':''}">${MONTHS[+ym.slice(5)-1]}</button><button data-r="year" class="${UI.range==='year'?'on':''}">${y}</button></div>
+    <div class="period glass">
+      <div class="circle sm" id="pPrev">${ICON.back}</div>
+      <b class="grow" id="pLabel">${pLabel}</b>
+      <div class="circle sm flip" id="pNext">${ICON.back}</div>
+      <div class="seg mini" id="pSeg"><button data-m="month" class="${isM?'on':''}">Month</button><button data-m="year" class="${!isM?'on':''}">Year</button></div>
+    </div>
     <div class="tiles">
-      <div class="glass tile"><div class="ic" style="background:rgba(79,124,247,.14)">📅</div><div class="v">${daysWorked}</div><div class="l">Days worked</div></div>
+      <div class="glass tile tap" data-cal="${isM?ym:''}"><div class="ic" style="background:rgba(79,124,247,.14)">📅</div><div class="v">${days}</div><div class="l">Days worked</div></div>
       <div class="glass tile"><div class="ic" style="background:rgba(18,161,80,.14)">🦷</div><div class="v">${att.length}</div><div class="l">Patients seen</div></div>
       <div class="glass tile"><div class="ic" style="background:rgba(229,72,77,.12)">🚫</div><div class="v">${(att.length+missed)?Math.round(missed/(att.length+missed)*100):0}%</div><div class="l">No-shows (${missed})</div></div>
-      <div class="glass tile"><div class="ic" style="background:rgba(20,184,196,.14)">🏥</div><div class="v">${new Set(vis.map(v=>v.clinic)).size || DB.clinics.length}</div><div class="l">Clinic${DB.clinics.length>1?'s':''} · ${daysWorked?(att.length/daysWorked).toFixed(1):0} pts/day</div></div>
+      <div class="glass tile"><div class="ic" style="background:rgba(20,184,196,.14)">⏱</div><div class="v">${days?(att.length/days).toFixed(1):0}</div><div class="l">Patients per day</div></div>
     </div>
-    <div class="glass card"><h3>Patients seen per month</h3>${stackedBars(months, series)}</div>
-    <div class="glass card"><h3>Days worked per month</h3>${stackedBars(months, daySeries)}</div>
-    ${ents.length?`<div class="glass card"><h3>Patients by insurance · ${UI.range==='month'?MONTHS[+ym.slice(5)-1]:y}</h3>${donut(ents.map(([l,v],i)=>({label:l, value:v, color:pal[i%pal.length]})))}</div>`:''}
-    ${recent.length?`<div class="glass card"><h3>Latest patients<span class="link" data-go="patients">See all</span></h3>
-      ${recent.map(v=>`<div class="li" data-hist="${v.id}"><div class="ini" style="background:${clinicById(v.clinic).color}">${esc(initials(v.patient))}</div><div class="grow"><div class="t">${esc(displayName(v.patient))}</div><div class="s">${fmtShortY(v.date)}${multi()?' · '+esc(clinicById(v.clinic).name):''}${(v.treat||[]).length?' · '+esc(v.treat.join(', ')):''}</div></div><span class="chev">›</span></div>`).join('')}</div>`:''}
-    <div class="sect">Clinics<span class="link" id="hAddC">＋ Add</span></div>
-    ${DB.clinics.map(c=>{ const cv = DB.visits.filter(v=>v.clinic===c.id); const mv = cv.filter(v=>v.date.startsWith(ym));
-      const past = cv.filter(v=>v.date<=t).map(v=>v.date).sort(); const fut = cv.filter(v=>v.date>t).map(v=>v.date).sort();
+    <div class="glass card"><h3>Patients seen<span class="link small">tap a month ›</span></h3>${stackedBars(months, series, {hi:isM?ym:null, click:true})}</div>
+    <div class="glass card"><h3>Days worked</h3>${stackedBars(months, daySeries, {hi:isM?ym:null, click:true})}</div>
+    ${ents.length?`<div class="glass card"><h3>Patients by insurance · ${pLabel}</h3>${donut(ents.map(([l,v],i)=>({label:l, value:v, color:pal[i%pal.length]})))}</div>`:''}
+    ${trE.length?`<div class="glass card"><h3>Treatments · ${pLabel}</h3><div class="hbars">${trE.map(([k,n])=>`<div class="b"><span>${esc(k)}</span><div class="trk"><div class="fill" style="width:${n/trMax*100}%"></div></div><span class="val">${n}×</span></div>`).join('')}</div></div>`:''}
+    ${recent.length?`<div class="glass card"><h3>Patients · ${pLabel}<span class="link" data-go="patients">All ›</span></h3>
+      ${recent.map(v=>`<div class="li" data-open="${v.id}"><div class="ini" style="background:${clinicById(v.clinic).color}">${esc(initials(v.patient))}</div><div class="grow"><div class="t">${esc(displayName(v.patient))}</div><div class="s">${fmtShortY(v.date)}${v.obs?' · '+esc(v.obs):''}</div></div><span class="chev">›</span></div>`).join('')}</div>`:''}
+    <div class="sect">Clinics</div>
+    ${clinics.map(c=>{ const cv = DB.visits.filter(v=>v.clinic===c.id); const mv = cv.filter(v=>inP(v) && v.date<=t);
+      const past = cv.filter(v=>v.date<=t && attended(v)).map(v=>v.date).sort(); const fut = cv.filter(v=>v.date>t).map(v=>v.date).sort();
       return `<div class="glass clinic tapcard" data-clinic="${c.id}" style="--cc:${esc(c.color)}">
         <div class="nm"><span class="dot" style="background:${esc(c.color)};width:12px;height:12px"></span>${esc(c.name)}<span class="chev" style="margin-left:auto">›</span></div>
-        <div class="meta"><div><b>${new Set(mv.filter(v=>v.date<=t).map(v=>v.date)).size}</b>days this month</div><div><b>${mv.filter(attended).length}</b>patients this month</div><div><b>${past.length?fmtShort(past[past.length-1]).replace(/^\w+ /,''):'—'}</b>last day</div>${fut.length?`<div><b>${fmtShort(fut[0]).replace(/^\w+ /,'')}</b>next day</div>`:''}</div>
+        <div class="meta"><div><b>${new Set(mv.filter(attended).map(v=>v.date)).size}</b>days</div><div><b>${mv.filter(attended).length}</b>patients</div><div><b>${past.length?fmtShort(past[past.length-1]).replace(/^\w+ /,''):'—'}</b>last day</div>${fut.length?`<div><b>${fmtShort(fut[0]).replace(/^\w+ /,'')}</b>next day</div>`:''}</div>
       </div>`; }).join('')}
   `;
-  $('#rSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.range=b.dataset.r; render(); } };
-  $('#hImp').onclick = () => startImport(null);
-  $('#hAddC').onclick = () => go('settings');
-  $$('[data-clinic]').forEach(el=>el.onclick=()=>go('clinic',{clinic:el.dataset.clinic, ctab:'cal', calYm: lastWorkedYm(el.dataset.clinic), day:null}));
-  $$('[data-hist]').forEach(el=>el.onclick=()=>openHistory(DB.visits.find(v=>v.id===el.dataset.hist)));
+  bindClinicPill();
+  const step = n => { UI.pYm = isM ? addMonths(ym, n) : `${+y+n}-${ym.slice(5)}`; render(); };
+  $('#pPrev').onclick = () => step(-1); $('#pNext').onclick = () => step(1);
+  $('#pLabel').onclick = () => { UI.pYm = today().slice(0,7); render(); };
+  $('#pSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.pMode=b.dataset.m; render(); } };
+  $$('.chart [data-ym]').forEach(el=>el.onclick=()=>go('cal', {ctab:'cal', calYm:el.dataset.ym, day:null}));
+  $$('[data-cal]').forEach(el=>el.onclick=()=>go('cal', {ctab:'cal', calYm:el.dataset.cal||ym, day:null}));
+  $$('[data-clinic]').forEach(el=>el.onclick=()=>{ setSel([el.dataset.clinic]); go('cal',{ctab:'cal', calYm: isM ? ym : lastWorkedYm(el.dataset.clinic), day:null}); });
+  $$('[data-open]').forEach(el=>el.onclick=()=>openPatient(DB.visits.find(v=>v.id===el.dataset.open)));
   $$('[data-go]').forEach(el=>el.onclick=()=>go(el.dataset.go));
 }
 function lastWorkedYm(cid){ const t=today(); const ds = DB.visits.filter(v=>v.clinic===cid && v.date<=t).map(v=>v.date).sort(); return ds.length && !DB.visits.some(v=>v.clinic===cid && v.date.startsWith(t.slice(0,7))) ? ds[ds.length-1].slice(0,7) : t.slice(0,7); }
 
-/* ============ CLINIC ============ */
-function renderClinic(){
-  const c = clinicById(UI.clinic);
-  $('#app').innerHTML = topBar(`${esc(c.name)}`, `<span class="dot" style="background:${esc(c.color)}"></span> Clinic`, {right:`<div class="circle" id="cImp" title="Import PDF">${ICON.pdf}</div>`}) +
-    `<div class="seg" id="cSeg" style="margin-bottom:14px">${[['cal','Calendar'],['liq','Liquidación'],['stats','Income']].map(([k,l])=>`<button data-k="${k}" class="${UI.ctab===k?'on':''}">${l}</button>`).join('')}</div><div id="cBody"></div>`;
+/* ============ CALENDAR SCREEN (selected clinics) ============ */
+function renderCalScreen(){
+  const one = oneSel();
+  $('#app').innerHTML = `<div class="top"><div class="grow"><div class="sub">${one?'Clinic':'Clinics'}</div><h1 style="font-size:24px">Calendar</h1></div>${clinicPill()}</div>
+    <div class="seg" id="cSeg" style="margin-bottom:14px">${[['cal','Calendar'],['liq','Liquidación'],['stats','Income']].map(([k,l])=>`<button data-k="${k}" class="${UI.ctab===k?'on':''}">${l}</button>`).join('')}</div><div id="cBody"></div>`;
+  bindClinicPill();
   $('#cSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.ctab=b.dataset.k; render(); } };
-  $('#cImp').onclick = () => startImport(c.id);
-  ({cal:renderCal, liq:renderLiq, stats:renderStats})[UI.ctab](c);
+  if(UI.ctab==='cal') return renderCal();
+  // liquidación and income are per clinic
+  const ids = selIds(); if(!ids.includes(UI.liqClinic)) UI.liqClinic = ids[0];
+  const c = clinicById(UI.liqClinic);
+  if(ids.length>1){ $('#cBody').insertAdjacentHTML('beforebegin', `<div class="seg" id="lcSeg" style="margin:-4px 0 14px">${ids.map(id=>`<button data-c="${id}" class="${id===c.id?'on':''}"><i class="dot" style="background:${esc(clinicById(id).color)}"></i> ${esc(clinicById(id).name)}</button>`).join('')}</div>`);
+    $('#lcSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.liqClinic=b.dataset.c; render(); } }; }
+  ({liq:renderLiq, stats:renderStats})[UI.ctab](c);
 }
 function calendarHtml(ym, marks, sel, color, id){
   const [y,m] = ym.split('-').map(Number);
@@ -782,94 +875,70 @@ function calendarHtml(ym, marks, sel, color, id){
   for(let i=0;i<lead;i++) cells += `<div class="d out"></div>`;
   for(let d=1; d<=days; d++){
     const ds = `${ym}-${pad(d)}`, mk = marks[ds];
-    cells += `<div class="d ${mk?'work':''} ${ds===t?'today':''} ${ds===sel?'sel':''}" data-day="${ds}" style="${mk?`--dc:${mk.color||color}`:`--dc:${color}`}">${d}${mk&&mk.n?`<span class="n">${mk.n}</span>`:''}${mk&&mk.pending?'<span class="pd"></span>':''}</div>`;
+    cells += `<div class="d ${mk?'work':''} ${ds===t?'today':''} ${ds===sel?'sel':''}" data-day="${ds}" style="--dc:${mk&&mk.color||color}">${d}${mk&&mk.n?`<span class="n">${mk.n}</span>`:''}${mk&&mk.pending?'<span class="pd"></span>':''}</div>`;
   }
-  return `<div class="cal" id="${id}"><div class="hd"><div class="circle" data-cm="-1" style="width:36px;height:36px">${ICON.back}</div><b>${monthLabel(ym)}</b><div class="circle" data-cm="1" style="width:36px;height:36px;transform:scaleX(-1)">${ICON.back}</div></div>
+  return `<div class="cal" id="${id}"><div class="hd"><div class="circle sm" data-cm="-1">${ICON.back}</div><b data-cm="0">${monthLabel(ym)}</b><div class="circle sm flip" data-cm="1">${ICON.back}</div></div>
     <div class="grid">${['M','T','W','T','F','S','S'].map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div></div>`;
 }
-function renderCal(c){
-  const ym = UI.calYm;
-  const vis = DB.visits.filter(v=>v.clinic===c.id && v.date.startsWith(ym));
+function renderCal(){
+  const ym = UI.calYm, ids = selIds();
+  const vis = DB.visits.filter(v=>inSel(v) && v.date.startsWith(ym));
   const marks = {};
-  vis.forEach(v=>{ const m = marks[v.date] || (marks[v.date]={n:0, pending:false}); if(attended(v)) m.n++; if(v.status==='pending') m.pending = true; });
+  vis.forEach(v=>{ const m = marks[v.date] || (marks[v.date]={n:0, pending:false, cl:new Set()}); if(attended(v)) m.n++; if(v.status==='pending') m.pending = true; m.cl.add(v.clinic); });
+  Object.values(marks).forEach(m=>{ m.color = m.cl.size===1 ? clinicById([...m.cl][0]).color : '#4f7cf7'; });
   if(!UI.day || !UI.day.startsWith(ym)){ const t = today(); UI.day = t.startsWith(ym) ? t : (Object.keys(marks).sort().pop() || `${ym}-01`); }
-  const list = DB.visits.filter(v=>v.clinic===c.id && v.date===UI.day).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99') || a.patient.localeCompare(b.patient));
+  const list = DB.visits.filter(v=>inSel(v) && v.date===UI.day).sort((a,b)=>(a.time||'99').localeCompare(b.time||'99') || a.patient.localeCompare(b.patient));
   const att = list.filter(attended), pend = list.filter(v=>v.status==='pending'), miss = list.filter(v=>v.status==='noshow'||v.status==='cancelled');
+  const showClinic = ids.length>1 && new Set(list.map(v=>v.clinic)).size>1;
   $('#cBody').innerHTML = `
-    <div class="glass card">${calendarHtml(ym, marks, UI.day, c.color, 'cal')}
-      <div class="legend"><span><i class="dot" style="background:${esc(c.color)}"></i>worked (number = patients seen)</span><span><i class="dot" style="background:var(--warn)"></i>to confirm</span></div></div>
-    <div class="sect" style="margin-top:6px">${fmtLong(UI.day)}</div>
-    ${list.length ? `<div class="daysum"><span class="chip">${list.length} in agenda</span><span class="chip ok">✓ ${att.length} came</span>${miss.length?`<span class="chip bad">✗ ${miss.length} no-show</span>`:''}${pend.length?`<span class="chip p">${pend.length} to confirm</span>`:''}</div>
-      <div class="row" style="margin-bottom:12px">${pend.length?`<button class="btn sm" id="dAll">✓ All pending came</button>`:''}<button class="btn sm" id="dAdd">＋ Patient</button><button class="btn sm" id="dImp">${ICON.pdf} Import PDF</button></div>
-      <div id="dList">${list.map(patientCard).join('')}</div>`
-    : `<div class="glass card empty"><b>No patients on this day</b>Import the Gesden agenda for this day (or a whole week) — or add a patient manually.<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" id="dImp">${ICON.pdf} Import PDF</button><button class="btn" id="dAdd">＋ Patient</button></div></div>`}
-  `;
+    <div class="glass card">${calendarHtml(ym, marks, UI.day, oneSel()?oneSel().color:'#4f7cf7', 'cal')}
+      <div class="legend">${ids.length>1?DB.clinics.filter(c=>ids.includes(c.id)).map(c=>`<span><i class="dot" style="background:${esc(c.color)}"></i>${esc(c.name)}</span>`).join(''):'<span>number = patients who came</span>'}<span><i class="dot" style="background:var(--warn)"></i>to confirm</span></div></div>
+    <div class="dayhead"><div class="grow"><div class="sect" style="margin:6px 4px 2px">${fmtLong(UI.day)}</div>
+      ${list.length?`<div class="daysum"><span class="chip">${list.length} in agenda</span><span class="chip ok">${att.length} came</span>${miss.length?`<span class="chip bad">${miss.length} no-show</span>`:''}${pend.length?`<span class="chip p">${pend.length} to confirm</span>`:''}</div>`:''}</div></div>
+    ${list.length ? `<div class="row" style="margin-bottom:12px">${pend.length?`<button class="btn sm" id="dAll">✓ All pending came</button>`:''}<button class="btn sm" id="dAdd">＋ Patient</button><button class="btn sm" id="dImp">${ICON.pdf} Import PDF</button></div>
+      <div class="glass list" id="dList">${list.map(v=>patientRow(v, showClinic)).join('')}</div>`
+    : `<div class="glass card empty"><b>No patients on this day</b>Import the Gesden agenda for this day (or a whole month), or add a patient.<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" id="dImp">${ICON.pdf} Import PDF</button><button class="btn" id="dAdd">＋ Patient</button></div></div>`}`;
   $('#cal').onclick = e => {
-    const d = e.target.closest('[data-day]'); if(d){ UI.day = d.dataset.day; renderCal(c); return; }
-    const m = e.target.closest('[data-cm]'); if(m){ UI.calYm = addMonths(UI.calYm, +m.dataset.cm); UI.day = null; renderCal(c); }
+    const d = e.target.closest('[data-day]'); if(d){ UI.day = d.dataset.day; renderCal(); return; }
+    const m = e.target.closest('[data-cm]'); if(m){ UI.calYm = +m.dataset.cm ? addMonths(UI.calYm, +m.dataset.cm) : today().slice(0,7); UI.day = null; renderCal(); }
   };
-  $('#dImp').onclick = () => startImport(c.id);
-  $('#dAdd').onclick = () => openDetails(null, {clinic:c.id, date:UI.day});
-  if($('#dAll')) $('#dAll').onclick = () => { pend.forEach(v=>v.status='attended'); save(); renderCal(c); };
-  if($('#dList')) bindPatientCards($('#dList'), () => renderCal(c));
+  $('#dImp').onclick = () => startImport(oneSel() ? oneSel().id : null);
+  $('#dAdd').onclick = () => openPatient(null, {date:UI.day});
+  if($('#dAll')) $('#dAll').onclick = () => { pend.forEach(v=>v.status='attended'); save(); renderCal(); };
+  if($('#dList')) bindRows($('#dList'), renderCal);
 }
-function patientCard(v){
-  const items = v.treat||[];
-  const ins = v.ins, mut = !isPrivate(v.mutua);
-  const billed = (v.lines||[]).length;
-  return `<div class="glass pc ${v.status}" data-id="${v.id}">
-    <div class="h"><div class="tm">${esc(v.time||'')}</div>
-      <div class="grow" data-open style="cursor:pointer"><div class="nm">${esc(displayName(v.patient))}${(v.flags||[]).length?' <span class="tag bad" title="'+esc(v.flags.join(', '))+'">check</span>':''}${v.origPatient && v.origPatient!==v.patient?' <span class="tag w">name fixed</span>':''}</div>
-        <div class="sb">${esc(v.mutua||'')}${v.nhc?' · NHC '+esc(v.nhc):''}</div>
-        ${v.obs?`<div class="obs">📝 ${esc(v.obs)}</div>`:''}</div>
-      <div class="st"><button data-st="attended" class="a ${attended(v)?'on':''}" aria-label="Came">✓</button><button data-st="noshow" class="x ${v.status==='noshow'||v.status==='cancelled'?'on':''}" aria-label="Didn't come">✗</button></div>
+
+/* ============ PATIENT ROWS ============ */
+const STATUS_CLS = {pending:'p', attended:'ok', noshow:'bad', cancelled:'w'};
+const hasHistory = v => !!v.nhc && DB.visits.some(x=>x.id!==v.id && x.nhc===v.nhc && nameScore(x.patient, v.patient)>=0.8);
+function patientRow(v, showClinic){
+  const warn = v.check || (v.flags||[]).length;
+  return `<div class="prow ${v.status}" data-id="${v.id}">
+    <div class="tm">${esc(v.time||'—')}</div>
+    <div class="grow" data-edit>
+      <div class="nm">${showClinic?`<i class="dot" style="background:${esc(clinicById(v.clinic).color)}"></i> `:''}${esc(displayName(v.patient))}${warn?' <span class="warn" title="'+esc(v.check||v.flags.join(', '))+'">⚠</span>':''}</div>
+      ${v.obs?`<div class="ob">${esc(v.obs)}</div>`:''}
+      ${v.notes?`<div class="cm">💬 ${esc(v.notes)}</div>`:''}
     </div>
-    ${attended(v)?`<div class="more">
-      <div class="tchips">${DB.treatments.map(t=>`<button data-tr="${esc(t)}" class="${items.includes(t)?'on':''}">${esc(t)}</button>`).join('')}${items.filter(t=>!DB.treatments.includes(t)).map(t=>`<button data-tr="${esc(t)}" class="on">${esc(t)}</button>`).join('')}</div>
-      <div class="money">
-        <div class="mf"><label>Paid at clinic</label><div class="eur"><input data-m="paid" inputmode="decimal" value="${decStr(v.paid)}" placeholder="—"></div>
-          ${v.paidAuto?'<div class="auto">from factura</div>':''}
-          <div class="paym"><button data-pm="card" class="${(v.payMethod||'card')==='card'?'on':''}">💳 Card</button><button data-pm="cash" class="${v.payMethod==='cash'?'on':''}">💶 Cash</button></div></div>
-        <div class="mf"><label>Insurance</label><div class="eur"><input data-m="ins" inputmode="decimal" value="${decStr(ins)}" placeholder="${mut?'from factura':'—'}"></div>
-          ${v.insAuto?'<div class="auto">auto from factura</div>':(mut&&blank(ins)?'<div class="auto" style="color:var(--muted)">fills in when the factura arrives</div>':'')}</div>
-      </div>
-      <div class="tot"><span class="muted">Total</span><b data-total>${eur(visitTotal(v))}</b></div>
-      ${billed?`<div class="billed"><b>Clinic factura</b>${v.lines.map(l=>`<div><span>${esc(titleCase(l.desc))}</span><span>${eur(l.amt)}</span></div>`).join('')}</div>`:''}
-      <div class="acts"><button class="btn sm" data-histb>🗂 History</button><button class="btn sm" data-note>${v.notes?'💬 Comment ✓':'💬 Comment'}</button></div>
-    </div>`:`<div class="acts" style="margin-top:10px"><button class="btn sm" data-histb>🗂 History</button><button class="btn sm" data-note>${v.notes?'💬 Comment ✓':'💬 Comment'}</button></div>`}
+    <div class="rt">
+      <button class="spill ${STATUS_CLS[v.status]}" data-status>${STATUS[v.status]}</button>
+      ${hasHistory(v)?`<button class="hbtn" data-hist title="History">🗂 History</button>`:''}
+    </div>
   </div>`;
 }
-function bindPatientCards(root, rerender){
+function bindRows(root, rerender){
   root.onclick = e => {
-    const card = e.target.closest('[data-id]'); if(!card) return;
-    const v = DB.visits.find(x=>x.id===card.dataset.id); if(!v) return;
-    const st = e.target.closest('[data-st]');
-    if(st){ v.status = v.status===st.dataset.st ? 'pending' : st.dataset.st; save(); rerender(); return; }
-    const tr = e.target.closest('[data-tr]');
-    if(tr){ const t = tr.dataset.tr; v.treat = v.treat||[]; v.treat = v.treat.includes(t) ? v.treat.filter(x=>x!==t) : v.treat.concat(t); tr.classList.toggle('on'); save(); return; }
-    const pm = e.target.closest('[data-pm]');
-    if(pm){ v.payMethod = pm.dataset.pm; card.querySelectorAll('[data-pm]').forEach(b=>b.classList.toggle('on', b===pm)); save(); return; }
-    if(e.target.closest('[data-histb]')) return openHistory(v);
-    if(e.target.closest('[data-note]')) return openComment(v, rerender);
-    if(e.target.closest('[data-open]')) return openDetails(v, {onDone: rerender});
-  };
-  root.onchange = e => {
-    const inp = e.target.closest('[data-m]'); if(!inp) return;
-    const card = e.target.closest('[data-id]'); const v = DB.visits.find(x=>x.id===card.dataset.id);
-    v[inp.dataset.m] = moneyIn(inp.value); if(inp.dataset.m==='ins') v.insAuto = false; if(inp.dataset.m==='paid') v.paidAuto = false;
-    inp.value = decStr(v[inp.dataset.m]);
-    const tot = card.querySelector('[data-total]'); if(tot) tot.textContent = eur(visitTotal(v));
-    const a = inp.closest('.mf').querySelector('.auto'); if(a) a.remove();
-    save();
+    const row = e.target.closest('[data-id]'); if(!row) return;
+    const v = DB.visits.find(x=>x.id===row.dataset.id); if(!v) return;
+    if(e.target.closest('[data-status]')) return statusMenu(v, rerender);
+    if(e.target.closest('[data-hist]')) return openHistory(v);
+    openPatient(v, {onDone: rerender});
   };
 }
-function openComment(v, after){
-  const ov = sheet(`<h2>Comment</h2><div class="small muted" style="margin-bottom:8px">${esc(displayName(v.patient))} · ${fmtShortY(v.date)}</div>
-    ${v.obs?`<div class="small" style="color:var(--info);margin-bottom:8px">📝 Reception: ${esc(v.obs)}</div>`:''}
-    <textarea id="cmt" placeholder="What happened, what's next, materials, anything to remember…" style="min-height:160px">${esc(v.notes||'')}</textarea>
-    <div class="row" style="margin-top:12px"><div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="cmtSave">Save</button></div>`);
-  ov.querySelector('#cmtSave').onclick = () => { v.notes = ov.querySelector('#cmt').value.trim(); save(); ov.remove(); after && after(); toast('Comment saved'); };
-  setTimeout(()=>ov.querySelector('#cmt').focus(), 80);
+function statusMenu(v, after){
+  const ov = sheet(`<h2>${esc(displayName(v.patient))}</h2><div class="small muted" style="margin-bottom:12px">${fmtShortY(v.date)} · ${esc(v.time||'')}</div>
+    <div class="stmenu">${Object.entries(STATUS).map(([k,l])=>`<button class="spill big ${STATUS_CLS[k]} ${v.status===k?'cur':''}" data-s="${k}">${{pending:'⏳',attended:'✓',noshow:'✗',cancelled:'⊘'}[k]} ${l}</button>`).join('')}</div>`);
+  ov.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{ v.status = b.dataset.s; save(); ov.remove(); after && after(); });
 }
 function sheet(html, cls=''){
   const ov = document.createElement('div'); ov.className='overlay';
@@ -877,103 +946,142 @@ function sheet(html, cls=''){
   ov.addEventListener('click', e => { if(e.target===ov || e.target.closest('[data-x]')) ov.remove(); });
   document.body.appendChild(ov); return ov;
 }
+
+/* ============ PATIENT INFO (same form for imported and manual) ============ */
 const knownPatients = () => [...new Set(DB.visits.map(v=>v.patient).filter(Boolean))].sort();
-function openDetails(v, opts={}){
+function treatmentsOf(v){
+  const o = norm(v.obs), set = new Set(v.treat||[]);
+  DB.treatments.forEach(t=>{ const k = norm(t); if(k && (o.includes(k) || o.split(/[^a-z0-9]+/).some(w=>w.length>=3 && k.startsWith(w) && w.length>=Math.min(5,k.length)))) set.add(t); });
+  return [...set];
+}
+function openPatient(v, opts={}){
+  if(!v && opts.id) v = DB.visits.find(x=>x.id===opts.id);
   const isNew = !v;
-  v = v ? v : {id:uid(), clinic:opts.clinic||DB.clinics[0].id, date:opts.date||today(), time:'', patient:'', nhc:'', mutua:'TARIFA PRIVADA', status:'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', obs:'', source:'manual'};
-  const ov = sheet(`<h2>${isNew?'Add patient':esc(displayName(v.patient))}</h2>
-    ${(v.flags||[]).length?`<div class="small" style="color:var(--bad)">⚠ Gesden flag: ${esc(v.flags.join(' · '))}</div>`:''}
-    <label class="f">Patient name</label><input id="ePat" list="dlPat" value="${esc(v.patient)}" autocomplete="off">
-    ${v.origPatient && v.origPatient!==v.patient?`<div class="tiny" style="color:var(--warn);margin-top:4px">In Gesden: ${esc(v.origPatient)}</div>`:''}
-    <div class="grid2">
-      <div><label class="f">Mutua / tariff</label><input id="eMut" list="dlMut" value="${esc(v.mutua||'')}"></div>
-      <div><label class="f">NHC</label><input id="eNhc" inputmode="numeric" value="${esc(v.nhc||'')}"></div>
-      <div><label class="f">Date</label><input type="date" id="eDate" value="${v.date}"></div>
-      <div><label class="f">Time</label><input type="time" id="eTime" value="${esc(v.time||'')}"></div>
-    </div>
-    ${multi()?`<label class="f">Clinic</label>${clinicSelectHtml('eClinic', v.clinic)}`:''}
-    <label class="f">Status</label><select id="eSt">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${v.status===k?'selected':''}>${l}</option>`).join('')}</select>
-    ${v.phone?`<div class="small muted" style="margin-top:10px">☎ ${esc(v.phone)}</div>`:''}
-    <div class="row" style="margin-top:16px">${isNew?'':'<button class="btn danger" id="eDel">Delete</button>'}<div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="eSave">Save</button></div>
-    <datalist id="dlPat">${knownPatients().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>
-    <datalist id="dlMut">${[...new Set(DB.visits.map(x=>x.mutua).filter(Boolean))].sort().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`);
-  if(!isNew) ov.querySelector('#eDel').onclick = () => { if(confirm('Delete this visit?')){ DB.visits = DB.visits.filter(x=>x.id!==v.id); save(); ov.remove(); opts.onDone ? opts.onDone() : render(); } };
-  ov.querySelector('#eSave').onclick = () => {
-    const name = ov.querySelector('#ePat').value.trim(); if(!name){ alert('Please enter the patient name'); return; }
-    const nhc = ov.querySelector('#eNhc').value.trim();
-    if(nhc && v.origPatient && name!==v.origPatient) DB.patients[nhc] = {name, gesden:v.origPatient};
-    Object.assign(v, {patient:name, nhc, mutua:ov.querySelector('#eMut').value.trim(), date:ov.querySelector('#eDate').value||v.date, time:ov.querySelector('#eTime').value, status:ov.querySelector('#eSt').value, clinic: ov.querySelector('#eClinic')?ov.querySelector('#eClinic').value:v.clinic});
-    if(isNew) DB.visits.push(v);
-    save(); ov.remove(); if(UI.screen==='clinic'){ UI.day = v.date; UI.calYm = v.date.slice(0,7); } opts.onDone ? opts.onDone() : render(); toast('Saved');
+  const cid = isNew ? (oneSel()||clinicById(selIds()[0])).id : v.clinic;
+  const w = isNew ? {id:uid(), clinic:cid, date:opts.date||today(), time:'', patient:'', nhc:'', mutua:'TARIFA PRIVADA', obs:'', status:'attended', paid:'', ins:'', insAuto:false, lines:[], notes:'', source:'manual'} : structuredClone(v);
+  const ov = sheet('');
+  const box = ov.querySelector('.sheet');
+  const draw = () => {
+    const tot = num(w.paid)+num(w.ins), billed = (w.lines||[]).length ? billedTotal(w) : null;
+    box.innerHTML = `<div class="grab"></div>
+      <div class="row" style="align-items:flex-start"><div class="grow"><h2>${isNew?'New patient':esc(displayName(w.patient))}</h2><div class="small muted">${fmtLong(w.date)}${w.time?' · '+esc(w.time):''}${multi()?' · '+esc(clinicById(w.clinic).name):''}</div></div>
+        ${!isNew && hasHistory(w)?`<button class="hbtn" id="pHist">🗂 History</button>`:''}</div>
+      ${w.check?`<div class="alert">⚠ ${esc(w.check)}</div>`:''}
+      ${(w.flags||[]).length?`<div class="alert">⚠ Gesden: ${esc(w.flags.join(' · '))}</div>`:''}
+      <label class="f">Status</label>
+      <div class="seg" id="pSt">${Object.entries(STATUS).map(([k,l])=>`<button data-v="${k}" class="${w.status===k?'on':''}">${l}</button>`).join('')}</div>
+      <label class="f">Name</label><input id="pName" list="dlPat" value="${esc(w.patient)}" autocomplete="off">
+      ${w.origPatient && w.origPatient!==w.patient?`<div class="tiny" style="color:var(--warn);margin-top:4px">In Gesden: ${esc(w.origPatient)}</div>`:''}
+      <div class="grid2">
+        <div><label class="f">NHC</label><input id="pNhc" inputmode="numeric" value="${esc(w.nhc||'')}"></div>
+        <div><label class="f">Insurance</label><input id="pMut" list="dlMut" value="${esc(w.mutua||'')}"></div>
+        <div><label class="f">Date</label><input id="pDate" type="date" value="${w.date}"></div>
+        <div><label class="f">Hour</label><input id="pTime" type="time" value="${esc(w.time||'')}"></div>
+      </div>
+      ${multi()?`<label class="f">Clinic</label>${clinicSelectHtml('pClinic', w.clinic)}`:''}
+      <label class="f">Observación ${w.source==='pdf'&&w.obsOrig&&w.obsOrig!==w.obs?'<span class="tiny muted">(Gesden: '+esc(w.obsOrig)+')</span>':''}</label>
+      <textarea id="pObs" style="min-height:64px" placeholder="What was done, e.g. RECONSTRUCCIÓN 36">${esc(w.obs||'')}</textarea>
+      <div class="tchips" id="pChips" style="margin-top:8px">${DB.treatments.map(t=>`<button data-tr="${esc(t)}" class="${norm(w.obs).includes(norm(t))?'on':''}">${esc(t)}</button>`).join('')}</div>
+      <div class="money">
+        <div class="mf"><label>Cash · paid at clinic</label><div class="eur"><input id="pPaid" inputmode="decimal" value="${decStr(w.paid)}" placeholder="—"></div>${w.paidAuto?'<div class="auto">from invoice</div>':''}</div>
+        <div class="mf"><label>Insurance</label><div class="eur"><input id="pIns" inputmode="decimal" value="${decStr(w.ins)}" placeholder="from invoice"></div>${w.insAuto?'<div class="auto">from invoice</div>':(blank(w.ins)?'<div class="auto" style="color:var(--muted)">fills in when the invoice arrives</div>':'')}</div>
+      </div>
+      <div class="tot"><span class="muted">Total</span><b>${eur(tot)}</b></div>
+      ${billed!=null?`<div class="billed"><b>Clinic invoice ${eur(billed)}</b>${w.lines.map(l=>`<div><span>${esc(titleCase(l.desc))}${l.pay==='card'?' 💳':''}</span><span>${eur(l.amt)}</span></div>`).join('')}</div>`:''}
+      <label class="f">Comment</label><textarea id="pNote" placeholder="Anything to remember about this visit">${esc(w.notes||'')}</textarea>
+      <div class="row" style="margin-top:16px">${isNew?'':'<button class="btn danger" id="pDel">Delete</button>'}<div class="grow"></div><button class="btn" data-x>Cancel</button><button class="btn pri" id="pSave">Save</button></div>
+      <datalist id="dlPat">${knownPatients().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>
+      <datalist id="dlMut">${[...new Set(DB.visits.map(x=>x.mutua).filter(Boolean))].sort().map(p=>`<option value="${esc(p)}">`).join('')}</datalist>`;
+    const grab = () => { w.patient = box.querySelector('#pName').value.trim(); w.nhc = box.querySelector('#pNhc').value.trim(); w.mutua = box.querySelector('#pMut').value.trim();
+      w.date = box.querySelector('#pDate').value || w.date; w.time = box.querySelector('#pTime').value; w.obs = box.querySelector('#pObs').value.trim(); w.notes = box.querySelector('#pNote').value.trim();
+      if(box.querySelector('#pClinic')) w.clinic = box.querySelector('#pClinic').value; };
+    box.querySelector('#pSt').onclick = e => { const b=e.target.closest('button'); if(!b) return; w.status=b.dataset.v; box.querySelectorAll('#pSt button').forEach(x=>x.classList.toggle('on',x===b)); };
+    box.querySelector('#pChips').onclick = e => { const b=e.target.closest('[data-tr]'); if(!b) return; const obs = box.querySelector('#pObs'); const t = b.dataset.tr;
+      if(b.classList.contains('on')){ obs.value = obs.value.replace(new RegExp('\\s*[,;·]?\\s*'+t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'),'').replace(/^\s*[,;·]\s*/,'').trim(); }
+      else obs.value = obs.value.trim() ? obs.value.trim()+', '+t : t;
+      b.classList.toggle('on'); };
+    const money = (id, k) => box.querySelector(id).onchange = e => { grab(); w[k] = moneyIn(e.target.value); if(k==='ins') w.insAuto=false; if(k==='paid') w.paidAuto=false;
+      if(k==='paid' && (w.lines||[]).length && (blank(w.ins) || w.insAuto)) computeIns(w); draw(); };
+    money('#pPaid','paid'); money('#pIns','ins');
+    const h = box.querySelector('#pHist'); if(h) h.onclick = () => { ov.remove(); openHistory(v); };
+    if(!isNew) box.querySelector('#pDel').onclick = () => { if(confirm('Delete this visit?')){ DB.visits = DB.visits.filter(x=>x.id!==w.id); save(); ov.remove(); opts.onDone ? opts.onDone() : render(); } };
+    box.querySelector('#pSave').onclick = () => {
+      grab(); if(!w.patient){ alert('Please enter the name'); return; }
+      if(w.nhc && w.origPatient && w.patient!==w.origPatient) DB.patients[w.nhc] = {name:w.patient, gesden:w.origPatient};
+      if(isNew) DB.visits.push(w); else Object.assign(v, w);
+      save(); ov.remove();
+      if(UI.screen==='cal'){ UI.day = w.date; UI.calYm = w.date.slice(0,7); }
+      opts.onDone ? opts.onDone() : render(); toast('Saved');
+    };
   };
-  if(isNew) setTimeout(()=>ov.querySelector('#ePat').focus(), 80);
+  draw();
+  if(isNew) setTimeout(()=>box.querySelector('#pName').focus(), 80);
 }
 
 /* ============ PATIENT HISTORY ============ */
-function patientKey(v){ return v.nhc ? 'n:'+v.nhc : 'p:'+norm(v.patient); }
-function visitsOf(key, name){
-  const nhc = key.startsWith('n:') ? key.slice(2) : null;
-  return DB.visits.filter(v => (nhc && v.nhc===nhc) || (!nhc || !v.nhc) && nameScore(v.patient, name) >= 0.85 && nameTokens(v.patient).length && Math.abs(nameTokens(v.patient).length-nameTokens(name).length)<=1)
-    .sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||''));
+function visitsOf(v){
+  if(!v.nhc) return [v];
+  return DB.visits.filter(x=>x.id===v.id || (x.nhc===v.nhc && nameScore(x.patient, v.patient)>=0.8)).sort((a,b)=>b.date.localeCompare(a.date) || (b.time||'').localeCompare(a.time||''));
 }
-function openHistory(v){ if(!v) return; go('history', {hist:{key:patientKey(v), name:v.patient}, histView:'list', histYm:null, histSel:null}); }
+function openHistory(v){ if(!v) return; go('history', {hist:{id:v.id}, histView:'list', histYm:null, histSel:null}); }
 function renderHistory(){
-  const H = UI.hist; const vs = visitsOf(H.key, H.name); const last = vs[0] || {};
+  const base = DB.visits.find(x=>x.id===UI.hist.id); if(!base){ back(); return; }
+  const vs = visitsOf(base); const last = vs[0];
   const att = vs.filter(attended);
-  if(!UI.histYm) UI.histYm = (last.date||today()).slice(0,7);
-  const STC = {attended:'var(--ok)', noshow:'var(--bad)', cancelled:'var(--bad)', pending:'var(--faint)'};
-  $('#app').innerHTML = topBar(esc(displayName(last.patient||H.name)), `${last.nhc?'NHC '+esc(last.nhc)+' · ':''}${esc(last.mutua||'')}`, {small:true}) + `
-    <div class="tiles"><div class="glass tile"><div class="v">${att.length}</div><div class="l">Visits</div></div><div class="glass tile"><div class="v">${vs.length-att.length-vs.filter(v=>v.status==='pending').length}</div><div class="l">Missed</div></div>
-      <div class="glass tile"><div class="v" style="font-size:20px">${eur0(sum(att,v=>v.paid))}</div><div class="l">Paid at clinic</div></div><div class="glass tile"><div class="v" style="font-size:20px">${eur0(sum(att,v=>v.ins))}</div><div class="l">Insurance</div></div></div>
+  if(!UI.histYm) UI.histYm = last.date.slice(0,7);
+  const STC = {attended:'#12a150', noshow:'#e5484d', cancelled:'#d97706', pending:'#98a2b3'};
+  $('#app').innerHTML = topBar(esc(displayName(last.patient)), `${last.nhc?'NHC '+esc(last.nhc)+' · ':''}${esc(last.mutua||'')}`, {small:true, back:true}) + `
+    <div class="tiles"><div class="glass tile"><div class="v">${att.length}</div><div class="l">Visits</div></div><div class="glass tile"><div class="v">${vs.filter(v=>v.status==='noshow'||v.status==='cancelled').length}</div><div class="l">Missed</div></div>
+      <div class="glass tile"><div class="v" style="font-size:20px">${eur(sum(att,v=>v.paid))}</div><div class="l">Cash at clinic</div></div><div class="glass tile"><div class="v" style="font-size:20px">${eur(sum(att,v=>v.ins))}</div><div class="l">Insurance</div></div></div>
     <div class="seg" id="hSeg" style="margin-bottom:14px"><button data-v="list" class="${UI.histView==='list'?'on':''}">List</button><button data-v="cal" class="${UI.histView==='cal'?'on':''}">Calendar</button></div>
     <div id="hBody"></div>`;
   $('#hSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.histView=b.dataset.v; render(); } };
-  const visitBlock = v => { const c = clinicById(v.clinic); return `<div class="glass hv" id="hv-${v.id}" data-id="${v.id}">
-      <div class="row"><span class="d">${fmtShortY(v.date)}</span><span class="muted small">${esc(v.time||'')}</span><span class="grow"></span><span class="tag" style="background:color-mix(in srgb,${STC[v.status]} 15%,transparent);color:${STC[v.status]}">${STATUS[v.status]}</span></div>
-      <div class="small muted" style="margin-top:2px">${clinicDot(c)}${esc(c.name)} · ${esc(v.mutua||'')}</div>
-      ${v.obs?`<div class="small" style="color:var(--info);margin-top:6px">📝 ${esc(v.obs)}</div>`:''}
-      ${(v.treat||[]).length?`<div class="tchips" style="margin:10px 0 0">${v.treat.map(t=>`<button class="on" style="cursor:default">${esc(t)}</button>`).join('')}</div>`:''}
-      ${attended(v)?`<div class="billed" style="margin-top:10px"><div><span>Paid at clinic ${v.paid!==''&&v.paid!=null?(v.payMethod==='cash'?'💶':'💳'):''}${v.paidAuto?' (from factura)':''}</span><b>${blank(v.paid)?'—':eur(v.paid)}</b></div><div><span>Insurance${v.insAuto?' (from factura)':''}</span><b>${blank(v.ins)?'—':eur(v.ins)}</b></div>
-        ${(v.lines||[]).length?`<div style="margin-top:6px;opacity:.85"><i>Factura: ${v.lines.map(l=>esc(titleCase(l.desc))+' '+eur(l.amt)).join(' · ')}</i></div>`:''}</div>`:''}
+  const block = v => { const c = clinicById(v.clinic); return `<div class="glass hv" data-id="${v.id}">
+      <div class="row"><span class="d">${fmtShortY(v.date)}</span><span class="muted small">${esc(v.time||'')}</span><span class="grow"></span><span class="spill ${STATUS_CLS[v.status]}">${STATUS[v.status]}</span></div>
+      ${multi()?`<div class="small muted" style="margin-top:2px"><i class="dot" style="background:${esc(c.color)}"></i> ${esc(c.name)}</div>`:''}
+      ${v.obs?`<div style="margin-top:8px;font-weight:600">${esc(v.obs)}</div>`:''}
+      <div class="paygrid"><div><span>Cash</span><b>${blank(v.paid)?'—':eur(v.paid)}</b></div><div><span>Insurance${v.insAuto?' ·inv':''}</span><b>${blank(v.ins)?'—':eur(v.ins)}</b></div><div><span>Total</span><b>${eur(num(v.paid)+num(v.ins))}</b></div></div>
+      ${(v.lines||[]).length?`<div class="tiny muted" style="margin-top:6px">Invoice: ${v.lines.map(l=>esc(titleCase(l.desc))+' '+eur(l.amt)).join(' · ')}</div>`:''}
+      ${v.check?`<div class="alert" style="margin-top:8px">⚠ ${esc(v.check)}</div>`:''}
       ${v.notes?`<div class="small" style="margin-top:8px;white-space:pre-wrap">💬 ${esc(v.notes)}</div>`:''}
-      <div class="acts"><button class="btn sm" data-note>${v.notes?'Edit comment':'💬 Add comment'}</button><button class="btn sm" data-goday>Open day</button></div>
+      <div class="acts"><button class="btn sm" data-edit>✏️ Edit</button><button class="btn sm" data-goday>📅 Open day</button></div>
     </div>`; };
   if(UI.histView==='list'){
-    $('#hBody').innerHTML = vs.length ? vs.map(visitBlock).join('') : '<div class="empty">No visits.</div>';
+    $('#hBody').innerHTML = vs.map(block).join('');
   } else {
-    const marks = {}; vs.forEach(v=>{ marks[v.date] = {color: STC[v.status].startsWith('var') ? getComputedStyle(document.documentElement).getPropertyValue(STC[v.status].slice(4,-1)).trim() || '#888' : STC[v.status]}; });
+    const marks = {}; vs.forEach(v=>{ marks[v.date] = {color: STC[v.status]}; });
     const sel = UI.histSel && marks[UI.histSel] ? UI.histSel : null;
     const months = [...new Set(vs.map(v=>v.date.slice(0,7)))];
     $('#hBody').innerHTML = `<div class="glass card">${calendarHtml(UI.histYm, marks, sel, '#4f7cf7', 'hcal')}
-      <div class="legend"><span><i class="dot" style="background:var(--ok)"></i>came</span><span><i class="dot" style="background:var(--bad)"></i>missed</span><span><i class="dot" style="background:var(--faint)"></i>pending</span></div>
+      <div class="legend"><span><i class="dot" style="background:${STC.attended}"></i>came</span><span><i class="dot" style="background:${STC.noshow}"></i>no-show</span><span><i class="dot" style="background:${STC.cancelled}"></i>cancelled</span><span><i class="dot" style="background:${STC.pending}"></i>pending</span></div>
       ${months.length>1?`<div class="tiny muted" style="margin-top:8px">Visits in: ${months.map(m=>`<a href="#" data-jm="${m}" style="color:var(--accent)">${MON[+m.slice(5)-1]} ${m.slice(2,4)}</a>`).join(' · ')}</div>`:''}</div>
-      ${vs.filter(v=>v.date.startsWith(UI.histYm) && (!sel || v.date===sel)).map(visitBlock).join('') || '<div class="empty small">No visits this month.</div>'}`;
-    $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(m){ UI.histYm = addMonths(UI.histYm,+m.dataset.cm); UI.histSel=null; render(); } };
+      ${vs.filter(v=>v.date.startsWith(UI.histYm) && (!sel || v.date===sel)).map(block).join('') || '<div class="empty small">No visits this month.</div>'}`;
+    $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(m){ UI.histYm = +m.dataset.cm ? addMonths(UI.histYm,+m.dataset.cm) : last.date.slice(0,7); UI.histSel=null; render(); } };
     $$('[data-jm]').forEach(a=>a.onclick=e=>{ e.preventDefault(); UI.histYm=a.dataset.jm; UI.histSel=null; render(); });
   }
   $('#hBody').addEventListener('click', e => {
     const card = e.target.closest('[data-id]'); if(!card) return; const v = DB.visits.find(x=>x.id===card.dataset.id);
-    if(e.target.closest('[data-note]')) openComment(v, render);
-    if(e.target.closest('[data-goday]')) go('clinic', {clinic:v.clinic, ctab:'cal', calYm:v.date.slice(0,7), day:v.date});
+    if(e.target.closest('[data-edit]')) openPatient(v, {onDone: render});
+    if(e.target.closest('[data-goday]')){ if(!inSel(v)) setSel(selIds().concat(v.clinic)); go('cal', {ctab:'cal', calYm:v.date.slice(0,7), day:v.date}); }
   });
 }
 
 /* ============ PATIENTS LIST ============ */
 function renderPatients(){
-  $('#app').innerHTML = topBar('Patients', '', {back:false}) + `<input id="sQ" type="search" placeholder="Search name or NHC…" value="${esc(UI.q)}" style="margin-bottom:12px"><div id="sRes"></div>`;
+  $('#app').innerHTML = `<div class="top"><div class="grow"><h1>Patients</h1></div>${clinicPill()}</div><input id="sQ" type="search" placeholder="Search name or NHC…" value="${esc(UI.q)}" style="margin-bottom:12px"><div id="sRes"></div>`;
+  bindClinicPill();
   const draw = () => {
     const q = norm(UI.q);
     const groups = new Map();
-    DB.visits.slice().sort((a,b)=>b.date.localeCompare(a.date)).forEach(v=>{
-      const k = patientKey(v); let g = groups.get(k);
-      if(!g){ g = {v, n:0, last:v.date}; groups.set(k,g); }
-      if(attended(v)) g.n++;
+    DB.visits.filter(inSel).sort((a,b)=>b.date.localeCompare(a.date)).forEach(v=>{
+      const k = v.nhc ? 'n:'+v.nhc+'|'+nameTokens(v.patient)[0] : 'p:'+norm(v.patient); let g = groups.get(k);
+      if(!g){ g = {v, n:0, paid:0, ins:0}; groups.set(k,g); }
+      if(attended(v)){ g.n++; g.paid += num(v.paid); g.ins += num(v.ins); }
     });
     let list = [...groups.values()];
     if(q.length>=2) list = list.filter(g=>norm(g.v.patient).includes(q) || norm(g.v.origPatient).includes(q) || (g.v.nhc||'').includes(q));
-    const shown = list.slice(0, 150);
-    $('#sRes').innerHTML = `<div class="small muted" style="margin:0 4px 8px">${list.length} patients</div><div class="glass card" style="padding:4px 14px">${shown.map(g=>`<div class="li" data-hist="${g.v.id}"><div class="ini" style="background:${clinicById(g.v.clinic).color}">${esc(initials(g.v.patient))}</div><div class="grow"><div class="t">${esc(displayName(g.v.patient))}</div><div class="s">${g.n} visit${g.n===1?'':'s'} · last ${fmtShortY(g.last)}${g.v.nhc?' · NHC '+esc(g.v.nhc):''}</div></div><span class="chev">›</span></div>`).join('') || '<div class="empty">No patients yet.</div>'}</div>`;
-    $$('#sRes [data-hist]').forEach(el=>el.onclick=()=>openHistory(DB.visits.find(v=>v.id===el.dataset.hist)));
+    $('#sRes').innerHTML = `<div class="small muted" style="margin:0 4px 8px">${list.length} patients</div><div class="glass card" style="padding:4px 14px">${list.slice(0,200).map(g=>`<div class="li" data-hist="${g.v.id}"><div class="ini" style="background:${clinicById(g.v.clinic).color}">${esc(initials(g.v.patient))}</div><div class="grow"><div class="t">${esc(displayName(g.v.patient))}</div><div class="s">${g.n} visit${g.n===1?'':'s'} · last ${fmtShortY(g.v.date)}${g.v.nhc?' · NHC '+esc(g.v.nhc):''}</div></div><span class="small muted" style="text-align:right">${eur0(g.paid+g.ins)}</span><span class="chev">›</span></div>`).join('') || '<div class="empty">No patients yet.</div>'}</div>`;
+    $$('#sRes [data-hist]').forEach(el=>el.onclick=()=>{ const v = DB.visits.find(x=>x.id===el.dataset.hist); v.nhc ? openHistory(v) : openPatient(v); });
   };
   $('#sQ').oninput = e => { UI.q = e.target.value; draw(); };
   draw();
@@ -1009,7 +1117,8 @@ function openAgendaPreview(days, fname){ return new Promise(done => {
   const sel = {}; doctors.forEach(d=>sel[d] = mine(d) || (!key && doctors.length===1));
   const detected = detectClinic(days.map(d=>d.doctor).join(' '), 'agenda');
   let clinic = (detected || (importClinic && clinicById(importClinic)) || DB.clinics[0]).id;
-  let statusMode = days.every(d=>d.date < today()) ? 'attended' : 'pending';
+  let statusMode = 'pending';
+  days.forEach(d=>d.rows.forEach(r=>{ if(r.status===undefined) r.status = r.isNote ? 'cancelled' : statusMode; }));
   const ov = sheet('', 'wide');
   const box = ov.querySelector('.sheet');
   const finish = () => { ov.remove(); done(); };
@@ -1023,20 +1132,25 @@ function openAgendaPreview(days, fname){ return new Promise(done => {
       <div class="row" style="margin-top:10px"><span class="small muted">Clinic</span>${clinicSelectHtml('aClinic', clinic, {style:'width:auto'})}<span class="small" style="color:${detected?'var(--muted)':'var(--warn)'}">${detected?'detected from the agenda':'⚠ not recognised — check'}</span></div>
       ${doctors.length>1 || !doctors.some(mine) ? `<div class="glass card" style="margin-top:10px;padding:12px"><b class="small">Which doctor's agenda?</b>
         ${doctors.map(d=>`<label class="chk"><input type="checkbox" data-doc="${esc(d)}" ${sel[d]?'checked':''}> ${esc(d)} <span class="muted">(${days.filter(x=>x.doctor===d).length} days)</span></label>`).join('')}</div>`:''}
-      <div class="row" style="margin-top:8px"><span class="small muted">Import as</span><select id="aStat" style="width:auto"><option value="pending" ${statusMode==='pending'?'selected':''}>To confirm</option><option value="attended" ${statusMode==='attended'?'selected':''}>Came (past days)</option></select></div>
+      <div class="row" style="margin-top:8px"><span class="small muted">Set every patient to</span><select id="aStat" style="width:auto">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${statusMode===k?'selected':''}>${l}</option>`).join('')}</select><span class="tiny muted">— or change each row</span></div>
       ${shown.map(d=>{ const chk = d.expected==null ? '' : (d.rows.length===d.expected ? `<span class="tag ok">${d.rows.length}/${d.expected} ✓</span>` : `<span class="tag bad">read ${d.rows.length} of ${d.expected}</span>`);
-        return `<div class="dayhdr">${fmtLong(d.date)} ${chk}</div><div class="tablewrap"><table class="pv"><tbody>
-        ${d.rows.map((r,ri)=>`<tr data-d="${days.indexOf(d)}" data-r="${ri}"><td><input type="checkbox" data-k="use" ${r.use?'checked':''} style="width:auto"></td><td class="small">${esc(r.time)}</td>
-          <td><input data-k="final" value="${esc(r.final)}" style="min-width:170px">${r.fixed?`<div class="tiny" style="color:var(--warn)">auto-fixed from: ${esc(r.name)}</div>`:''}${r.flags.length?`<div class="tiny" style="color:var(--bad)">⚠ ${esc(r.flags.join(' · '))}</div>`:''}${r.isNote?`<div class="tiny muted">agenda note, not a patient</div>`:''}</td>
-          <td class="small">${esc(r.mutua)}${r.nhc?'<br><span class="muted">NHC '+esc(r.nhc)+'</span>':''}</td><td class="small muted" style="max-width:260px">${esc(r.obs)}</td>
-          <td>${r.exists?'<span class="tag i">update</span>':'<span class="tag ok">new</span>'}</td></tr>`).join('')}</tbody></table></div>`; }).join('') || '<div class="empty">No days selected.</div>'}
+        return `<div class="dayhdr">${fmtLong(d.date)} ${chk}</div><div class="glass list">
+        ${d.rows.map((r,ri)=>`<div class="irow ${r.use?'':'off'}" data-d="${days.indexOf(d)}" data-r="${ri}">
+          <div class="row" style="flex-wrap:nowrap"><input type="checkbox" data-k="use" ${r.use?'checked':''} style="width:22px;height:22px;flex:none"><span class="small muted" style="width:42px;flex:none">${esc(r.time)}</span>
+            <input data-k="final" value="${esc(r.final)}" class="grow" style="padding:7px 9px;font-size:15px;font-weight:600"></div>
+          <div class="row" style="margin:6px 0 0 30px;gap:6px"><span class="tiny muted grow">${esc(r.mutua)}${r.nhc?' · NHC '+esc(r.nhc):''}${r.exists?' · <span class="tag i">update</span>':' · <span class="tag ok">new</span>'}</span>
+            <select data-k="status" style="width:auto;padding:5px 8px;font-size:13px;border-radius:9px">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${r.status===k?'selected':''}>${l}</option>`).join('')}</select></div>
+          ${r.obs?`<div class="tiny" style="margin:4px 0 0 30px;color:var(--info)">📝 ${esc(r.obs)}</div>`:''}
+          ${r.fixed?`<div class="tiny" style="margin:2px 0 0 30px;color:var(--warn)">auto-fixed from: ${esc(r.name)}</div>`:''}${r.flags.length?`<div class="tiny" style="margin:2px 0 0 30px;color:var(--bad)">⚠ ${esc(r.flags.join(' · '))}</div>`:''}${r.isNote?`<div class="tiny muted" style="margin:2px 0 0 30px">agenda note, not a patient</div>`:''}
+        </div>`).join('')}</div>`; }).join('') || '<div class="empty">No days selected.</div>'}
       <div class="row" style="margin-top:14px;position:sticky;bottom:0;padding-top:8px;background:var(--glass-2)"><div class="grow muted small">${nNew} new · ${nUpd} already here (her data is kept)</div><button class="btn" id="aCancel">Cancel</button><button class="btn pri" id="aGo" ${nNew+nUpd?'':'disabled'}>Import</button></div>`;
     box.querySelector('#aClinic').onchange = e => { clinic = e.target.value; draw(); };
     box.querySelectorAll('[data-doc]').forEach(c=>c.onchange=()=>{ sel[c.dataset.doc]=c.checked; draw(); });
-    box.querySelector('#aStat').onchange = e => statusMode = e.target.value;
-    box.querySelectorAll('tr[data-d]').forEach(tr=>{ const r = days[+tr.dataset.d].rows[+tr.dataset.r];
+    box.querySelector('#aStat').onchange = e => { statusMode = e.target.value; days.forEach(d=>d.rows.forEach(r=>{ if(!r.isNote) r.status = statusMode; })); draw(); };
+    box.querySelectorAll('.irow').forEach(tr=>{ const r = days[+tr.dataset.d].rows[+tr.dataset.r];
       tr.querySelector('[data-k=use]').onchange = e => { r.use = e.target.checked; draw(); };
-      tr.querySelector('[data-k=final]').onchange = e => { r.final = e.target.value.trim(); }; });
+      tr.querySelector('[data-k=final]').onchange = e => { r.final = e.target.value.trim(); };
+      tr.querySelector('[data-k=status]').onchange = e => { r.status = e.target.value; }; });
     box.querySelector('#aCancel').onclick = finish;
     box.querySelector('#aGo').onclick = () => {
       let n=0, u=0, first=null;
@@ -1045,12 +1159,13 @@ function openAgendaPreview(days, fname){ return new Promise(done => {
         const ex = existingFor(d.date, r, clinic);
         if(r.nhc && r.final!==r.name) DB.patients[r.nhc] = {name:r.final, gesden:r.name};
         if(ex){ const keepName = ex.patient && ex.origPatient && ex.patient!==ex.origPatient;
-          Object.assign(ex, {time:r.time||ex.time, mutua:r.mutua||ex.mutua, phone:r.phone||ex.phone, obs:r.obs||ex.obs, flags:r.flags, confirmed:r.confirmed, nhc:r.nhc||ex.nhc, doctor:d.doctor, origPatient:r.name});
+          Object.assign(ex, {time:r.time||ex.time, mutua:r.mutua||ex.mutua, phone:r.phone||ex.phone, obs: ex.obs || r.obs, obsOrig:r.obs, flags:r.flags, confirmed:r.confirmed, nhc:r.nhc||ex.nhc, doctor:d.doctor, origPatient:r.name});
+          if(ex.status==='pending' && r.status!=='pending') ex.status = r.status;
           if(!keepName) ex.patient = r.final; u++; }
-        else { DB.visits.push({id:uid(), clinic, date:d.date, time:r.time, nhc:r.nhc, patient:r.final, origPatient:r.name, mutua:r.mutua, phone:r.phone, obs:r.obs, flags:r.flags, confirmed:r.confirmed, doctor:d.doctor, status:statusMode, treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', source:'pdf'}); n++; }
+        else { DB.visits.push({id:uid(), clinic, date:d.date, time:r.time, nhc:r.nhc, patient:r.final, origPatient:r.name, mutua:r.mutua, phone:r.phone, obs:r.obs, obsOrig:r.obs, flags:r.flags, confirmed:r.confirmed, doctor:d.doctor, status:r.status, paid:'', ins:'', insAuto:false, lines:[], notes:'', source:'pdf'}); n++; }
       }));
       save(); finish();
-      if(first){ if(UI.screen!=='clinic' || UI.clinic!==clinic) go('clinic', {clinic, ctab:'cal'}, UI.screen!=='clinic'); UI.clinic = clinic; UI.ctab='cal'; UI.calYm = first.slice(0,7); UI.day = days.length===1 || !UI.day ? first : UI.day; render(); }
+      if(first){ if(!selIds().includes(clinic)) setSel(selIds().concat(clinic)); go('cal', {ctab:'cal', calYm:first.slice(0,7), day:first}, UI.screen!=='cal'); }
       toast(`Imported: ${n} new, ${u} updated`);
     };
   };
@@ -1075,7 +1190,7 @@ function openLiqPreview(L, fname){ return new Promise(done => {
       <div class="tablewrap" style="max-height:42vh;overflow:auto"><table><thead><tr><th>Day</th><th>Patient</th><th>Description</th><th class="n">€</th></tr></thead><tbody>
         ${L.lines.map(l=>`<tr><td class="small">${l.date?fmtDate(l.date).slice(0,5):'?'}</td><td>${esc(l.name)}<div class="tiny muted">${esc(l.mutua)}</div></td><td class="small">${esc(l.desc)}${l.pay==='card'?' 💳':''}</td><td class="n" style="${l.amt<0?'color:var(--bad)':''}">${eur(l.amt)}</td></tr>`).join('')}</tbody></table></div>
       ${exists?`<div class="small" style="color:var(--warn);margin-top:8px">A liquidación for ${monthLabel(ym)} is already stored — it will be replaced.</div>`:''}
-      <div class="small muted" style="margin-top:10px">Saving attaches each line to her visit and fills in the <b>insurance</b> amount (clinic total − paid at clinic) for mutua patients.</div>
+      <div class="small muted" style="margin-top:10px">Saving attaches each line to her visit and fills <b>Insurance</b> = invoice − cash. If the invoice is <i>less</i> than the cash she entered, the visit is flagged ⚠ to check.</div>
       <div class="row" style="margin-top:12px"><div class="grow"></div><button class="btn" id="lCancel">Cancel</button><button class="btn pri" id="lGo" ${ym?'':'disabled'}>Save & compare</button></div>`;
     box.querySelector('#lClinic').onchange = e => { clinic = e.target.value; draw(); };
     box.querySelector('#lCancel').onclick = finish;
@@ -1084,8 +1199,9 @@ function openLiqPreview(L, fname){ return new Promise(done => {
       DB.liq[lkey(clinic, ym)] = {...rest, file:fname, importedAt:new Date().toISOString()};
       const r = applyLiq(clinic, ym);
       save(); finish();
-      go('clinic', {clinic, ctab:'liq', liqYm:ym}, UI.screen!=='clinic');
-      toast(`Saved · ${r.matched} visits matched, ${r.insFilled} insurance amounts filled`);
+      if(!selIds().includes(clinic)) setSel(selIds().concat(clinic));
+      go('cal', {ctab:'liq', liqYm:ym, liqClinic:clinic}, UI.screen!=='cal');
+      toast(`Saved · ${r.matched} visits matched, ${r.insFilled} insurance amounts filled${r.checks?`, ${r.checks} to check`:''}`);
     };
   };
   draw();
@@ -1096,24 +1212,29 @@ function matchLineVisit(l, visits){
   for(const v of visits) if(v.date===l.date){ const s = nameScore(v.patient, l.name) + (attended(v)?0.01:0); if(s>bs){bs=s;best=v;} }
   return bs>=0.6 ? best : null;
 }
+// Insurance = invoice − cash. Equal → 0 €. Invoice lower than cash → flag for a manual check.
+function computeIns(v){
+  const tot = r2(billedTotal(v)), cash = num(v.paid);
+  if(!(v.lines||[]).length){ if(v.insAuto){ v.ins=''; v.insAuto=false; } v.check=''; return 'none'; }
+  if(!blank(v.ins) && !v.insAuto){ v.check = Math.abs(r2(cash+num(v.ins)) - tot) > 0.01 ? `Cash + insurance (${eur(cash+num(v.ins))}) ≠ invoice (${eur(tot)})` : ''; return v.check?'check':'manual'; }
+  if(tot > cash + 0.005){ v.ins = r2(tot-cash); v.insAuto = true; v.check=''; return 'filled'; }
+  if(Math.abs(tot-cash) <= 0.005){ v.ins = 0; v.insAuto = true; v.check=''; return 'zero'; }
+  v.ins = ''; v.insAuto = false; v.check = `Invoice ${eur(tot)} is less than cash paid at clinic ${eur(cash)} — check`; return 'check';
+}
 function applyLiq(cid, ym){
   const L = DB.liq[lkey(cid, ym)]; const visits = DB.visits.filter(v=>v.clinic===cid && v.date.startsWith(ym));
   visits.forEach(v=>{ v.lines = []; });
-  let matched = 0, insFilled = 0;
+  let matched = 0, insFilled = 0, checks = 0;
   for(const l of L.lines){
     if(l.amt<0 || l.note) continue;
     const v = matchLineVisit(l, visits); l.vid = v ? v.id : null;
-    if(v){ v.lines.push({desc:l.desc, amt:l.amt, pay:l.pay, mutua:l.mutua}); }
+    if(v) v.lines.push({desc:l.desc, amt:l.amt, pay:l.pay, mutua:l.mutua});
   }
   for(const v of visits){
-    if(!v.lines.length) continue; matched++;
-    if(v.status==='pending') v.status='attended';
-    if(!(v.treat||[]).length) v.treat = [...new Set(v.lines.map(l=>matchTreatment(l.desc)).filter(Boolean))];
-    const tot = r2(billedTotal(v));
-    if(!isPrivate(v.mutua) && (blank(v.ins) || v.insAuto)){ const ins = r2(tot - num(v.paid)); if(ins>0){ v.ins = ins; v.insAuto = true; insFilled++; } else if(v.insAuto){ v.ins=''; v.insAuto=false; } }
-    if(isPrivate(v.mutua) && blank(v.paid) && blank(v.ins) && v.source!=='pdf'){ /* leave it to her */ }
+    if(v.lines.length){ matched++; if(v.status==='pending') v.status='attended'; if(!v.obs) v.obs = [...new Set(v.lines.map(l=>titleCase(l.desc.replace(/\[.*?\]/,'').trim())))].join(', '); }
+    const r = computeIns(v); if(r==='filled'||r==='zero') insFilled++; if(r==='check') checks++;
   }
-  return {matched, insFilled};
+  return {matched, insFilled, checks};
 }
 
 /* ============ RECONCILIATION ============ */
@@ -1122,7 +1243,7 @@ function reconcile(ym, cid){
   const liq = DB.liq[lkey(cid, ym)];
   const visits = monthVisits(ym, cid), att = visits.filter(attended);
   const R = {ok:[], diff:[], missing:[], extra:[], corr:[], unfilled:[], pending: visits.filter(v=>v.status==='pending')};
-  if(!liq){ R.unfilled = att.filter(v=>!hasMoney(v) && !(v.treat||[]).length); return R; }
+  if(!liq) return R;
   for(const l of liq.lines){
     if(l.amt<0 || l.note){ R.corr.push({l}); continue; }
     const v = matchLineVisit(l, visits);
@@ -1134,7 +1255,7 @@ function reconcile(ym, cid){
     if(clin!=null){
       if(her==null && clin===0) R.ok.push({v, her:0, clinic:0});
       else if(her==null) R.diff.push({v, her:0, clinic:clin, unfilled:true});
-      else if(Math.abs(her-clin)<0.01) R.ok.push({v, her, clinic:clin});
+      else if(Math.abs(her-clin)<0.01 && !v.check) R.ok.push({v, her, clinic:clin});
       else R.diff.push({v, her, clinic:clin});
     } else if(her) R.missing.push({v, her});
   }
@@ -1145,7 +1266,7 @@ function herCalc(ym, cid){
   const att = monthVisits(ym, cid).filter(attended);
   let prod=0, card=0, shareAmt=0, feeAmt=0;
   att.forEach(v=>{ const sh = shareFor(cid, v.date)/100; const t = visitTotal(v); prod+=t; shareAmt+=t*sh;
-    if((v.payMethod||'card')==='card' && sh*100>=top){ card+=num(v.paid); feeAmt+=num(v.paid)*sh*fee; } });
+    if(sh*100>=top){ const c = (v.lines||[]).length ? sum(v.lines.filter(l=>l.pay==='card'), l=>l.amt) : (v.payMethod==='cash' ? 0 : num(v.paid)); card+=c; feeAmt+=c*sh*fee; } });
   const liq = DB.liq[lkey(cid, ym)], man = DB.manual[lkey(cid, ym)] || {};
   const lab = !blank(man.lab) ? num(man.lab) : (liq?.labCost ?? 0);
   const labAmt = lab * shareFor(cid, ym+'-28')/100;
@@ -1196,8 +1317,8 @@ function renderLiq(c){
       <button class="btn pri block" id="mImp">${ICON.pdf} Import liquidación PDF</button>
       <label class="f">…or type the clinic's liquidation amount</label><div class="eur" style="max-width:200px"><input id="mInv" inputmode="decimal" value="${decStr(man.invoice)}" placeholder="0,00"></div></div>` : ''}
     ${liq ? `
-      ${sec('missing','🔴','She logged it, clinic did not bill', R.missing, sum(R.missing,x=>x.her), R.missing.map(x=>vline(x.v, eur(x.her), esc((x.v.treat||[]).join(', ')||'—'))).join('')+'<div class="small muted" style="margin-top:6px">Worth asking the clinic — work that may not be paid.</div>','var(--bad)')}
-      ${sec('diff','🟠','Amounts differ', R.diff, sum(R.diff,x=>x.clinic-x.her), R.diff.map((x,i)=>`<div class="line click" data-v="${x.v.id}"><span>${fmtShort(x.v.date)} · <b>${esc(displayName(x.v.patient))}</b><br><span class="small muted">${esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + '))}<br>her: ${x.unfilled?'not filled':eur(x.her)} · clinic: ${eur(x.clinic)}</span></span><span class="amt"><button class="btn sm" data-accept="${i}">Use clinic</button></span></div>`).join('') + (R.diff.length>1?`<button class="btn sm" id="mAcceptAll" style="margin-top:8px">Use clinic amounts for all ${R.diff.length}</button>`:''),'var(--warn)')}
+      ${sec('missing','🔴','She logged it, clinic did not bill', R.missing, sum(R.missing,x=>x.her), R.missing.map(x=>vline(x.v, eur(x.her), esc(x.v.obs||'—'))).join('')+'<div class="small muted" style="margin-top:6px">Worth asking the clinic — work that may not be paid.</div>','var(--bad)')}
+      ${sec('diff','🟠','Amounts differ', R.diff, sum(R.diff,x=>x.clinic-x.her), R.diff.map((x,i)=>`<div class="line click" data-v="${x.v.id}"><span>${fmtShort(x.v.date)} · <b>${esc(displayName(x.v.patient))}</b><br><span class="small muted">${esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + '))}<br>her: ${x.unfilled?'not filled':eur(x.her)} · invoice: ${eur(x.clinic)}${x.v.check?'<br><b style="color:var(--warn)">⚠ '+esc(x.v.check)+'</b>':''}</span></span><span class="amt"><button class="btn sm" data-accept="${i}">Use clinic</button></span></div>`).join('') + (R.diff.length>1?`<button class="btn sm" id="mAcceptAll" style="margin-top:8px">Use clinic amounts for all ${R.diff.length}</button>`:''),'var(--warn)')}
       ${sec('extra','🔵','Billed, but not in her log', R.extra, sum(R.extra,x=>x.l.amt), R.extra.map((x,i)=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(titleCase(x.l.desc))} · ${esc(x.l.mutua)}${x.v && !attended(x.v)?` · <b style="color:var(--bad)">marked ${STATUS[x.v.status].toLowerCase()}</b>`:''}</span></span><span class="amt">${eur(x.l.amt)}<br><button class="btn sm" data-addl="${i}" style="margin-top:4px">＋ Add</button></span></div>`).join('') + `<button class="btn sm" id="mAddAll" style="margin-top:8px">＋ Add all ${R.extra.length}</button>`,'var(--info)')}
       ${sec('corr','↩️','Clinic corrections', R.corr, sum(R.corr,x=>x.l.amt), R.corr.map(x=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(x.l.desc)}${x.l.refDate?' · refers to '+fmtDate(x.l.refDate):''}</span></span><span class="amt">${eur(x.l.amt)}</span></div>`).join(''))}
       ${sec('ok','✅','Matching', R.ok, sum(R.ok,x=>x.clinic), R.ok.map(x=>vline(x.v, eur(x.clinic), esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + ')))).join(''),'var(--ok)')}
@@ -1235,16 +1356,17 @@ function renderLiq(c){
   if($('#mReimp')) $('#mReimp').onclick = () => startImport(cid);
   if($('#mDelLiq')) $('#mDelLiq').onclick = () => { if(confirm('Remove the stored liquidación for this month?')){ delete DB.liq[lkey(cid, ym)]; monthVisits(ym,cid).forEach(v=>{ v.lines=[]; if(v.insAuto){ v.ins=''; v.insAuto=false; } }); save(); rr(); } };
   $$('#cBody [data-sec]').forEach(el=>el.onclick=()=>{ UI.open[el.dataset.sec]=!UI.open[el.dataset.sec]; rr(); });
-  $$('#cBody [data-v]').forEach(el=>el.onclick=e=>{ if(e.target.closest('button')) return; const v = DB.visits.find(x=>x.id===el.dataset.v); go('clinic',{clinic:cid, ctab:'cal', calYm:v.date.slice(0,7), day:v.date}); });
-  const accept = x => { const v = x.v, clin = x.clinic; if(isPrivate(v.mutua)){ v.paid = clin; v.ins=''; v.insAuto=false; } else { v.ins = r2(clin - num(v.paid)); v.insAuto = true; if(v.ins<0){ v.paid = clin; v.ins=''; v.insAuto=false; } } };
+  $$('#cBody [data-v]').forEach(el=>el.onclick=e=>{ if(e.target.closest('button')) return; openPatient(DB.visits.find(x=>x.id===el.dataset.v), {onDone: rr}); });
+  const accept = x => { const v = x.v; if(x.clinic >= num(v.paid)){ v.ins = r2(x.clinic - num(v.paid)); v.insAuto = true; v.check=''; } else { v.paid = x.clinic; v.paidAuto = true; v.ins = 0; v.insAuto = true; v.check=''; } };
   $$('#cBody [data-accept]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); accept(R.diff[+b.dataset.accept]); save(); rr(); });
   if($('#mAcceptAll')) $('#mAcceptAll').onclick = () => { if(!confirm(`Use the clinic's amounts for ${R.diff.length} patients?`)) return; R.diff.forEach(accept); save(); rr(); };
   const addLine = x => {
     const l = x.l; let v = x.v;
-    if(!v){ v = {id:uid(), clinic:cid, date:l.date, time:'', nhc:'', patient:l.name, mutua:l.mutua, status:'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', obs:'', source:'liq'}; DB.visits.push(v); }
+    if(!v){ v = {id:uid(), clinic:cid, date:l.date, time:'', nhc:'', patient:l.name, mutua:l.mutua, obs:'', status:'attended', paid:'', ins:'', insAuto:false, lines:[], notes:'', source:'liq'}; DB.visits.push(v); }
     v.status='attended'; v.lines = (v.lines||[]).concat({desc:l.desc, amt:l.amt, pay:l.pay, mutua:l.mutua});
-    const t = matchTreatment(l.desc); if(t && !(v.treat||[]).includes(t)) v.treat = (v.treat||[]).concat(t);
-    if(isPrivate(v.mutua) || isPrivate(l.mutua)){ v.paid = r2(num(v.paid) + l.amt); v.payMethod = l.pay==='cash'?'cash':'card'; } else { v.ins = r2(num(v.ins) + l.amt); v.insAuto = true; }
+    const d = titleCase(l.desc.replace(/\s*\[.*?\]/,'').trim()); if(!norm(v.obs).includes(norm(d))) v.obs = v.obs ? v.obs+', '+d : d;
+    if(blank(v.paid) && (isPrivate(v.mutua) || isPrivate(l.mutua))){ v.paid = r2(sum(v.lines.filter(z=>isPrivate(z.mutua)),z=>z.amt)); v.paidAuto = true; }
+    computeIns(v);
   };
   $$('#cBody [data-addl]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); addLine(R.extra[+b.dataset.addl]); save(); rr(); });
   if($('#mAddAll')) $('#mAddAll').onclick = () => { if(!confirm(`Add all ${R.extra.length} clinic lines to her log? (Good for past months.)`)) return; R.extra.forEach(addLine); save(); rr(); };
@@ -1256,7 +1378,7 @@ function renderStats(c){
   const rec = months.map(m=>DB.liq[lkey(cid,m)]?.factura?.net ?? null);
   const max = Math.max(1,...prod);
   const yr = DB.visits.filter(v=>v.clinic===cid && attended(v) && v.date.startsWith(t.slice(0,4)));
-  const tr = {}; yr.forEach(v=>(v.treat||[]).forEach(x=>tr[x]=(tr[x]||0)+1));
+  const tr = {}; yr.forEach(v=>treatmentsOf(v).forEach(x=>tr[x]=(tr[x]||0)+1));
   const trE = Object.entries(tr).sort((a,b)=>b[1]-a[1]).slice(0,10); const trMax = Math.max(1,...trE.map(x=>x[1]));
   const mu = {}; yr.forEach(v=>{ const k = isPrivate(v.mutua)?'Private':titleCase(v.mutua); mu[k]=mu[k]||[0,0]; mu[k][0]+=visitTotal(v); mu[k][1]++; });
   const muE = Object.entries(mu).sort((a,b)=>b[1][0]-a[1][0]).slice(0,8); const muMax = Math.max(1,...muE.map(x=>x[1][0]));
@@ -1520,7 +1642,6 @@ function foldDuplicates(){
     if(!same) continue;
     const keep = (a.upd||0) >= (b.upd||0) ? a : b, other = keep===a ? b : a;
     ['time','nhc','mutua','phone','obs','notes','paid','ins','origPatient'].forEach(k=>{ if(blank(keep[k]) && !blank(other[k])) keep[k] = other[k]; });
-    if(!(keep.treat||[]).length && (other.treat||[]).length) keep.treat = other.treat;
     if(!(keep.lines||[]).length && (other.lines||[]).length) keep.lines = other.lines;
     if(keep.status==='pending' && other.status!=='pending') keep.status = other.status;
     drop.add(other.id); n++;
@@ -1533,8 +1654,8 @@ async function exportExcel(){
     await loadScript(XLSXJS);
     const rows = DB.visits.slice().sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).map(v=>({
       Date: fromIso(v.date), Clinic: clinicById(v.clinic).name, Time: v.time||'', NHC: v.nhc||'', Patient: v.patient, Mutua: v.mutua||'', Status: STATUS[v.status],
-      Treatments: (v.treat||[]).join('; '), 'Paid at clinic': blank(v.paid)?'':num(v.paid), 'Paid by': blank(v.paid)?'':(v.payMethod==='cash'?'Cash':'Card'), Insurance: blank(v.ins)?'':num(v.ins), Total: visitTotal(v),
-      'Clinic factura': (v.lines||[]).length ? r2(billedTotal(v)) : '', 'Factura lines': (v.lines||[]).map(l=>l.desc+' '+decStr(l.amt)).join(' | '), Comment: v.notes||'', 'Reception note': v.obs||''}));
+      'Observación': v.obs||'', Cash: blank(v.paid)?'':num(v.paid), Insurance: blank(v.ins)?'':num(v.ins), Total: visitTotal(v), Check: v.check||'',
+      'Clinic factura': (v.lines||[]).length ? r2(billedTotal(v)) : '', 'Factura lines': (v.lines||[]).map(l=>l.desc+' '+decStr(l.amt)).join(' | '), Comment: v.notes||'', 'Gesden note': v.obsOrig||''}));
     const ws = XLSX.utils.json_to_sheet(rows, {cellDates:true, dateNF:'dd/mm/yyyy'});
     const sumRows = [];
     DB.clinics.forEach(c=>{ const months = [...new Set([...Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).map(k=>k.split('|')[1]), ...DB.visits.filter(v=>v.clinic===c.id).map(v=>v.date.slice(0,7))])].sort();
@@ -1570,11 +1691,11 @@ function excelVisits(sheet, clinic){
     if(!v){
       const noShow = /no vin|no ha venido|no viene|anulad|cancelad|falta\b/i.test(obs);
       v = {id:uid(), clinic, date:d, time:fmtTime(map.time!=null?r[map.time]:''), nhc:map.nhc!=null?String(r[map.nhc]||'').replace(/\D/g,''):'', patient:name, origPatient:name, flags,
-        mutua:map.mutua!=null?String(r[map.mutua]||'').trim():'', obs, status:noShow?'noshow':'attended', treat:[], paid:'', payMethod:'card', ins:'', insAuto:false, lines:[], notes:'', source:'excel'};
+        mutua:map.mutua!=null?String(r[map.mutua]||'').trim():'', obs, status:noShow?'noshow':'attended', paid:'', ins:'', insAuto:false, lines:[], notes:'', source:'excel'};
       byKey.set(k,v);
     }
     const paid = map.paid!=null ? parseMoney(r[map.paid]) : 0, mut = map.mutuaAmt!=null ? parseMoney(r[map.mutuaAmt]) : 0, total = map.price!=null ? parseMoney(r[map.price]) : 0;
-    const t = map.treatment!=null ? matchTreatment(r[map.treatment]) : ''; if(t && !v.treat.includes(t)) v.treat.push(t);
+    const t = map.treatment!=null ? String(r[map.treatment]||'').trim() : ''; if(t && !norm(v.obs).includes(norm(t))) v.obs = v.obs ? v.obs+', '+t : t;
     if(paid) v.paid = r2(num(v.paid)+paid);
     if(mut) v.ins = r2(num(v.ins)+mut);
     if(!paid && !mut && total && map.paid==null) v.paid = r2(num(v.paid)+total);
@@ -1623,7 +1744,7 @@ function toIsoDate(v){
 }
 
 /* ============ START ============ */
-$$('#tabbar button').forEach(b=>b.innerHTML = ICON[{home:'home',patients:'users',settings:'gear'}[b.dataset.t]]);
+$$('#tabbar button').forEach(b=>b.innerHTML = ICON[{home:'home',cal:'cal',patients:'users',settings:'gear'}[b.dataset.t]]);
 render();
 showSplash();
 if(Sync.configured()) setTimeout(()=>Sync.run(), 400);
