@@ -648,7 +648,9 @@ function parseLiq(pages){
   res.shareAmount = res.tiers.length ? r2(sum(res.tiers,t=>t.amount)) : null;
   res.liquidation = final.length ? final[final.length-1].amount : (res.factura.gross ?? null);
   const dto = S.find(s=>/DTO/i.test(s.label)); if(dto){ res.cardFee = dto.amount; const b = dto.label.match(/\(([\d.,]+)/); res.cardBase = b ? parseMoney(b[1]) : null; }
-  const lab = S.find(s=>/^Lab/i.test(s.label)); if(lab){ res.labDeduction = lab.amount; const b = lab.label.match(/Lab\.?\s*\(?\s*([\d.,]+)/i); res.labCost = b ? parseMoney(b[1]) : 0; }
+  const lab = S.find(s=>/^Lab/i.test(s.label)); if(lab){ res.labDeduction = lab.amount; const b = lab.label.match(/Lab\.?\s*\(?\s*(\d[\d.,]*)/i); res.labCost = b ? parseMoney(b[1]) : 0;
+    if(!b && lab.amount){ res.labCost = r2(-lab.amount*100/(res.share||40)); res.warnings.push(`Lab cost isn't written in the PDF ("${lab.label}") — worked back from the ${eur(-lab.amount)} deduction: ${eur(res.labCost)}.`); } }
+  if(res.factura.gross==null) res.warnings.push('This PDF has no invoice page — only the liquidación list.');
   return res;
 }
 
@@ -826,6 +828,7 @@ function patientCard(v){
       <div class="tchips">${DB.treatments.map(t=>`<button data-tr="${esc(t)}" class="${items.includes(t)?'on':''}">${esc(t)}</button>`).join('')}${items.filter(t=>!DB.treatments.includes(t)).map(t=>`<button data-tr="${esc(t)}" class="on">${esc(t)}</button>`).join('')}</div>
       <div class="money">
         <div class="mf"><label>Paid at clinic</label><div class="eur"><input data-m="paid" inputmode="decimal" value="${decStr(v.paid)}" placeholder="—"></div>
+          ${v.paidAuto?'<div class="auto">from factura</div>':''}
           <div class="paym"><button data-pm="card" class="${(v.payMethod||'card')==='card'?'on':''}">💳 Card</button><button data-pm="cash" class="${v.payMethod==='cash'?'on':''}">💶 Cash</button></div></div>
         <div class="mf"><label>Insurance</label><div class="eur"><input data-m="ins" inputmode="decimal" value="${decStr(ins)}" placeholder="${mut?'from factura':'—'}"></div>
           ${v.insAuto?'<div class="auto">auto from factura</div>':(mut&&blank(ins)?'<div class="auto" style="color:var(--muted)">fills in when the factura arrives</div>':'')}</div>
@@ -853,10 +856,10 @@ function bindPatientCards(root, rerender){
   root.onchange = e => {
     const inp = e.target.closest('[data-m]'); if(!inp) return;
     const card = e.target.closest('[data-id]'); const v = DB.visits.find(x=>x.id===card.dataset.id);
-    v[inp.dataset.m] = moneyIn(inp.value); if(inp.dataset.m==='ins') v.insAuto = false;
+    v[inp.dataset.m] = moneyIn(inp.value); if(inp.dataset.m==='ins') v.insAuto = false; if(inp.dataset.m==='paid') v.paidAuto = false;
     inp.value = decStr(v[inp.dataset.m]);
     const tot = card.querySelector('[data-total]'); if(tot) tot.textContent = eur(visitTotal(v));
-    const a = card.querySelector('.auto'); if(a && inp.dataset.m==='ins') a.remove();
+    const a = inp.closest('.mf').querySelector('.auto'); if(a) a.remove();
     save();
   };
 }
@@ -930,7 +933,7 @@ function renderHistory(){
       <div class="small muted" style="margin-top:2px">${clinicDot(c)}${esc(c.name)} · ${esc(v.mutua||'')}</div>
       ${v.obs?`<div class="small" style="color:var(--info);margin-top:6px">📝 ${esc(v.obs)}</div>`:''}
       ${(v.treat||[]).length?`<div class="tchips" style="margin:10px 0 0">${v.treat.map(t=>`<button class="on" style="cursor:default">${esc(t)}</button>`).join('')}</div>`:''}
-      ${attended(v)?`<div class="billed" style="margin-top:10px"><div><span>Paid at clinic ${v.paid!==''&&v.paid!=null?(v.payMethod==='cash'?'💶':'💳'):''}</span><b>${blank(v.paid)?'—':eur(v.paid)}</b></div><div><span>Insurance${v.insAuto?' (from factura)':''}</span><b>${blank(v.ins)?'—':eur(v.ins)}</b></div>
+      ${attended(v)?`<div class="billed" style="margin-top:10px"><div><span>Paid at clinic ${v.paid!==''&&v.paid!=null?(v.payMethod==='cash'?'💶':'💳'):''}${v.paidAuto?' (from factura)':''}</span><b>${blank(v.paid)?'—':eur(v.paid)}</b></div><div><span>Insurance${v.insAuto?' (from factura)':''}</span><b>${blank(v.ins)?'—':eur(v.ins)}</b></div>
         ${(v.lines||[]).length?`<div style="margin-top:6px;opacity:.85"><i>Factura: ${v.lines.map(l=>esc(titleCase(l.desc))+' '+eur(l.amt)).join(' · ')}</i></div>`:''}</div>`:''}
       ${v.notes?`<div class="small" style="margin-top:8px;white-space:pre-wrap">💬 ${esc(v.notes)}</div>`:''}
       <div class="acts"><button class="btn sm" data-note>${v.notes?'Edit comment':'💬 Add comment'}</button><button class="btn sm" data-goday>Open day</button></div>
