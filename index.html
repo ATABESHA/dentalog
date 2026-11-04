@@ -996,7 +996,8 @@ function existingFor(date, row, clinic){
   const same = DB.visits.filter(v=>v.date===date && v.clinic===clinic);
   return same.find(v=>((row.nhc && v.nhc===row.nhc) || (!row.nhc && nameScore(v.origPatient||v.patient,row.name)>=0.8)) && (!v.time || !row.time || v.time===row.time))
       || same.find(v=>row.nhc && v.nhc===row.nhc)
-      || same.find(v=>!v.nhc && v.source==='excel' && nameScore(v.patient,row.name)>=0.8);
+      || same.find(v=>!v.nhc && v.source==='excel' && nameScore(v.patient,row.name)>=0.8)
+      || same.find(v=>v.time && v.time===row.time && nameScore(v.origPatient||v.patient,row.name)>=0.5);
 }
 function openAgendaPreview(days, fname){ return new Promise(done => {
   const key = norm(DB.settings.doctor);
@@ -1501,9 +1502,29 @@ $('#jsonFile').onchange = async e => {
     const d = JSON.parse(await f.text()); if(!Array.isArray(d.visits)) throw new Error('Not a DentaLog backup');
     const nd = normalizeDB(d);
     if(DB.visits.length && !confirm(`Merge the backup (${nd.visits.length} visits) into this device? Newer changes win.`)) return;
-    DB = Sync.merge(DB, nd); save(); render(); toast('Backup restored');
+    DB = Sync.merge(DB, nd); const n = foldDuplicates(); save(); render(); toast('Backup restored'+(n?` · ${n} duplicates combined`:''));
   }catch(err){ alert('Could not restore: '+err.message); }
 };
+// two copies of the same appointment (e.g. imported on the phone AND restored from a backup):
+// keep one, fill its empty fields from the other
+function foldDuplicates(){
+  let n = 0; const byDay = new Map();
+  DB.visits.forEach(v=>{ const k = v.clinic+'|'+v.date; if(!byDay.has(k)) byDay.set(k, []); byDay.get(k).push(v); });
+  const drop = new Set();
+  for(const list of byDay.values()) for(let i=0;i<list.length;i++) for(let j=i+1;j<list.length;j++){
+    const a = list[i], b = list[j]; if(drop.has(a.id) || drop.has(b.id)) continue;
+    const same = (a.nhc && b.nhc ? a.nhc===b.nhc : nameScore(a.patient,b.patient)>=0.8) && (!a.time || !b.time || a.time===b.time);
+    if(!same) continue;
+    const keep = (a.upd||0) >= (b.upd||0) ? a : b, other = keep===a ? b : a;
+    ['time','nhc','mutua','phone','obs','notes','paid','ins','origPatient'].forEach(k=>{ if(blank(keep[k]) && !blank(other[k])) keep[k] = other[k]; });
+    if(!(keep.treat||[]).length && (other.treat||[]).length) keep.treat = other.treat;
+    if(!(keep.lines||[]).length && (other.lines||[]).length) keep.lines = other.lines;
+    if(keep.status==='pending' && other.status!=='pending') keep.status = other.status;
+    drop.add(other.id); n++;
+  }
+  DB.visits = DB.visits.filter(v=>!drop.has(v.id));
+  return n;
+}
 async function exportExcel(){
   try{
     await loadScript(XLSXJS);
