@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -296,6 +296,24 @@ select.spill{-webkit-appearance:none;appearance:none;text-align:center;text-alig
 .mgrid button i{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--accent)}
 .mgrid button.on i{background:#fff}
 
+/* ---- v5.2 ---- */
+html,body{max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;touch-action:pan-y}
+.wrap{overflow-x:hidden}
+.tablewrap{touch-action:pan-x pan-y}
+input,select,textarea,.compact,.pv input,.pv select{font-size:16px}
+button,.circle,.d,.tapcard,.prow{touch-action:manipulation}
+.ptab{font-size:13px}
+.ptab .ph,.ptab .pr{display:grid;grid-template-columns:minmax(0,1.6fr) 1fr 1fr 1fr;gap:6px;align-items:center;padding:8px 6px;border-radius:10px}
+.ptab .ph{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.ptab .ph span:not(:first-child),.ptab .pr span:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.ptab .pr{margin-bottom:3px;cursor:pointer}
+.ptab .pr b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptab .pr i{display:block;font-style:normal;font-size:11px;color:var(--muted)}
+.ptab .pr.nopay{background:rgba(229,72,77,.09)} .ptab .pr.mismatch{background:rgba(217,119,6,.14)} .ptab .pr.okpay{background:rgba(18,161,80,.09)}
+.ptab .pr.tot{border-top:1px solid var(--hair);border-radius:0;font-weight:700;margin-top:4px}
+
+#pSt{width:100%;text-align:left;text-align-last:left;padding-left:14px}
+
 </style>
 </head>
 <body>
@@ -351,11 +369,11 @@ const today = () => iso(new Date());
 const fromIso = s => { const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); };
 const addDays = (s,n) => { const d = fromIso(s); d.setDate(d.getDate()+n); return iso(d); };
 const fmtDate = s => { if(!s) return ''; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-const MON = MONTHS.map(m=>m.slice(0,3));
-const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const WDL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-const fmtLong = s => { const d = fromIso(s); return `${WDL[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`; };
+let MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let MON = MONTHS.map(m=>m.slice(0,3));
+let WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+let WDL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fmtLong = s => { const d = fromIso(s); return LANG==='es' ? `${WDL[d.getDay()]} ${d.getDate()} de ${MONTHS[d.getMonth()].toLowerCase()}` : `${WDL[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`; };
 const fmtShort = s => { const d = fromIso(s); return `${WD[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`; };
 const fmtShortY = s => { const d = fromIso(s); return `${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}`; };
 const monthLabel = ym => { const [y,m]=ym.split('-'); return `${MONTHS[+m-1]} ${y}`; };
@@ -378,7 +396,7 @@ function parseMoney(s){
 }
 const moneyIn = s => String(s).trim()==='' ? '' : r2(parseMoney(s));
 const norm = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
-function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=tr(msg); document.body.appendChild(t); setTimeout(()=>t.remove(),2800); }
 function loadScript(src){ return new Promise((res,rej)=>{ if(document.querySelector(`script[src="${src}"]`)) return res(); const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=()=>rej(new Error('Could not load a helper library — check the internet connection.')); document.head.appendChild(s); }); }
 const STATUS = {pending:'Pending', attended:'Came', noshow:'No-show', cancelled:'Cancelled'};
 const attended = v => v.status==='attended';
@@ -400,6 +418,77 @@ const ICON = {
   back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
   pdf:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
 };
+
+
+/* ============ LANGUAGE (Español / English) ============ */
+// The code is written in English; when Spanish is chosen every text that appears on screen,
+// in dialogs and in messages is translated from the ES table below (exact texts + patterns).
+var LANG = 'en';
+let WDI = ['M','T','W','T','F','S','S'];
+const ARR = {
+  en:{MONTHS:['January','February','March','April','May','June','July','August','September','October','November','December'], WD:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], WDL:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], WDI:['M','T','W','T','F','S','S']},
+  es:{MONTHS:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'], WD:['dom','lun','mar','mié','jue','vie','sáb'], WDL:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'], WDI:['L','M','X','J','V','S','D']}
+};
+function setLang(l){
+  LANG = l==='es' ? 'es' : 'en'; const a = ARR[LANG];
+  MONTHS = a.MONTHS; MON = LANG==='es' ? a.MONTHS.map(m=>m.slice(0,3).toLowerCase()) : a.MONTHS.map(m=>m.slice(0,3)); WD = a.WD; WDL = a.WDL; WDI = a.WDI;
+  document.documentElement.lang = LANG;
+}
+const ES = {"Calendar": "Calendario", "Settlement": "Liquidación", "Income": "Ingresos", "Patients": "Pacientes", "Settings": "Ajustes", "Home": "Inicio", "Pending": "Pendiente", "Came": "Asistió", "No-show": "No asistió", "Cancelled": "Cancelada", "pending": "pendiente", "came": "asistió", "no-show": "no asistió", "cancelled": "cancelada", "came?": "¿asistió?", "Cancel": "Cancelar", "Save": "Guardar", "Delete": "Eliminar", "Done": "Listo", "Clear": "Borrar", "Add": "Añadir", "Import": "Importar", "Replace": "Reemplazar", "Remove": "Quitar", "Restore": "Restaurar", "Status": "Estado", "Name": "Nombre", "Date": "Fecha", "Hour": "Hora", "Day": "Día", "Month": "Mes", "Year": "Año", "Title": "Título", "Clinic": "Clínica", "Clinics": "Clínicas", "Patient": "Paciente", "Description": "Descripción", "Observation": "Observación", "Comment": "Comentario", "Cash": "Pago clínica", "Cash · paid at clinic": "Pago en clínica", "Cash at clinic": "Pagado en clínica", "Insurance": "Mutua", "Invoice": "Factura", "Total": "Total", "History": "Historial", "🗂 History": "🗂 Historial", "✏️ Edit": "✏️ Editar", "📅 Open day": "📅 Abrir día", "List": "Lista", "Visits": "Visitas", "Missed": "Faltas", "Visits in:": "Visitas en:", "Good morning": "Buenos días", "Good afternoon": "Buenas tardes", "Good evening": "Buenas noches", "tap to continue": "toca para continuar", "Days worked": "Días trabajados", "Patients seen": "Pacientes atendidos", "Patients per day": "Pacientes por día", "tap a month ›": "toca un mes ›", "All ›": "Todos ›", "Treatments": "Tratamientos", "Private": "Privado", "Other": "Otras", "patients": "pacientes", "days": "días", "last day": "último día", "next day": "próximo día", "This month": "Este mes", "has data": "con datos", "Tap a name to see only that clinic, or tick several.": "Toca un nombre para ver solo esa clínica, o marca varias.", "All clinics": "Todas las clínicas", "＋ Add clinic": "＋ Añadir clínica", "number = patients who came": "número = pacientes atendidos", "to confirm": "por confirmar", "＋ Patient": "＋ Paciente", "Import PDF": "Importar PDF", "✓ All pending came": "✓ Todos los pendientes asistieron", "No patients on this day": "No hay pacientes este día", "Import the Gesden agenda for this day (or a whole month), or add a patient.": "Importa la agenda de Gesden de este día (o de un mes entero), o añade un paciente.", "not paid": "sin pagar", "doesn't match invoice": "no coincide con la factura", "correct": "correcto", "New patient": "Nuevo paciente", "＋ Add treatment…": "＋ Añadir tratamiento…", "What was done, e.g. RECONSTRUCCIÓN 36": "Qué se hizo, p. ej. RECONSTRUCCIÓN 36", "Anything to remember about this visit": "Cualquier cosa a recordar de esta visita", "from invoice": "de la factura", "fills in when the invoice arrives": "se rellena al llegar la factura", "Please enter the name": "Escribe el nombre", "Delete this visit?": "¿Eliminar esta visita?", "Saved": "Guardado", "Set every patient to": "Poner a todos como", "— or change each row": "— o cambia cada fila", "detected from the agenda": "detectada en la agenda", "detected from the invoice": "detectada en la factura", "⚠ not recognised — check": "⚠ no reconocida — revisa", "⚠ check the clinic": "⚠ revisa la clínica", "Which doctor's agenda?": "¿Agenda de qué doctor?", "agenda note, not a patient": "nota de agenda, no es paciente", "new": "nuevo", "update": "actualizar", "No days selected.": "Ningún día seleccionado.", "Produced": "Producido", "To receive": "A cobrar", "Save & compare": "Guardar y comparar", "Saving attaches each line to her visit and fills in Insurance = invoice − cash. If the invoice is less than the cash she entered, the visit is flagged ⚠ to check.": "Al guardar, cada línea se asigna a su visita y se rellena Mutua = factura − pago en clínica. Si la factura es menor que lo pagado en clínica, la visita se marca ⚠ para revisar.", "⚠ This PDF has no invoice page — only the settlement list.": "⚠ Este PDF no tiene la página de factura, solo el listado de liquidación.", "No treatment lines found in this settlement.": "No hay líneas de tratamiento en esta liquidación.", "Each sheet becomes one clinic's visits. PAGADO → paid at clinic, the MUTUA amount → insurance.": "Cada hoja se convierte en las visitas de una clínica. PAGADO → pago en clínica, el importe MUTUA → mutua.", "Her log": "Su registro", "Clinic produced": "Producido (clínica)", "Expected settlement": "Liquidación prevista", "Clinic says": "Según la clínica", "no invoice yet": "sin factura aún", "Clinic invoice": "Factura de la clínica", "Import the monthly PDF (invoice + settlement list). Each line is attached to her visit, insurance amounts fill in, and differences show up below.": "Importa el PDF mensual (factura + listado de liquidación). Cada línea se asigna a su visita, la mutua se rellena y las diferencias aparecen abajo.", "Import settlement PDF": "Importar PDF de liquidación", "…or type the clinic's settlement amount": "…o escribe el importe de liquidación de la clínica", "She logged it, clinic did not bill": "Registrado por ella, la clínica no lo facturó", "Worth asking the clinic — work that may not be paid.": "Conviene preguntar a la clínica: trabajo que quizá no se pague.", "Amounts differ": "Importes distintos", "Use clinic": "Usar clínica", "Billed, but not in her log": "Facturado, pero no en su registro", "＋ Add": "＋ Añadir", "Clinic corrections": "Correcciones de la clínica", "Matching": "Coinciden", "To confirm in her log": "Por confirmar en su registro", "Card fee": "Comisión tarjeta", "Lab": "Laboratorio", "🔴 logged, not billed": "🔴 registrado, no facturado", "🟠 different amounts": "🟠 importes distintos", "🔵 billed, not in her log": "🔵 facturado, no en su registro", "↩️ clinic corrections": "↩️ correcciones de la clínica", "card fees / lab / rounding": "comisiones / laboratorio / redondeo", "✓ Matches": "✓ Coincide", "✓ matches": "✓ coincide", "e.g. asked reception about 2 missing reconstrucciones": "p. ej. pregunté en recepción por 2 reconstrucciones que faltan", "Remove the stored settlement for this month?": "¿Quitar la liquidación guardada de este mes?", "Produced per month": "Producido por mes", "Expected for her": "Previsto para ella", "Received (invoices)": "Cobrado (facturas)", "Per patient": "Por paciente", "Search name or NHC…": "Buscar nombre o NHC…", "No patients yet.": "Aún no hay pacientes.", "No visits this month.": "No hay visitas este mes.", "Language": "Idioma", "Welcome screen": "Pantalla de bienvenida", "📷 Add her photo": "📷 Añadir su foto", "📷 Change photo": "📷 Cambiar foto", "Stored in her encrypted data, not on the public website.": "Se guarda en sus datos cifrados, no en la web pública.", "▶ Preview welcome": "▶ Ver bienvenida", "Photo saved": "Foto guardada", "Sync": "Sincronización", "Keeps iPhone and PC in step. Data is encrypted with her passphrase before it leaves the device — GitHub only stores scrambled text.": "Mantiene iPhone y PC sincronizados. Los datos se cifran con su contraseña antes de salir del dispositivo: GitHub solo guarda texto cifrado.", "GitHub user": "Usuario de GitHub", "Private repo": "Repositorio privado", "Access token": "Token de acceso", "create one": "crear uno", "Encryption passphrase": "Contraseña de cifrado", "same on every device — don't lose it": "la misma en todos los dispositivos — no la pierdas", "Fine-grained token → Only select repositories: dentalog-data → Repository permissions → Contents: Read and write.": "Token «fine-grained» → Only select repositories: dentalog-data → Repository permissions → Contents: Read and write.", "Connect & sync": "Conectar y sincronizar", "Connecting…": "Conectando…", "⟳ Sync now": "⟳ Sincronizar ahora", "Disconnect this device": "Desconectar este dispositivo", "Connected — data synced": "Conectado — datos sincronizados", "Fill in all fields — the passphrase needs at least 6 characters.": "Rellena todos los campos; la contraseña necesita al menos 6 caracteres.", "Stop syncing on this device? Data stays here and in GitHub.": "¿Dejar de sincronizar en este dispositivo? Los datos se quedan aquí y en GitHub.", "synced": "sincronizado", "syncing": "sincronizando", "saving": "guardando", "sync error": "error de sincronización", "offline": "sin conexión", "Up to date": "Al día", "Syncing…": "Sincronizando…", "Changes waiting to sync": "Cambios pendientes de sincronizar", "Offline — will sync when back online": "Sin conexión — se sincronizará al volver la conexión", "Wrong passphrase — it must be the same on every device.": "Contraseña incorrecta: debe ser la misma en todos los dispositivos.", "This browser is too old to read the synced data.": "Este navegador es demasiado antiguo para leer los datos sincronizados.", "Repository not found — check the name, and that the token has access to it.": "Repositorio no encontrado: revisa el nombre y que el token tenga acceso.", "The token was rejected (expired or wrong).": "El token fue rechazado (caducado o incorrecto).", "The token has no access — give it \"Contents: Read and write\" on this repo.": "El token no tiene acceso: dale «Contents: Read and write» en este repositorio.", "No write access — the token needs \"Contents: Read and write\".": "Sin permiso de escritura: el token necesita «Contents: Read and write».", "Add, e.g. ENDODONCIA (or several separated by ;)": "Añadir, p. ej. ENDODONCIA (o varios separados por ;)", "Text in Gesden agenda": "Texto en la agenda de Gesden", "Text in invoice": "Texto en la factura", "Card fee %": "Comisión tarjeta %", "Stored": "Guardado", "Her share %": "Su porcentaje %", "% from": "% desde", "% from the start": "% desde el inicio", "＋ Share changes on a date": "＋ El porcentaje cambia en una fecha", "e.g. Torreblanca": "p. ej. Torreblanca", "e.g. Sant Joan": "p. ej. Sant Joan", "Her details": "Sus datos", "Doctor name in Gesden": "Nombre de la doctora en Gesden", "Agenda pages of other doctors in the same PDF are skipped.": "Las páginas de otros doctores en el mismo PDF se ignoran.", "Remembered name fixes": "Correcciones de nombre recordadas", "Data": "Datos", "⤓ Import her Excel": "⤓ Importar su Excel", "⤒ Export Excel": "⤒ Exportar Excel", "Backup file": "Copia de seguridad", "Delete all data on this device": "Borrar todos los datos de este dispositivo", "Clinic name (e.g. Cornellà, Sant Boi)": "Nombre de la clínica (p. ej. Cornellà, Sant Boi)", "Really delete everything?": "¿Seguro que quieres borrar todo?", "Delete ALL data on this device? (Synced data in GitHub is NOT touched unless this device syncs afterwards.)": "¿Borrar TODOS los datos de este dispositivo? (Los datos sincronizados en GitHub NO se tocan salvo que este dispositivo sincronice después.)", "local file": "archivo local", "web app": "app web", "Not a DentaLog backup": "No es una copia de DentaLog", "No sheet with Date and Patient columns (e.g. \"DIA\", \"PACIENTE\").": "No hay ninguna hoja con columnas de Fecha y Paciente (p. ej. «DIA», «PACIENTE»).", "⚠️ Could not save on this device — storage is full": "⚠️ No se pudo guardar en este dispositivo — almacenamiento lleno", "Backup restored": "Copia restaurada", "Comment saved": "Comentario guardado", "Patients by insurance": "Pacientes por mutua", "By insurance": "Por mutua"};
+const ES_RX = [
+[/^(\d+) visits? · last (.+)$/, (m,n,r)=>`${n} ${n==='1'?'visita':'visitas'} · última ${r}`],
+[/^(\d+) visits?$/, (m,n)=>`${n} ${n==='1'?'visita':'visitas'}`],
+[/^(\d+) in agenda$/, '$1 en agenda'], [/^(\d+) came$/, '$1 asistieron'], [/^(\d+) no-show$/, '$1 no asistieron'], [/^(\d+) to confirm$/, '$1 por confirmar'],
+[/^(\d+) patients$/, '$1 pacientes'], [/^(\d+) lines$/, '$1 líneas'], [/^(\d+) visits · (\d+) invoices on this device\.$/, '$1 visitas · $2 facturas en este dispositivo.'], [/^(\d+) visits · (\d+) invoices$/, '$1 visitas · $2 facturas'],
+[/^No-shows \((\d+)\)$/, 'No asistieron ($1)'], [/^Patients · (.+)$/, 'Pacientes · $1'], [/^Patients by insurance · (.+)$/, 'Pacientes por mutua · $1'], [/^Treatments · (.+)$/, 'Tratamientos · $1'],
+[/^Treatments (\d{4})$/, 'Tratamientos $1'], [/^By insurance (\d{4})$/, 'Por mutua $1'], [/^Produced (\d{4})$/, 'Producido $1'], [/^Notes for (.+)$/, 'Notas de $1'], [/^Settlement · (.+)$/, 'Liquidación · $1'],
+[/^Agenda · (\d+) days?$/, (m,n)=>`Agenda · ${n} ${n==='1'?'día':'días'}`], [/^Difference (.+)$/, 'Diferencia $1'], [/^Her share \((.+)\)$/, 'Su parte ($1)'], [/^Her share (.+)$/, 'Su parte $1'],
+[/^Where it comes from \(her (.+)\):$/, 'De dónde viene (su $1):'], [/^\((\d+) days\)$/, '($1 días)'], [/^\((.+) card\)$/, '($1 tarjeta)'], [/^(.+) − fees − lab$/, '$1 − comisiones − lab.'],
+[/^(\d+) new · (\d+) already here \(her data is kept\)$/, '$1 nuevos · $2 ya existen (se conservan sus datos)'], [/^(\d+) already here \(skipped\)$/, '$1 ya existen (se omiten)'],
+[/^(\d+) visits · (.+) · (.+) ·$/, '$1 visitas · $2 · $3 ·'], [/^(.+): (.+) · received (.+)$/, '$1: $2 · cobrado $3'], [/^Received after IRPF: (.+)$/, 'Cobrado tras IRPF: $1'],
+[/^Clinic invoice (.+)$/, 'Factura de la clínica $1'], [/^Invoice: (.+)$/, 'Factura: $1'], [/^(.+) · (\d+) lines · (\d+) by card(.*)$/, '$1 · $2 líneas · $3 con tarjeta$4'], [/^(.+) · (\d+) lines(.*)$/, '$1 · $2 líneas$3'],
+[/^A settlement for (.+) is already stored — it will be replaced\.$/, 'Ya hay una liquidación de $1 guardada; se reemplazará.'], [/^＋ Add all (\d+)$/, '＋ Añadir las $1'], [/^Use clinic amounts for all (\d+)$/, 'Usar importes de la clínica en las $1'],
+[/^her: not filled · invoice: (.+)$/, 'ella: sin rellenar · factura: $1'], [/^her: (.+) · invoice: (.+)$/, 'ella: $1 · factura: $2'], [/^Sheet "(.+)"$/, 'Hoja «$1»'], [/^Import (.+)$/, 'Importar $1'], [/^Reading (.+)…$/, 'Leyendo $1…'],
+[/^⚠ Lab cost isn't written in the PDF \((.+)\) — worked back from the (.+) deduction: (.+)\.$/, '⚠ El coste de laboratorio no aparece en el PDF ($1): calculado a partir del descuento de $2: $3.'],
+[/^⚠ A date cell was unreadable \((.+)\) — used (.+) from the row above\.$/, '⚠ Una celda de fecha no se pudo leer ($1): se usó $2 de la fila anterior.'], [/^⚠ Clinic note: (.+)$/, '⚠ Nota de la clínica: $1'], [/^Clinic note: (.+)$/, 'Nota de la clínica: $1'],
+[/^Imported: (\d+) new, (\d+) updated$/, 'Importado: $1 nuevos, $2 actualizados'], [/^Imported (\d+) visits$/, 'Importadas $1 visitas'],
+[/^Saved · (\d+) visits matched, (\d+) insurance amounts filled(, (\d+) to check)?$/, (m,a,b,c,d)=>`Guardado · ${a} visitas emparejadas, ${b} importes de mutua${d?`, ${d} por revisar`:''}`],
+[/^Backup restored · (\d+) duplicates combined$/, 'Copia restaurada · $1 duplicados combinados'], [/^Merge the backup \((\d+) visits\) into this device\? Newer changes win\.$/, '¿Combinar la copia ($1 visitas) con este dispositivo? Ganan los cambios más recientes.'],
+[/^Use the clinic's amounts for (\d+) patients\?$/, '¿Usar los importes de la clínica en $1 pacientes?'], [/^Add all (\d+) clinic lines to her log\? \(Good for past months\.\)$/, '¿Añadir las $1 líneas de la clínica a su registro? (Útil para meses pasados.)'],
+[/^Remove "(.+)" from the list\? \(Past visits keep it\.\)$/, '¿Quitar «$1» de la lista? (Las visitas pasadas lo conservan.)'], [/^Delete clinic "(.+)"\?$/, '¿Eliminar la clínica «$1»?'],
+[/^"(.+)" doesn't look like a Gesden agenda or a clinic settlement\.$/, '«$1» no parece una agenda de Gesden ni una liquidación de la clínica.'], [/^PDF import failed: (.+)$/, 'Error al importar el PDF: $1'], [/^Excel import failed: (.+)$/, 'Error al importar el Excel: $1'],
+[/^Could not restore: (.+)$/, 'No se pudo restaurar: $1'], [/^Sync: (.+)$/, 'Sincronización: $1'],
+[/^Invoice (.+) is less than cash paid at clinic (.+) — check$/, 'La factura ($1) es menor que lo pagado en clínica ($2) — revisar'], [/^⚠ Invoice (.+) is less than cash paid at clinic (.+) — check$/, '⚠ La factura ($1) es menor que lo pagado en clínica ($2) — revisar'],
+[/^Cash \+ insurance \((.+)\) ≠ invoice \((.+)\)$/, 'Pago clínica + mutua ($1) ≠ factura ($2)'], [/^⚠ Cash \+ insurance \((.+)\) ≠ invoice \((.+)\)$/, '⚠ Pago clínica + mutua ($1) ≠ factura ($2)'],
+[/^⚠ Gesden: (.+)$/, '⚠ Gesden: $1'], [/^In Gesden: (.+)$/, 'En Gesden: $1'], [/^\(Gesden: (.+)\)$/, '(Gesden: $1)'], [/^auto-fixed from: (.+)$/, 'corregido automáticamente de: $1'],
+[/^Connected to$/, 'Conectado a'], [/^Every change is encrypted on this device and saved there automatically; other devices pick it up when opened\.$/, 'Cada cambio se cifra en este dispositivo y se guarda allí automáticamente; los demás dispositivos lo reciben al abrirse.'],
+[/^(.*) · last sync (.+)$/, (m,a,b)=>`${tr(a)} · última sincronización ${b}`], [/^read (\d+) of (\d+)$/, 'leídos $1 de $2'],
+[/^(Private|Other) · (\d+%)$/, (m,a,b)=>`${a==='Private'?'Privado':'Otras'} · ${b}`],
+[/^(.+) visits$/, '$1 visitas'], [/^DentaLog (\d+) · (.+)$/, (m,v,k)=>`DentaLog ${v} · ${tr(k)}`], [/^(.+) · refers to (.+)$/, '$1 · se refiere al $2'], [/^(\d+) visits stored$/, '$1 visitas guardadas'],
+];
+const MISS = new Set();
+function tr(str){
+  if(LANG!=='es' || str==null) return str;
+  const raw = String(str), t = raw.trim(); if(!t) return raw;
+  const lead = raw.slice(0, raw.indexOf(t)), tail = raw.slice(raw.indexOf(t)+t.length);
+  if(ES[t]!=null) return lead + ES[t] + tail;
+  for(const [rx, to] of ES_RX){ if(rx.test(t)) return lead + t.replace(rx, typeof to==='function' ? to : (...m)=>to.replace(/\$(\d)/g,(_,i)=>tr(m[+i]))) + tail; }
+  if(/[A-Za-z]{3}/.test(t) && !/^[A-ZÁÉÍÓÚÑÜ0-9 ,.()\-·:/*+%€ªº]+$/.test(t)) MISS.add(t);
+  return raw;
+}
+const NO_TR = 'textarea,script,style,.nt';
+function trNode(root){
+  if(LANG!=='es') return;
+  if(root.nodeType===3){ if(!root.parentElement || !root.parentElement.closest(NO_TR)) { const v = tr(root.nodeValue); if(v!==root.nodeValue) root.nodeValue = v; } return; }
+  if(root.nodeType!==1 || root.closest(NO_TR)) return;
+  const fixAttr = el => ['placeholder','title','aria-label'].forEach(a=>{ if(el.hasAttribute && el.hasAttribute(a)){ const v = tr(el.getAttribute(a)); if(v!==el.getAttribute(a)) el.setAttribute(a, v); } });
+  fixAttr(root); root.querySelectorAll('[placeholder],[title],[aria-label]').forEach(fixAttr);
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; const list = []; while((n = w.nextNode())) list.push(n);
+  list.forEach(x=>{ if(x.parentElement && x.parentElement.closest(NO_TR)) return; const v = tr(x.nodeValue); if(v!==x.nodeValue) x.nodeValue = v; });
+}
+new MutationObserver(ms => { if(LANG!=='es') return; ms.forEach(m=>m.addedNodes.forEach(trNode)); }).observe(document.documentElement, {childList:true, subtree:true});
+const _alert = window.alert.bind(window), _confirm = window.confirm.bind(window), _prompt = window.prompt.bind(window);
+window.alert = m => _alert(tr(m)); window.confirm = m => _confirm(tr(m)); window.prompt = (m,d) => _prompt(tr(m), d);
 
 /* ============ STORAGE + CHANGE TRACKING ============ */
 var DB = load();   // var: matchTreatment() may run while load() is still building it
@@ -714,7 +803,7 @@ function parseLiq(pages){
   const dto = S.find(s=>/DTO/i.test(s.label)); if(dto){ res.cardFee = dto.amount; const b = dto.label.match(/\(([\d.,]+)/); res.cardBase = b ? parseMoney(b[1]) : null; }
   const lab = S.find(s=>/^Lab/i.test(s.label)); if(lab){ res.labDeduction = lab.amount; const b = lab.label.match(/Lab\.?\s*\(?\s*(\d[\d.,]*)/i); res.labCost = b ? parseMoney(b[1]) : 0;
     if(!b && lab.amount){ res.labCost = r2(-lab.amount*100/(res.share||40)); res.warnings.push(`Lab cost isn't written in the PDF ("${lab.label}") — worked back from the ${eur(-lab.amount)} deduction: ${eur(res.labCost)}.`); } }
-  if(res.factura.gross==null) res.warnings.push('This PDF has no invoice page — only the liquidación list.');
+  if(res.factura.gross==null) res.warnings.push('This PDF has no invoice page — only the settlement list.');
   return res;
 }
 
@@ -780,7 +869,7 @@ function bindClinicPill(){
 /* ============ SPLASH ============ */
 function showSplash(){
   const p = DB.profile;
-  const text = `Bienvenida, ${p.title} ${p.name}.`;
+  const text = `${LANG==='es'?'Bienvenida':'Welcome'}, ${p.title} ${p.name}.`;
   const sp = document.createElement('div'); sp.id='splash';
   sp.innerHTML = `<div class="ringwrap"><div class="glow"></div><div class="ring"><div class="ph">${p.photo?`<img src="${p.photo}" alt="">`:`<span>${esc((p.name||'S')[0])}</span>`}</div></div></div>
     <h1>${[...text].map((ch,i)=>`<span style="animation-delay:${0.55+i*0.045}s">${ch===' '?'&nbsp;':esc(ch)}</span>`).join('')}</h1>
@@ -799,7 +888,7 @@ function stackedBars(months, series, opts={}){
   return `<div class="chart">${months.map((m,i)=>`<div class="c ${m===opts.hi?'cur':''} ${opts.click?'tap':''}" data-ym="${m}" title="${monthLabel(m)}: ${tot[i]}">
       <div class="tv">${tot[i]||''}</div>
       <div class="stack" style="height:calc(100% - 42px)"><div style="height:${(tot[i]/max*100).toFixed(1)}%;display:flex;flex-direction:column-reverse;width:100%">${series.map(s=>s.values[i]?`<i style="background:${s.color};flex:${s.values[i]}"></i>`:'').join('')}</div></div>
-      <div class="x">${MON[+m.slice(5)-1].slice(0,1)}${m.slice(5)==='01'?'<br>'+m.slice(2,4):''}</div></div>`).join('')}</div>
+      <div class="x">${MONTHS[+m.slice(5)-1].slice(0,1)}${m.slice(5)==='01'?'<br>'+m.slice(2,4):''}</div></div>`).join('')}</div>
     ${series.length>1?`<div class="legend">${series.map(s=>`<span><i class="dot" style="background:${s.color}"></i>${esc(s.label)}</span>`).join('')}</div>`:''}`;
 }
 function donut(entries){
@@ -809,7 +898,7 @@ function donut(entries){
     <text x="60" y="58" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">${sum(entries,e=>e.value)}</text><text x="60" y="76" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">patients</text></svg>
     <div class="legend">${entries.map(e=>`<span><i class="dot" style="background:${e.color}"></i>${esc(e.label)} · ${Math.round(e.value/total*100)}%</span>`).join('')}</div></div>`;
 }
-const greeting = () => { const h = new Date().getHours(); return h<13 ? 'Buenos días' : h<20 ? 'Buenas tardes' : 'Buenas noches'; };
+const greeting = () => { const h = new Date().getHours(); return h<13 ? 'Good morning' : h<20 ? 'Good afternoon' : 'Good evening'; };
 function renderHome(){
   const p = DB.profile, t = today(), ym = UI.pYm, y = ym.slice(0,4), isM = UI.pMode==='month';
   const pLabel = isM ? monthLabel(ym) : y;
@@ -878,7 +967,7 @@ function lastWorkedYm(cid){ const t=today(); const ds = DB.visits.filter(v=>v.cl
 function renderCalScreen(){
   const one = oneSel();
   $('#app').innerHTML = `<div class="top"><div class="grow"><div class="sub">${one?'Clinic':'Clinics'}</div><h1 style="font-size:24px">Calendar</h1></div>${clinicPill()}</div>
-    <div class="seg" id="cSeg" style="margin-bottom:14px">${[['cal','Calendar'],['liq','Liquidación'],['stats','Income']].map(([k,l])=>`<button data-k="${k}" class="${UI.ctab===k?'on':''}">${l}</button>`).join('')}</div><div id="cBody"></div>`;
+    <div class="seg" id="cSeg" style="margin-bottom:14px">${[['cal','Calendar'],['liq','Settlement'],['stats','Income']].map(([k,l])=>`<button data-k="${k}" class="${UI.ctab===k?'on':''}">${l}</button>`).join('')}</div><div id="cBody"></div>`;
   bindClinicPill();
   $('#cSeg').onclick = e => { const b=e.target.closest('button'); if(b){ UI.ctab=b.dataset.k; render(); } };
   if(UI.ctab==='cal') return renderCal();
@@ -900,7 +989,7 @@ function calendarHtml(ym, marks, sel, color, id){
     cells += `<div class="d ${mk?'work':''} ${ds===t?'today':''} ${ds===sel?'sel':''}" data-day="${ds}" style="--dc:${mk&&mk.color||color}">${d}${mk&&mk.n?`<span class="n">${mk.n}</span>`:''}${mk&&mk.pending?'<span class="pd"></span>':''}</div>`;
   }
   return `<div class="cal" id="${id}"><div class="hd"><div class="circle sm" data-cm="-1">${ICON.back}</div><b data-cm="0">${monthLabel(ym)} <span class="muted" style="font-size:12px">▾</span></b><div class="circle sm flip" data-cm="1">${ICON.back}</div></div>
-    <div class="grid">${['M','T','W','T','F','S','S'].map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div></div>`;
+    <div class="grid">${WDI.map(w=>`<div class="wd">${w}</div>`).join('')}${cells}</div></div>`;
 }
 function renderCal(){
   const ym = UI.calYm, ids = selIds();
@@ -931,6 +1020,7 @@ function renderCal(){
   $('#dAdd').onclick = () => openPatient(null, {date:UI.day});
   if($('#dAll')) $('#dAll').onclick = () => { pend.forEach(v=>v.status='attended'); save(); renderCal(); };
   if($('#dList')) bindRows($('#dList'), renderCal);
+  addSwipe($('#cal'), ()=>{ UI.calYm = addMonths(UI.calYm,1); UI.day=null; renderCal(); }, ()=>{ UI.calYm = addMonths(UI.calYm,-1); UI.day=null; renderCal(); });
 }
 
 /* ============ PATIENT ROWS ============ */
@@ -991,6 +1081,14 @@ function sheet(html, cls=''){
   if(!document.documentElement.classList.contains('modal')){ document.body.dataset.scrolly = window.scrollY; document.body.style.top = `-${window.scrollY}px`; document.documentElement.classList.add('modal'); }
   document.body.appendChild(ov); return ov;
 }
+// horizontal swipe on a calendar → previous / next month
+function addSwipe(el, onNext, onPrev){
+  if(!el) return; let x0=null, y0=0;
+  el.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+  el.addEventListener('touchend', e => { if(x0==null) return; const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0; x0 = null;
+    if(Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)*1.5){ const g = el.querySelector('.grid'); if(g){ g.style.transition='transform .18s, opacity .18s'; g.style.transform=`translateX(${dx<0?-40:40}px)`; g.style.opacity='.2'; }
+      setTimeout(()=> dx < 0 ? onNext() : onPrev(), 140); } }, {passive:true});
+}
 // month/year picker used by every month title
 function monthPicker(ym, onPick, has){
   let y = +ym.slice(0,4);
@@ -1026,8 +1124,8 @@ function openPatient(v, opts={}){
         ${!isNew && hasHistory(w)?`<button class="hbtn" id="pHist">🗂 History</button>`:''}</div>
       ${w.check?`<div class="alert">⚠ ${esc(w.check)}</div>`:''}
       ${(w.flags||[]).length?`<div class="alert">⚠ Gesden: ${esc(w.flags.join(' · '))}</div>`:''}
-      <div class="grid3">
-        <div><label class="f">Status</label><select id="pSt" class="stsel ${STATUS_CLS[w.status]}">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${w.status===k?'selected':''}>${l}</option>`).join('')}</select></div>
+      <label class="f">Status</label><select id="pSt" class="stsel ${STATUS_CLS[w.status]}">${Object.entries(STATUS).map(([k,l])=>`<option value="${k}" ${w.status===k?'selected':''}>${l}</option>`).join('')}</select>
+      <div class="grid2">
         <div><label class="f">Date</label><input id="pDate" class="compact" type="date" value="${w.date}"></div>
         <div><label class="f">Hour</label><input id="pTime" class="compact" type="time" value="${esc(w.time||'')}"></div>
       </div>
@@ -1038,7 +1136,7 @@ function openPatient(v, opts={}){
         <div><label class="f">Insurance</label><input id="pMut" list="dlMut" value="${esc(w.mutua||'')}"></div>
       </div>
       ${multi()?`<label class="f">Clinic</label>${clinicSelectHtml('pClinic', w.clinic)}`:''}
-      <label class="f">Observación ${w.source==='pdf'&&w.obsOrig&&w.obsOrig!==w.obs?'<span class="tiny muted">(Gesden: '+esc(w.obsOrig)+')</span>':''}</label>
+      <label class="f">Observation ${w.source==='pdf'&&w.obsOrig&&w.obsOrig!==w.obs?'<span class="tiny muted">(Gesden: '+esc(w.obsOrig)+')</span>':''}</label>
       <div class="obswrap"><textarea id="pObs" style="min-height:64px" placeholder="What was done, e.g. RECONSTRUCCIÓN 36">${esc(w.obs||'')}</textarea><button class="clr" id="pClr" title="Clear" ${w.obs?'':'hidden'}>✕</button></div>
       <select id="pAddTr" class="addtr"><option value="">＋ Add treatment…</option>${DB.treatments.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('')}</select>
       <div class="money">
@@ -1117,6 +1215,7 @@ function renderHistory(){
       ${vs.filter(v=>v.date.startsWith(UI.histYm) && (!sel || v.date===sel)).map(block).join('') || '<div class="empty small">No visits this month.</div>'}`;
     $('#hcal').onclick = e => { const d=e.target.closest('[data-day]'); if(d){ UI.histSel = marks[d.dataset.day] ? d.dataset.day : null; render(); return; } const m=e.target.closest('[data-cm]'); if(!m) return; if(+m.dataset.cm){ UI.histYm = addMonths(UI.histYm,+m.dataset.cm); UI.histSel=null; render(); } else monthPicker(UI.histYm, ym=>{ UI.histYm=ym; UI.histSel=null; render(); }, ym=>vs.some(v=>v.date.startsWith(ym))); };
     $$('[data-jm]').forEach(a=>a.onclick=e=>{ e.preventDefault(); UI.histYm=a.dataset.jm; UI.histSel=null; render(); });
+    addSwipe($('#hcal'), ()=>{ UI.histYm = addMonths(UI.histYm,1); UI.histSel=null; render(); }, ()=>{ UI.histYm = addMonths(UI.histYm,-1); UI.histSel=null; render(); });
   }
   $('#hBody').addEventListener('click', e => {
     const card = e.target.closest('[data-id]'); if(!card) return; const v = DB.visits.find(x=>x.id===card.dataset.id);
@@ -1158,7 +1257,7 @@ $('#pdfFile').onchange = async e => {
       const kind = detectKind(pages);
       if(kind==='agenda') await openAgendaPreview(parseAgenda(pages), f.name);
       else if(kind==='liq') await openLiqPreview(parseLiq(pages), f.name);
-      else alert(`"${f.name}" doesn't look like a Gesden agenda or a clinic liquidación.`);
+      else alert(`"${f.name}" doesn't look like a Gesden agenda or a clinic settlement.`);
     }catch(err){ alert('PDF import failed: '+err.message); console.error(err); }
   }
 };
@@ -1232,7 +1331,7 @@ function openAgendaPreview(days, fname){ return new Promise(done => {
 }); }
 
 function openLiqPreview(L, fname){ return new Promise(done => {
-  if(!L.lines.length && L.factura.gross==null){ alert('No treatment lines found in this liquidación.'); return done(); }
+  if(!L.lines.length && L.factura.gross==null){ alert('No treatment lines found in this settlement.'); return done(); }
   const detected = detectClinic(L.text, 'invoice');
   let clinic = (detected || (importClinic && clinicById(importClinic)) || DB.clinics[0]).id;
   const sumLines = r2(sum(L.lines,l=>l.amt)), ym = L.month;
@@ -1240,16 +1339,16 @@ function openLiqPreview(L, fname){ return new Promise(done => {
   const finish = () => { ov.remove(); done(); };
   const draw = () => {
     const exists = ym && DB.liq[lkey(clinic, ym)];
-    box.innerHTML = `<div class="grab"></div><h2>Liquidación · ${ym?monthLabel(ym):'?'}</h2>
+    box.innerHTML = `<div class="grab"></div><h2>Settlement · ${ym?monthLabel(ym):'?'}</h2>
       <div class="muted small">${esc(fname)} · ${L.lines.length} lines${L.hasPayInfo?' · '+L.lines.filter(l=>l.pay==='card').length+' by card':''}${L.factura.number?' · invoice '+esc(L.factura.number):''}</div>
       <div class="row" style="margin-top:8px"><span class="small muted">Clinic</span>${clinicSelectHtml('lClinic', clinic, {style:'width:auto'})}<span class="small" style="color:${detected?'var(--muted)':'var(--warn)'}">${detected?'detected from the invoice':'⚠ check the clinic'}</span></div>
       ${L.warnings.map(w=>`<div class="small" style="color:var(--warn);margin-top:4px">⚠ ${esc(w)}</div>`).join('')}
-      <div class="tiles" style="margin-top:12px"><div class="glass tile"><div class="l">Produced</div><div class="v" style="font-size:20px">${eur0(L.totalProduced ?? sumLines)}</div></div><div class="glass tile"><div class="l">Liquidation</div><div class="v" style="font-size:20px">${L.liquidation!=null?eur0(L.liquidation):'—'}</div></div>
+      <div class="tiles" style="margin-top:12px"><div class="glass tile"><div class="l">Produced</div><div class="v" style="font-size:20px">${eur0(L.totalProduced ?? sumLines)}</div></div><div class="glass tile"><div class="l">Settlement</div><div class="v" style="font-size:20px">${L.liquidation!=null?eur0(L.liquidation):'—'}</div></div>
         ${L.factura.net!=null?`<div class="glass tile"><div class="l">To receive</div><div class="v" style="font-size:20px">${eur0(L.factura.net)}</div></div>`:''}</div>
       <div class="tablewrap" style="max-height:42vh;overflow:auto"><table><thead><tr><th>Day</th><th>Patient</th><th>Description</th><th class="n">€</th></tr></thead><tbody>
         ${L.lines.map(l=>`<tr><td class="small">${l.date?fmtDate(l.date).slice(0,5):'?'}</td><td>${esc(l.name)}<div class="tiny muted">${esc(l.mutua)}</div></td><td class="small">${esc(l.desc)}${l.pay==='card'?' 💳':''}</td><td class="n" style="${l.amt<0?'color:var(--bad)':''}">${eur(l.amt)}</td></tr>`).join('')}</tbody></table></div>
-      ${exists?`<div class="small" style="color:var(--warn);margin-top:8px">A liquidación for ${monthLabel(ym)} is already stored — it will be replaced.</div>`:''}
-      <div class="small muted" style="margin-top:10px">Saving attaches each line to her visit and fills <b>Insurance</b> = invoice − cash. If the invoice is <i>less</i> than the cash she entered, the visit is flagged ⚠ to check.</div>
+      ${exists?`<div class="small" style="color:var(--warn);margin-top:8px">A settlement for ${monthLabel(ym)} is already stored — it will be replaced.</div>`:''}
+      <div class="small muted" style="margin-top:10px">Saving attaches each line to her visit and fills in Insurance = invoice − cash. If the invoice is less than the cash she entered, the visit is flagged ⚠ to check.</div>
       <div class="row" style="margin-top:12px"><div class="grow"></div><button class="btn" id="lCancel">Cancel</button><button class="btn pri" id="lGo" ${ym?'':'disabled'}>Save & compare</button></div>`;
     box.querySelector('#lClinic').onchange = e => { clinic = e.target.value; draw(); };
     box.querySelector('#lCancel').onclick = finish;
@@ -1368,28 +1467,20 @@ function renderLiq(c){
     <div class="row" style="margin-bottom:12px"><div class="circle" id="mPrev" style="width:38px;height:38px">${ICON.back}</div><b class="grow" id="mLbl" style="text-align:center;font-size:17px;cursor:pointer">${monthLabel(ym)} <span class="muted" style="font-size:12px">▾</span></b><div class="circle" id="mNext" style="width:38px;height:38px;transform:scaleX(-1)">${ICON.back}</div></div>
     <div class="tiles">
       <div class="glass tile"><div class="l">Her log</div><div class="v" style="font-size:21px">${eur0(H.prod)}</div><div class="l">${att.length} patients</div></div>
-      <div class="glass tile"><div class="l">Clinic produced</div><div class="v" style="font-size:21px">${liq?eur0(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</div><div class="l">${liq?liq.lines.length+' lines':'no factura yet'}</div></div>
-      <div class="glass tile"><div class="l">Expected liquidation</div><div class="v" style="font-size:21px;color:var(--accent)">${eur0(H.liquidation)}</div><div class="l">${pct}% − fees − lab</div></div>
+      <div class="glass tile"><div class="l">Clinic produced</div><div class="v" style="font-size:21px">${liq?eur0(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</div><div class="l">${liq?liq.lines.length+' lines':'no invoice yet'}</div></div>
+      <div class="glass tile"><div class="l">Expected settlement</div><div class="v" style="font-size:21px;color:var(--accent)">${eur0(H.liquidation)}</div><div class="l">${pct}% − fees − lab</div></div>
       <div class="glass tile"><div class="l">Clinic says</div><div class="v" style="font-size:21px">${clinicLiq!=null?eur0(clinicLiq):'—'}</div><div class="l">${diff==null?'—':(Math.abs(diff)<0.5?'<span style="color:var(--ok)">✓ matches</span>':'<b style="color:var(--bad)">'+(diff>0?'+':'')+eur(diff)+'</b>')}</div></div>
     </div>
-    ${!liq ? `<div class="glass card"><h3>Clinic factura</h3><div class="small muted" style="margin-bottom:12px">Import the monthly PDF (factura + liquidación). Each line is attached to her visit, insurance amounts fill in, and differences show up below.</div>
-      <button class="btn pri block" id="mImp">${ICON.pdf} Import liquidación PDF</button>
-      <label class="f">…or type the clinic's liquidation amount</label><div class="eur" style="max-width:200px"><input id="mInv" inputmode="decimal" value="${decStr(man.invoice)}" placeholder="0,00"></div></div>` : ''}
-    ${liq ? `
-      ${sec('missing','🔴','She logged it, clinic did not bill', R.missing, sum(R.missing,x=>x.her), R.missing.map(x=>vline(x.v, eur(x.her), esc(x.v.obs||'—'))).join('')+'<div class="small muted" style="margin-top:6px">Worth asking the clinic — work that may not be paid.</div>','var(--bad)')}
-      ${sec('diff','🟠','Amounts differ', R.diff, sum(R.diff,x=>x.clinic-x.her), R.diff.map((x,i)=>`<div class="line click" data-v="${x.v.id}"><span>${fmtShort(x.v.date)} · <b>${esc(displayName(x.v.patient))}</b><br><span class="small muted">${esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + '))}<br>her: ${x.unfilled?'not filled':eur(x.her)} · invoice: ${eur(x.clinic)}${x.v.check?'<br><b style="color:var(--warn)">⚠ '+esc(x.v.check)+'</b>':''}</span></span><span class="amt"><button class="btn sm" data-accept="${i}">Use clinic</button></span></div>`).join('') + (R.diff.length>1?`<button class="btn sm" id="mAcceptAll" style="margin-top:8px">Use clinic amounts for all ${R.diff.length}</button>`:''),'var(--warn)')}
-      ${sec('extra','🔵','Billed, but not in her log', R.extra, sum(R.extra,x=>x.l.amt), R.extra.map((x,i)=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(titleCase(x.l.desc))} · ${esc(x.l.mutua)}${x.v && !attended(x.v)?` · <b style="color:var(--bad)">marked ${STATUS[x.v.status].toLowerCase()}</b>`:''}</span></span><span class="amt">${eur(x.l.amt)}<br><button class="btn sm" data-addl="${i}" style="margin-top:4px">＋ Add</button></span></div>`).join('') + `<button class="btn sm" id="mAddAll" style="margin-top:8px">＋ Add all ${R.extra.length}</button>`,'var(--info)')}
-      ${sec('corr','↩️','Clinic corrections', R.corr, sum(R.corr,x=>x.l.amt), R.corr.map(x=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(x.l.desc)}${x.l.refDate?' · refers to '+fmtDate(x.l.refDate):''}</span></span><span class="amt">${eur(x.l.amt)}</span></div>`).join(''))}
-      ${sec('ok','✅','Matching', R.ok, sum(R.ok,x=>x.clinic), R.ok.map(x=>vline(x.v, eur(x.clinic), esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + ')))).join(''),'var(--ok)')}
-    ` : ''}
-    ${sec('fix','✏️','To confirm in her log', R.pending, null, R.pending.map(v=>vline(v,'<span class="tag p">came?</span>', esc(v.mutua||''))).join(''))}
-    <div class="glass card"><h3>Liquidation</h3>
+    ${!liq ? `<div class="glass card"><h3>Clinic invoice</h3><div class="small muted" style="margin-bottom:12px">Import the monthly PDF (invoice + settlement list). Each line is attached to her visit, insurance amounts fill in, and differences show up below.</div>
+      <button class="btn pri block" id="mImp">${ICON.pdf} Import settlement PDF</button>
+      <label class="f">…or type the clinic's settlement amount</label><div class="eur" style="max-width:200px"><input id="mInv" inputmode="decimal" value="${decStr(man.invoice)}" placeholder="0,00"></div></div>` : ''}
+    <div class="glass card"><h3>Settlement</h3>
       <table><thead><tr><th></th><th class="n">Her log</th><th class="n">Clinic</th></tr></thead><tbody>
         <tr><td>Produced</td><td class="n">${eur(H.prod)}</td><td class="n">${liq?eur(liq.totalProduced ?? sum(liq.lines,l=>l.amt)):'—'}</td></tr>
         <tr><td>Her share ${(liq?.tiers||[]).length>1?'('+liq.tiers.map(t=>t.pct+'%').join(' + ')+')':pct+'%'}</td><td class="n">${eur(H.shareAmt)}</td><td class="n">${liq?.shareAmount!=null?eur(liq.shareAmount):'—'}</td></tr>
         <tr><td>Card fee <span class="tiny muted">(${eur0(H.card)} card)</span></td><td class="n">−${eur(H.feeAmt)}</td><td class="n">${liq?.cardFee!=null?eur(liq.cardFee):'—'}</td></tr>
         <tr><td>Lab <span class="eur" style="display:inline-block;width:96px;vertical-align:middle"><input id="mLab" inputmode="decimal" value="${decStr(!blank(man.lab)?man.lab:(liq?.labCost??''))}" placeholder="0" style="padding:5px 26px 5px 6px;font-size:14px"></span></td><td class="n">−${eur(H.labAmt)}</td><td class="n">${liq?.labDeduction!=null?eur(liq.labDeduction):'—'}</td></tr>
-        <tr><th>Liquidation</th><th class="n">${eur(H.liquidation)}</th><th class="n">${clinicLiq!=null?eur(clinicLiq):'—'}</th></tr>
+        <tr><th>Settlement</th><th class="n">${eur(H.liquidation)}</th><th class="n">${clinicLiq!=null?eur(clinicLiq):'—'}</th></tr>
         <tr><td>IRPF ${DB.settings.irpf}%</td><td class="n">−${eur(H.irpf)}</td><td class="n">${liq?.factura?.irpf!=null?'−'+eur(liq.factura.irpf):'—'}</td></tr>
         <tr><th>To receive</th><th class="n">${eur(H.net)}</th><th class="n">${liq?.factura?.net!=null?eur(liq.factura.net):'—'}</th></tr>
       </tbody></table>
@@ -1400,10 +1491,21 @@ function renderLiq(c){
           const rest = diff - sum(parts,p=>p[1]); if(Math.abs(rest)>=0.5) parts.push(['card fees / lab / rounding', rest]);
           return `<div class="small muted" style="margin-top:8px">Where it comes from (her ${liq.share||pct}%):</div>` + parts.map(p=>`<div class="chkline"><span>${p[0]}</span><span>${p[1]>0?'+':''}${eur(p[1])}</span></div>`).join(''); })() : ''}
     </div>
-    ${liq ? `<div class="glass card"><h3>Clinic's arithmetic</h3>
-      ${clinicChecks(liq, cid).map(k=>`<div class="chkline"><span>${k.ok?'✅':k.note?'ℹ️':'❌'} ${esc(k.label)}${k.note?' <span class="muted tiny">(typo in the label — fee is right)</span>':''}</span><span class="muted">${k.ok?eur(k.b):eur(k.a)+' vs '+eur(k.b)}</span></div>`).join('')}
-      ${(liq.warnings||[]).filter(w=>/^Clinic note/.test(w)).map(w=>`<div class="small" style="color:var(--info);margin-top:6px">${esc(w)}</div>`).join('')}
-      <div class="row" style="margin-top:12px"><span class="tiny muted grow">${esc(liq.file||'')}</span><button class="btn sm" id="mReimp">Replace</button><button class="btn sm danger" id="mDelLiq">Remove</button></div></div>`:''}
+    ${att.length ? `<div class="glass card" style="padding:14px 10px"><h3 style="padding:0 6px">Patients · ${monthLabel(ym)}<span class="link small" style="color:var(--muted)">${att.length}</span></h3>
+      <div class="ptab"><div class="ph"><span>Patient</span><span>Cash</span><span>Insurance</span><span>Invoice</span></div>
+      ${att.slice().sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).map(v=>{ const st = payState(v); const inv = (v.lines||[]).length ? billedTotal(v) : null;
+        return `<div class="pr ${st}" data-v="${v.id}"><span><b>${esc(displayName(v.patient))}</b><i>${fmtShort(v.date)}${v.check?' · ⚠':''}</i></span><span>${blank(v.paid)?'—':eur(v.paid)}</span><span>${blank(v.ins)?'—':eur(v.ins)}</span><span>${inv==null?'—':eur(inv)}</span></div>`; }).join('')}
+      <div class="pr tot"><span><b>Total</b></span><span>${eur(sum(att,v=>v.paid))}</span><span>${eur(sum(att,v=>v.ins))}</span><span>${eur(sum(att,v=>(v.lines||[]).length?billedTotal(v):0))}</span></div></div>
+      <div class="legend" style="margin:8px 6px 0"><span><i class="dot" style="background:#e5484d"></i>not paid</span><span><i class="dot" style="background:#d97706"></i>doesn't match invoice</span><span><i class="dot" style="background:#12a150"></i>correct</span></div></div>` : ''}
+    ${liq ? `
+      ${sec('missing','🔴','She logged it, clinic did not bill', R.missing, sum(R.missing,x=>x.her), R.missing.map(x=>vline(x.v, eur(x.her), esc(x.v.obs||'—'))).join('')+'<div class="small muted" style="margin-top:6px">Worth asking the clinic — work that may not be paid.</div>','var(--bad)')}
+      ${sec('diff','🟠','Amounts differ', R.diff, sum(R.diff,x=>x.clinic-x.her), R.diff.map((x,i)=>`<div class="line click" data-v="${x.v.id}"><span>${fmtShort(x.v.date)} · <b>${esc(displayName(x.v.patient))}</b><br><span class="small muted">${esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + '))}<br>her: ${x.unfilled?'not filled':eur(x.her)} · invoice: ${eur(x.clinic)}${x.v.check?'<br><b style="color:var(--warn)">⚠ '+esc(x.v.check)+'</b>':''}</span></span><span class="amt"><button class="btn sm" data-accept="${i}">Use clinic</button></span></div>`).join('') + (R.diff.length>1?`<button class="btn sm" id="mAcceptAll" style="margin-top:8px">Use clinic amounts for all ${R.diff.length}</button>`:''),'var(--warn)')}
+      ${sec('extra','🔵','Billed, but not in her log', R.extra, sum(R.extra,x=>x.l.amt), R.extra.map((x,i)=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(titleCase(x.l.desc))} · ${esc(x.l.mutua)}${x.v && !attended(x.v)?` · <b style="color:var(--bad)">marked ${STATUS[x.v.status].toLowerCase()}</b>`:''}</span></span><span class="amt">${eur(x.l.amt)}<br><button class="btn sm" data-addl="${i}" style="margin-top:4px">＋ Add</button></span></div>`).join('') + `<button class="btn sm" id="mAddAll" style="margin-top:8px">＋ Add all ${R.extra.length}</button>`,'var(--info)')}
+      ${sec('corr','↩️','Clinic corrections', R.corr, sum(R.corr,x=>x.l.amt), R.corr.map(x=>`<div class="line"><span>${x.l.date?fmtShort(x.l.date):'?'} · <b>${esc(titleCase(x.l.name))}</b><br><span class="small muted">${esc(x.l.desc)}${x.l.refDate?' · refers to '+fmtDate(x.l.refDate):''}</span></span><span class="amt">${eur(x.l.amt)}</span></div>`).join(''))}
+      ${sec('ok','✅','Matching', R.ok, sum(R.ok,x=>x.clinic), R.ok.map(x=>vline(x.v, eur(x.clinic), esc(x.v.lines.map(l=>titleCase(l.desc)).join(' + ')))).join(''),'var(--ok)')}
+    ` : ''}
+    ${sec('fix','✏️','To confirm in her log', R.pending, null, R.pending.map(v=>vline(v,'<span class="tag p">came?</span>', esc(v.mutua||''))).join(''))}
+    ${liq ? `<div class="row" style="margin:4px 4px 0"><span class="tiny muted grow">📄 ${esc(liq.file||'')}${liq.factura.number?' · '+esc(liq.factura.number):''}</span><button class="btn sm" id="mFile">Replace</button><button class="btn sm danger" id="mDelLiq">Remove</button></div>`:''}
     <label class="f">Notes for ${monthLabel(ym)}</label><textarea id="mNotes" placeholder="e.g. asked reception about 2 missing reconstrucciones">${esc(man.notes||'')}</textarea>`;
   const rr = () => renderLiq(c);
   $('#mLbl').onclick = () => monthPicker(ym, k=>{ UI.liqYm = k; rr(); }, k=>!!DB.liq[lkey(cid,k)]);
@@ -1413,8 +1515,8 @@ function renderLiq(c){
   if($('#mInv')) $('#mInv').onchange = e => { setMan('invoice', moneyIn(e.target.value)); rr(); };
   $('#mLab').onchange = e => { setMan('lab', moneyIn(e.target.value)); rr(); };
   $('#mNotes').onchange = e => setMan('notes', e.target.value);
-  if($('#mReimp')) $('#mReimp').onclick = () => startImport(cid);
-  if($('#mDelLiq')) $('#mDelLiq').onclick = () => { if(confirm('Remove the stored liquidación for this month?')){ delete DB.liq[lkey(cid, ym)]; monthVisits(ym,cid).forEach(v=>{ v.lines=[]; if(v.insAuto){ v.ins=''; v.insAuto=false; } }); save(); rr(); } };
+  const fb = $('#mFile'); if(fb) fb.onclick = () => startImport(cid);
+  if($('#mDelLiq')) $('#mDelLiq').onclick = () => { if(confirm('Remove the stored settlement for this month?')){ delete DB.liq[lkey(cid, ym)]; monthVisits(ym,cid).forEach(v=>{ v.lines=[]; if(v.insAuto){ v.ins=''; v.insAuto=false; } }); save(); rr(); } };
   $$('#cBody [data-sec]').forEach(el=>el.onclick=()=>{ UI.open[el.dataset.sec]=!UI.open[el.dataset.sec]; rr(); });
   $$('#cBody [data-v]').forEach(el=>el.onclick=e=>{ if(e.target.closest('button')) return; openPatient(DB.visits.find(x=>x.id===el.dataset.v), {onDone: rr}); });
   const accept = x => { const v = x.v; if(x.clinic >= num(v.paid)){ v.ins = r2(x.clinic - num(v.paid)); v.insAuto = true; v.check=''; } else { v.paid = x.clinic; v.paidAuto = true; v.ins = 0; v.insAuto = true; v.check=''; } };
@@ -1447,11 +1549,11 @@ function renderStats(c){
     <div class="tiles">
       <div class="glass tile"><div class="l">Produced ${t.slice(0,4)}</div><div class="v" style="font-size:21px">${eur0(sum(yr,visitTotal))}</div></div>
       <div class="glass tile"><div class="l">Expected for her</div><div class="v" style="font-size:21px;color:var(--accent)">${eur0(sum(ys,m=>herCalc(m,cid).liquidation))}</div></div>
-      <div class="glass tile"><div class="l">Received (facturas)</div><div class="v" style="font-size:21px">${eur0(sum(ys,m=>DB.liq[lkey(cid,m)]?.factura?.net ?? 0))}</div></div>
+      <div class="glass tile"><div class="l">Received (invoices)</div><div class="v" style="font-size:21px">${eur0(sum(ys,m=>DB.liq[lkey(cid,m)]?.factura?.net ?? 0))}</div></div>
       <div class="glass tile"><div class="l">Per patient</div><div class="v" style="font-size:21px">${eur0(yr.length?sum(yr,visitTotal)/yr.length:0)}</div></div>
     </div>
     <div class="glass card"><h3>Produced per month</h3>
-      <div class="chart">${months.map((m,i)=>`<div class="c ${m===ym?'cur':''}" title="${monthLabel(m)}: ${eur(prod[i])}${rec[i]!=null?' · received '+eur(rec[i]):''}"><div class="tv">${prod[i]?(prod[i]>=1000?(Math.round(prod[i]/100)/10)+'k':Math.round(prod[i])):''}</div><div class="stack" style="height:calc(100% - 30px)"><div style="height:${(prod[i]/max*100).toFixed(1)}%;width:100%;background:linear-gradient(180deg,${c.color},color-mix(in srgb,${c.color} 55%,white))"></div></div><div class="x">${MON[+m.slice(5)-1].slice(0,1)}</div></div>`).join('')}</div>
+      <div class="chart">${months.map((m,i)=>`<div class="c ${m===ym?'cur':''}" title="${monthLabel(m)}: ${eur(prod[i])}${rec[i]!=null?' · received '+eur(rec[i]):''}"><div class="tv">${prod[i]?(prod[i]>=1000?(Math.round(prod[i]/100)/10)+'k':Math.round(prod[i])):''}</div><div class="stack" style="height:calc(100% - 30px)"><div style="height:${(prod[i]/max*100).toFixed(1)}%;width:100%;background:linear-gradient(180deg,${c.color},color-mix(in srgb,${c.color} 55%,white))"></div></div><div class="x">${MONTHS[+m.slice(5)-1].slice(0,1)}</div></div>`).join('')}</div>
       ${rec.some(x=>x!=null)?`<div class="small muted" style="margin-top:10px">Received after IRPF: ${months.map((m,i)=>rec[i]!=null?MON[+m.slice(5)-1]+' '+eur0(rec[i]):'').filter(Boolean).join(' · ')}</div>`:''}</div>
     ${trE.length?`<div class="glass card"><h3>Treatments ${t.slice(0,4)}</h3><div class="hbars">${trE.map(([k,n])=>`<div class="b"><span>${esc(k)}</span><div class="trk"><div class="fill" style="width:${n/trMax*100}%"></div></div><span class="val">${n}×</span></div>`).join('')}</div></div>`:''}
     ${muE.length?`<div class="glass card"><h3>By insurance ${t.slice(0,4)}</h3><div class="hbars">${muE.map(([k,[s,n]])=>`<div class="b"><span>${esc(k)}</span><div class="trk"><div class="fill" style="width:${s/muMax*100}%"></div></div><span class="val">${eur0(s)}<br>${n} visits</span></div>`).join('')}</div></div>`:''}`;
@@ -1462,6 +1564,7 @@ function renderSettings(){
   const s = DB.settings, p = DB.profile, sc = LOCAL.sync || {};
   const pf = Object.entries(DB.patients);
   $('#app').innerHTML = topBar('Settings', '', {back:false}) + `
+    <div class="glass card"><h3>Language</h3><div class="seg" id="lang"><button data-l="es" class="nt ${LANG==='es'?'on':''}">🇪🇸 Español</button><button data-l="en" class="nt ${LANG==='en'?'on':''}">🇬🇧 English</button></div></div>
     <div class="glass card"><h3>Welcome screen</h3>
       <div class="row">${p.photo?`<img class="avatar" src="${p.photo}" style="width:72px;height:72px">`:`<div class="avatar" style="width:72px;height:72px;font-size:28px">${esc((p.name||'S')[0])}</div>`}
         <div class="grow"><button class="btn sm" id="pPhoto">📷 ${p.photo?'Change photo':'Add her photo'}</button>${p.photo?' <button class="btn sm danger" id="pDel">Remove</button>':''}<div class="tiny muted" style="margin-top:6px">Stored in her encrypted data, not on the public website.</div></div></div>
@@ -1470,7 +1573,7 @@ function renderSettings(){
     </div>
 
     <div class="glass card"><h3>Sync <span class="link">${syncBadge()}</span></h3>
-      ${Sync.configured() ? `<div class="small">Connected to <b>${esc(sc.owner)}/${esc(sc.repo)}</b>. Every change is encrypted on this device and saved there automatically; other devices pick it up when opened.</div>
+      ${Sync.configured() ? `<div class="small"><b class="nt">🔒 ${esc(sc.owner)}/${esc(sc.repo)}</b></div><div class="small">Every change is encrypted on this device and saved there automatically; other devices pick it up when opened.</div>
         <div class="small muted" style="margin-top:6px">${esc(Sync.state.msg)}${LOCAL.lastSync?' · last sync '+new Date(LOCAL.lastSync).toLocaleString('es-ES'):''}</div>
         <div class="row" style="margin-top:12px"><button class="btn sm pri" id="syNow">⟳ Sync now</button><button class="btn sm danger" id="syOff">Disconnect this device</button></div>`
       : `<div class="small muted" style="margin-bottom:6px">Keeps iPhone and PC in step. Data is encrypted with her passphrase before it leaves the device — GitHub only stores scrambled text.</div>
@@ -1492,9 +1595,9 @@ function renderSettings(){
         <div class="row"><input data-f="name" value="${esc(c.name)}" style="font-weight:700;flex:1;min-width:140px"><input data-f="color" type="color" value="${esc(c.color)}" style="width:48px;padding:2px;height:42px">${DB.clinics.length>1&&!n?`<button class="btn sm danger" data-cdel>✕</button>`:''}</div>
         <div class="grid2">
           <div><label class="f">Text in Gesden agenda</label><input data-f="agenda" value="${esc(c.agenda||'')}" placeholder="e.g. Torreblanca"></div>
-          <div><label class="f">Text in factura</label><input data-f="invoice" value="${esc(c.invoice||'')}" placeholder="e.g. Sant Joan"></div>
+          <div><label class="f">Text in invoice</label><input data-f="invoice" value="${esc(c.invoice||'')}" placeholder="e.g. Sant Joan"></div>
           <div><label class="f">Card fee %</label><input data-f="cardFee" inputmode="decimal" value="${String(c.cardFee??0.6).replace('.',',')}"></div>
-          <div><label class="f">Stored</label><div class="small muted" style="padding-top:8px">${n} visits · ${Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).length} facturas</div></div>
+          <div><label class="f">Stored</label><div class="small muted" style="padding-top:8px">${n} visits · ${Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).length} invoices</div></div>
         </div>
         <label class="f">Her share %</label>
         ${sh.map((x,i)=>`<div class="row" style="margin-bottom:6px" data-sh="${i}"><input data-sf="pct" inputmode="decimal" value="${x.pct}" style="width:76px"><span class="small muted">% ${x.from?'from':'from the start'}</span>${x.from?`<input type="date" data-sf="from" value="${x.from}" style="width:auto">`:''}${sh.length>1?'<button class="btn sm" data-shdel>✕</button>':''}</div>`).join('')}
@@ -1510,11 +1613,12 @@ function renderSettings(){
     ${pf.length?`<div class="glass card"><h3>Remembered name fixes</h3>${pf.map(([n,x])=>`<div class="line"><span><span class="tiny muted">NHC ${esc(n)} · ${esc(x.gesden||'')}</span><br>→ ${esc(x.name)}</span><button class="btn sm" data-pf="${esc(n)}">✕</button></div>`).join('')}</div>`:''}
 
     <div class="glass card"><h3>Data</h3>
-      <div class="small muted" style="margin-bottom:10px">${DB.visits.length} visits · ${Object.keys(DB.liq).length} facturas on this device.</div>
+      <div class="small muted" style="margin-bottom:10px">${DB.visits.length} visits · ${Object.keys(DB.liq).length} invoices on this device.</div>
       <div class="row"><button class="btn sm" id="xImp">⤓ Import her Excel</button><button class="btn sm" id="xExp">⤒ Export Excel</button><button class="btn sm" id="bExp">Backup file</button><button class="btn sm" id="bImp">Restore</button></div>
       <button class="btn sm danger" id="bClr" style="margin-top:10px">Delete all data on this device</button>
     </div>
-    <div class="tiny muted" style="text-align:center">DentaLog 4 · ${location.protocol==='https:'?'installed web app':'local file'}</div>`;
+    <div class="tiny muted" style="text-align:center">DentaLog 5 · ${location.protocol==='https:'?'web app':'local file'}</div>`;
+  $('#lang').onclick = e => { const b = e.target.closest('[data-l]'); if(!b) return; LOCAL.lang = b.dataset.l; saveLocal(); setLang(LOCAL.lang); render(); };
   // profile
   $('#pPhoto').onclick = () => $('#photoFile').click();
   if($('#pDel')) $('#pDel').onclick = () => { DB.profile.photo=''; save(); render(); };
@@ -1567,7 +1671,7 @@ const Sync = (() => {
   const state = {cls:'', msg:'', short:''};
   let timer = null, running = false, again = false, keyCache = {};
   const configured = () => !!(LOCAL.sync && LOCAL.sync.token && LOCAL.sync.pass);
-  function setState(cls, short, msg){ Object.assign(state, {cls, short, msg}); const b = document.querySelector('.sync'); if(b){ b.className = 'sync '+cls; b.innerHTML = '<i></i>'+esc(short); b.title = msg; } }
+  function setState(cls, short, msg){ short = tr(short); msg = tr(msg); Object.assign(state, {cls, short, msg}); const b = document.querySelector('.sync'); if(b){ b.className = 'sync '+cls; b.innerHTML = '<i></i>'+esc(short); b.title = msg; } }
   const b64 = u8 => { let s=''; for(let i=0;i<u8.length;i+=0x8000) s += String.fromCharCode.apply(null, u8.subarray(i,i+0x8000)); return btoa(s); };
   const unb64 = s => Uint8Array.from(atob(s.replace(/\s/g,'')), c=>c.charCodeAt(0));
   async function key(pass, salt){
@@ -1714,8 +1818,8 @@ async function exportExcel(){
     await loadScript(XLSXJS);
     const rows = DB.visits.slice().sort((a,b)=>a.date.localeCompare(b.date)||(a.time||'').localeCompare(b.time||'')).map(v=>({
       Date: fromIso(v.date), Clinic: clinicById(v.clinic).name, Time: v.time||'', NHC: v.nhc||'', Patient: v.patient, Mutua: v.mutua||'', Status: STATUS[v.status],
-      'Observación': v.obs||'', Cash: blank(v.paid)?'':num(v.paid), Insurance: blank(v.ins)?'':num(v.ins), Total: visitTotal(v), Check: v.check||'',
-      'Clinic factura': (v.lines||[]).length ? r2(billedTotal(v)) : '', 'Factura lines': (v.lines||[]).map(l=>l.desc+' '+decStr(l.amt)).join(' | '), Comment: v.notes||'', 'Gesden note': v.obsOrig||''}));
+      'Observation': v.obs||'', Cash: blank(v.paid)?'':num(v.paid), Insurance: blank(v.ins)?'':num(v.ins), Total: visitTotal(v), Check: v.check||'',
+      'Clinic invoice': (v.lines||[]).length ? r2(billedTotal(v)) : '', 'Invoice lines': (v.lines||[]).map(l=>l.desc+' '+decStr(l.amt)).join(' | '), Comment: v.notes||'', 'Gesden note': v.obsOrig||''}));
     const ws = XLSX.utils.json_to_sheet(rows, {cellDates:true, dateNF:'dd/mm/yyyy'});
     const sumRows = [];
     DB.clinics.forEach(c=>{ const months = [...new Set([...Object.keys(DB.liq).filter(k=>k.startsWith(c.id+'|')).map(k=>k.split('|')[1]), ...DB.visits.filter(v=>v.clinic===c.id).map(v=>v.date.slice(0,7))])].sort();
@@ -1804,6 +1908,9 @@ function toIsoDate(v){
 }
 
 /* ============ START ============ */
+setLang(LOCAL.lang || ((navigator.language||'').toLowerCase().startsWith('es') ? 'es' : 'en'));
+document.addEventListener('gesturestart', e => e.preventDefault());
+document.addEventListener('dblclick', e => e.preventDefault(), {passive:false});
 $$('#tabbar button').forEach(b=>b.innerHTML = ICON[{home:'home',cal:'cal',patients:'users',settings:'gear'}[b.dataset.t]]);
 render();
 showSplash();
